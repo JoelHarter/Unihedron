@@ -82,7 +82,9 @@ print_polyhedron(bucky, "buckyball.png"; color_by_face_size=true)
 
 ## The Cookson Solids (Discovered by Arthur J Cookson, 2026)
 
-The Cookson solids are spherical polyhedra constructed by radially projecting the vertices of non-triangular Catalan solids onto a circumscribed sphere and subdividing non-planar faces along internal creases:
+The Cookson solids are spherical polyhedra constructed by radially projecting the vertices of non-triangular Catalan solids onto a circumscribed sphere and subdividing non-planar faces along internal creases.
+
+For comprehensive documentation, taxonomy, geometric breakdown, and API usage, see **[doc/cookson.md](doc/cookson.md)**.
 
 | Index | Official Name | Polygon Root | Symmetry | Parent Catalan Solid | $V$ | $F$ |
 | :---: | :--- | :--- | :--- | :--- | :---: | :---: |
@@ -92,13 +94,6 @@ The Cookson solids are spherical polyhedra constructed by radially projecting th
 | **C4** | **Bitrigonal Icosasphere** | Bitrigonal | Icosasphere | Deltoidal Hexecontahedron | 62 | 120 |
 | **C5** | **Gyrotrapezotrigonal Octasphere** | Gyrotrapezotrigonal | Octasphere | Pentagonal Icositetrahedron | 38 | 48 |
 | **C6** | **Gyrotrapezotrigonal Icosasphere** | Gyrotrapezotrigonal | Icosasphere | Pentagonal Hexecontahedron | 92 | 120 |
-
-```julia
-# Access Cookson solids:
-c1 = cookson(:C1) # or trigonal_octasphere()
-c6 = cookson(:C6) # or gyrotrapezotrigonal_icosasphere()
-info = cookson_info(1)
-```
 
 ---
 
