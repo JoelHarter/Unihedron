@@ -10,11 +10,12 @@ using JSON3
 
 include("types.jl")
 include("geometrytools.jl")
+include("polygons.jl")
 include("convexhull.jl")
 include("prisms.jl")
 include("platonic.jl")
 include("archimedean.jl")
-include("kepler_poinsot.jl")
+include("keplerpoinsot.jl")
 include("catalan.jl")
 include("cookson.jl")
 include("operations.jl")
@@ -25,11 +26,21 @@ include("io.jl")
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
 
-# Geometry Tools
+# Geometry Tools & Congruence Classification
 export Polygon2, center_of_mass, centroid, face_normal, dual
 export isBordering, isCoplanar, isSimilar, isCongruent
 export backwards, increment
 export sew_coplanar_faces, merge_coplanar_faces, sew_faces
+export classify_faces, congruent_face_types, face_types, unique_face_polygons, face_type_counts
+
+# 2D Polygons, Polygrams, Stars & Parametric Shapes
+export regular_polygon, polygon
+export equilateral_triangle, square_polygon, regular_pentagon, regular_hexagon
+export regular_heptagon, regular_octagon, regular_nonagon, regular_decagon
+export regular_hendecagon, regular_dodecagon
+export polygram, star_polygon, star
+export pentagram, hexagram, heptagram, octagram, decagram
+export rectangle, rhombus, trapezoid, parallelogram, kite_polygon, ellipse_polygon, reuleaux_polygon
 
 # Convex Hull
 export convex_hull

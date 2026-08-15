@@ -459,3 +459,89 @@ function dual(P::Polyhedron{T}; polar::Bool=true) where T
     
     return Polyhedron(dual_verts, dual_faces)
 end
+
+# ============================================================================
+# Face Congruence Classification
+# ============================================================================
+
+"""
+    classify_faces(P::Polyhedron; allow_flipped::Bool=true, atol::Real=1e-6) -> Vector{Int}
+    congruent_face_types(P::Polyhedron; kwargs...)
+
+Detects unique congruent face types on a `Polyhedron`.
+Returns a `Vector{Int}` with one integer per face of `P`, where the integer denotes the
+congruent polygon type (1, 2, ..., K).
+
+# Example
+```julia
+P = truncated_icosahedron() # Buckyball (12 pentagons, 20 hexagons)
+types = classify_faces(P)
+# Returns a 32-element vector of 1s and 2s
+```
+"""
+function classify_faces(P::Polyhedron; allow_flipped::Bool=true, atol::Real=1e-6)
+    F = length(P.f)
+    types = zeros(Int, F)
+    
+    representatives = Vector{Pt3{Float64}}[]
+    
+    for (i, face) in enumerate(P.f)
+        face_pts = [P.v[k] for k in face]
+        matched = false
+        for (type_idx, rep_pts) in enumerate(representatives)
+            res = isCongruent(face_pts, rep_pts; allow_flipped=allow_flipped)
+            if res[1]
+                types[i] = type_idx
+                matched = true
+                break
+            end
+        end
+        if !matched
+            push!(representatives, face_pts)
+            types[i] = length(representatives)
+        end
+    end
+    return types
+end
+
+const congruent_face_types = classify_faces
+const face_types = classify_faces
+
+"""
+    unique_face_polygons(P::Polyhedron; allow_flipped::Bool=true, flatten_to_2d::Bool=true)
+
+Returns a list of the K unique canonical representative face polygons of `P`.
+If `flatten_to_2d=true`, returns `Vector{Vector{Pt2{Float64}}}` (flattened via `Polygon2`).
+Otherwise returns `Vector{Vector{Pt3{Float64}}}` in 3D.
+"""
+function unique_face_polygons(P::Polyhedron; allow_flipped::Bool=true, flatten_to_2d::Bool=true)
+    types = classify_faces(P; allow_flipped=allow_flipped)
+    K = maximum(types)
+    reps = Vector{Vector{Pt3{Float64}}}(undef, K)
+    
+    for (i, t) in enumerate(types)
+        if !isassigned(reps, t)
+            reps[t] = [P.v[k] for k in P.f[i]]
+        end
+    end
+    
+    if flatten_to_2d
+        return [Polygon2(rep) for rep in reps]
+    else
+        return reps
+    end
+end
+
+"""
+    face_type_counts(P::Polyhedron; allow_flipped::Bool=true) -> Dict{Int, Int}
+
+Returns a dictionary mapping each congruent polygon type (1, 2, ..., K) to the number of faces of that type.
+"""
+function face_type_counts(P::Polyhedron; allow_flipped::Bool=true)
+    types = classify_faces(P; allow_flipped=allow_flipped)
+    counts = Dict{Int, Int}()
+    for t in types
+        counts[t] = get(counts, t, 0) + 1
+    end
+    return counts
+end

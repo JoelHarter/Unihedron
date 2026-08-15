@@ -655,7 +655,100 @@ using .Unihedron
         end
     end
 
+    @testset "Face Congruence Classification (classify_faces, unique_face_polygons)" begin
+        # 1. Cube: 1 unique face type (6 congruent squares)
+        c_types = classify_faces(cube())
+        @test length(c_types) == 6
+        @test all(c_types .== 1)
+        @test length(unique_face_polygons(cube())) == 1
+
+        # 2. Cuboctahedron: 2 unique face types (8 equilateral triangles, 6 squares)
+        co_types = classify_faces(cuboctahedron())
+        @test length(co_types) == 14
+        @test length(unique(co_types)) == 2
+        counts_co = face_type_counts(cuboctahedron())
+        @test sort(collect(values(counts_co))) == [6, 8]
+
+        # 3. Truncated Icosahedron: 2 unique face types (12 pentagons, 20 hexagons)
+        bucky_types = classify_faces(truncated_icosahedron())
+        @test length(bucky_types) == 32
+        @test length(unique(bucky_types)) == 2
+        counts_bucky = face_type_counts(truncated_icosahedron())
+        @test sort(collect(values(counts_bucky))) == [12, 20]
+
+        # 4. Rhombicosidodecahedron: 3 unique face types (20 triangles, 30 squares, 12 pentagons)
+        rd_types = classify_faces(rhombicosidodecahedron())
+        @test length(rd_types) == 62
+        @test length(unique(rd_types)) == 3
+        counts_rd = face_type_counts(rhombicosidodecahedron())
+        @test sort(collect(values(counts_rd))) == [12, 20, 30]
+
+        # 5. J92 Triangular Hebesphenorotunda: 4 unique face types (13 triangles, 3 squares, 3 pentagons, 1 hexagon)
+        j92_types = classify_faces(johnson(92))
+        @test length(j92_types) == 20
+        @test length(unique(j92_types)) == 4
+        counts_j92 = face_type_counts(johnson(92))
+        @test sort(collect(values(counts_j92))) == [1, 3, 3, 13]
+    end
+
+    @testset "2D Polygon & Polygram Generators" begin
+        # 1. Regular polygons
+        tri = equilateral_triangle(side=2.0)
+        @test length(tri) == 3
+        @test isapprox(norm(tri[1] - tri[2]), 2.0; atol=1e-8)
+
+        sq = square_polygon(side=1.5)
+        @test length(sq) == 4
+        @test isapprox(norm(sq[1] - sq[2]), 1.5; atol=1e-8)
+
+        pent = regular_pentagon()
+        @test length(pent) == 5
+
+        hex = regular_hexagon()
+        @test length(hex) == 6
+
+        dodec = regular_dodecagon()
+        @test length(dodec) == 12
+
+        # 2. Polygrams & Stars
+        # Pentagram {5/2}
+        pgram = pentagram()
+        @test length(pgram) == 5
+
+        # Hexagram {6/2} (compound: 2 triangles)
+        hgram = hexagram()
+        @test length(hgram) == 2 # 2 component triangles
+        @test length(hgram[1]) == 3 && length(hgram[2]) == 3
+
+        # Star outline
+        s5 = star_polygon(5)
+        @test length(s5) == 10 # 10 vertices
+
+        # 3. Parametric shapes
+        rect = rectangle(4.0, 2.0)
+        @test length(rect) == 4
+
+        rh = rhombus(3.0, 5.0)
+        @test length(rh) == 4
+
+        trap = trapezoid(2.0, 4.0, 3.0)
+        @test length(trap) == 4
+
+        plg = parallelogram(3.0, 2.0, π/3)
+        @test length(plg) == 4
+
+        kt = kite_polygon(2.0, 4.0)
+        @test length(kt) == 4
+
+        elp = ellipse_polygon(3.0, 2.0; n=32)
+        @test length(elp) == 32
+
+        reu = reuleaux_polygon(3; radius=1.0)
+        @test length(reu) >= 24
+    end
+
 end
+
 
 
 
