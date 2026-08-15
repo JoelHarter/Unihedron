@@ -70,6 +70,8 @@ function geodesic_sphere(frequency::Integer=1; radius::Real=1.0)
 end
 
 const geodesic_icosahedron = geodesic_sphere
+const honeyball = geodesic_sphere
+const honeycomb_ball = geodesic_sphere
 
 """
     buckyball(degree::Integer=1; radius::Real=1.0) -> Polyhedron{Float64}

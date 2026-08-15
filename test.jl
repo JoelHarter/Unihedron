@@ -784,10 +784,11 @@ using .Unihedron
         @test length(g3.v) == 92 && length(g3) == 180
         @test all(length.(g3.f) .== 3)
 
-        # Frequency 4 (4V Geodesic sphere)
-        g4 = geodesic_sphere(4)
+        # Frequency 4 (4V Geodesic sphere / Honeyball)
+        g4 = honeyball(4)
         @test length(g4.v) == 162 && length(g4) == 320
         @test all(length.(g4.f) .== 3)
+        @test honeycomb_ball(2) isa Polyhedron
 
         # 2. Buckyballs / Fullerenes: V = 20ν², F = 10ν² + 2 (12 pentagons, 10(ν² - 1) hexagons)
         # Degree 1 Buckyball: Regular Dodecahedron (12 pentagons)
