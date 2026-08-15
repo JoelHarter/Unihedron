@@ -589,6 +589,12 @@ using .Unihedron
         @test viz(p3) isa Figure
         @test viz(dodec) isa Figure
         @test viz(:icosahedron) isa Figure
+        @test viz(:cuboctahedron) isa Figure
+        @test viz(:great_dodecahedron) isa Figure
+        @test viz(:rhombic_dodecahedron) isa Figure
+        @test viz(:C1) isa Figure
+        @test viz(:C6) isa Figure
+        @test viz(:J84) isa Figure
     end
 
     @testset "File I/O and Exporters (OFF, OBJ, JSON, HDF5, STL, CSV)" begin
