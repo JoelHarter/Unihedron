@@ -3,6 +3,8 @@ module Unihedron
 using StaticArrays
 using LinearAlgebra
 using QHull
+using GLMakie
+using GLMakie.GeometryBasics
 
 include("types.jl")
 include("geometrytools.jl")
@@ -15,6 +17,7 @@ include("catalan.jl")
 include("cookson.jl")
 include("operations.jl")
 include("johnson.jl")
+include("visualization.jl")
 
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
@@ -27,6 +30,11 @@ export sew_coplanar_faces, merge_coplanar_faces, sew_faces
 
 # Convex Hull
 export convex_hull
+
+# Visualization & Display (Makie)
+export display_polygon, display_polygon!, plot_polygon, plot_polygon!
+export display_polyhedron, display_polyhedron!, plot_polyhedron, plot_polyhedron!
+export viz
 
 # Prisms, Antiprisms, Pyramids, Bipyramids, Trapezohedra
 export prism, antiprism, pyramid, bipyramid, dipyramid

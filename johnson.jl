@@ -615,201 +615,224 @@ function tridiminished_rhombicosidodecahedron()
 end
 
 # --- J84 to J92: The 9 Elementary (Sporadic) Johnson Solids ---
+# Constructed from exact algebraic polynomial roots and closed-form radical equations.
+
+function _poly_root(p_fn::Function, x0::Real; max_iters::Int=40, tol::Float64=1e-15)
+    x = Float64(x0)
+    for _ in 1:max_iters
+        val = p_fn(x)
+        abs(val) < tol && break
+        dval = (p_fn(x + 1e-7) - p_fn(x - 1e-7)) / 2e-7
+        x -= val / dval
+    end
+    return x
+end
 
 """Johnson solid J₈₄: Snub disphenoid (V=8, F=12)"""
-function snub_disphenoid()
-    # Analytical solution for regular faces
-    q = 0.6445848
-    r = 0.2055615
-    s = 0.8354898
-    t = 0.3809627
-    v = [
-        Pt3{Float64}( q,  0.0, -r),
-        Pt3{Float64}(-q,  0.0, -r),
-        Pt3{Float64}( 0.0,  q,  r),
-        Pt3{Float64}( 0.0, -q,  r),
-        Pt3{Float64}( s,  t,  t),
-        Pt3{Float64}(-s, -t,  t),
-        Pt3{Float64}( t, -s, -t),
-        Pt3{Float64}(-t,  s, -t)
+function snub_disphenoid(; s::Real=1.0)
+    # Roots of canonical defining cubic polynomials
+    A = _poly_root(x -> 2*x^3 - x^2 - 8*x - 4, 2.5)
+    B = _poly_root(x -> 2*x^3 + 11*x^2 + 4*x - 1, 0.2)
+    C = _poly_root(x -> x^3 - 17*x^2 + 64*x - 64, 1.6)
+    
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[
+        Pt3{Float64}( 0.0,  √A,  1.0) * scale,
+        Pt3{Float64}( 0.0,  √A, -1.0) * scale,
+        Pt3{Float64}( √C,   √B,  0.0) * scale,
+        Pt3{Float64}(-√C,   √B,  0.0) * scale,
+        Pt3{Float64}( 0.0, -√B,  √C)  * scale,
+        Pt3{Float64}( 0.0, -√B, -√C)  * scale,
+        Pt3{Float64}( 1.0, -√A,  0.0) * scale,
+        Pt3{Float64}(-1.0, -√A,  0.0) * scale
     ]
     return convex_hull(v; merge_coplanar=true)
 end
 
 """Johnson solid J₈₅: Snub square antiprism (V=16, F=26)"""
-function snub_square_antiprism()
-    ξ = 0.584505
-    η = 0.822667
-    ζ = 0.339897
-    h = 0.781685
-    v = Pt3{Float64}[
-        Pt3{Float64}( 0.5,  0.5,  h),
-        Pt3{Float64}(-0.5,  0.5,  h),
-        Pt3{Float64}(-0.5, -0.5,  h),
-        Pt3{Float64}( 0.5, -0.5,  h),
-        Pt3{Float64}( 0.5,  0.5, -h),
-        Pt3{Float64}(-0.5,  0.5, -h),
-        Pt3{Float64}(-0.5, -0.5, -h),
-        Pt3{Float64}( 0.5, -0.5, -h),
-        Pt3{Float64}( ξ,  η,  ζ),
-        Pt3{Float64}(-η,  ξ,  ζ),
-        Pt3{Float64}(-ξ, -η,  ζ),
-        Pt3{Float64}( η, -ξ,  ζ),
-        Pt3{Float64}( η,  ξ, -ζ),
-        Pt3{Float64}(-ξ,  η, -ζ),
-        Pt3{Float64}(-η, -ξ, -ζ),
-        Pt3{Float64}( ξ, -η, -ζ)
-    ]
+function snub_square_antiprism(; s::Real=1.0)
+    # Root of canonical 6th-degree polynomial
+    A = _poly_root(A -> A^6 - 2*A^5 - 13*A^4 + 8*A^3 + 32*A^2 - 8*A - 4, 1.75)
+    B = sqrt(1.0 - (1.0 - 1.0/√2)*A^2)
+    C = sqrt(2.0*(1.0 + √2*A - A^2)) + B
+    
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[]
+    for sx in (-1, 1), sy in (-1, 1)
+        push!(v, Pt3{Float64}(sx, sy, C) * scale)
+    end
+    for s_sign in (-1, 1)
+        push!(v, Pt3{Float64}(s_sign * √2 * A, 0.0, B) * scale)
+        push!(v, Pt3{Float64}(0.0, s_sign * √2 * A, B) * scale)
+    end
+    for sx in (-1, 1), sy in (-1, 1)
+        push!(v, Pt3{Float64}(sx * A, sy * A, -B) * scale)
+    end
+    for s_sign in (-1, 1)
+        push!(v, Pt3{Float64}(0.0, s_sign * √2, -C) * scale)
+        push!(v, Pt3{Float64}(s_sign * √2, 0.0, -C) * scale)
+    end
     return convex_hull(v; merge_coplanar=true)
 end
 
 """Johnson solid J₈₆: Sphenocorona (V=10, F=14)"""
-function sphenocorona()
-    k1 = 0.5
-    k2 = 0.707107
-    k3 = 0.866025
-    k4 = 0.382683
-    v = [
-        Pt3{Float64}( k1,  k1,  0.6),
-        Pt3{Float64}(-k1,  k1,  0.6),
-        Pt3{Float64}( k1, -k1,  0.6),
-        Pt3{Float64}(-k1, -k1,  0.6),
-        Pt3{Float64}( k2,  0.0,  0.0),
-        Pt3{Float64}(-k2,  0.0,  0.0),
-        Pt3{Float64}( 0.0,  k3, -0.4),
-        Pt3{Float64}( 0.0, -k3, -0.4),
-        Pt3{Float64}( k4,  0.0, -0.9),
-        Pt3{Float64}(-k4,  0.0, -0.9)
+function sphenocorona(; s::Real=1.0)
+    A = _poly_root(A -> 15*A^4 - 24*A^3 - 100*A^2 + 112*A + 92, 1.7)
+    B = _poly_root(x -> 225*x^4 - 24*x^3 - 3176*x^2 - 96*x + 3600, 1.1)
+    C = _poly_root(x -> 225*x^4 - 24*x^3 - 3176*x^2 - 96*x + 3600, 3.6)
+    D = _poly_root(D -> 15*D^4 - 36*D^3 - 82*D^2 + 100*D + 95, 1.6)
+    E = 2.0 + 2.0*√6
+    
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[
+        Pt3{Float64}( 0.0, 0.0,  1.0) * scale,
+        Pt3{Float64}( 0.0, 0.0, -1.0) * scale,
+        Pt3{Float64}(  A,  √B,   1.0) * scale,
+        Pt3{Float64}( -A,  √B,   1.0) * scale,
+        Pt3{Float64}(  A,  √B,  -1.0) * scale,
+        Pt3{Float64}( -A,  √B,  -1.0) * scale,
+        Pt3{Float64}( 0.0, √C,    D)  * scale,
+        Pt3{Float64}( 0.0, √C,   -D)  * scale,
+        Pt3{Float64}( 1.0, √E,   0.0) * scale,
+        Pt3{Float64}(-1.0, √E,   0.0) * scale
     ]
     return convex_hull(v; merge_coplanar=true)
 end
 
 """Johnson solid J₈₇: Augmented sphenocorona (V=11, F=17)"""
-function augmented_sphenocorona()
-    sc = sphenocorona()
+function augmented_sphenocorona(; s::Real=1.0)
+    sc = sphenocorona(s=s)
     sq_face = findfirst(f -> length(f) == 4, sc.f)
-    return augment(sc, sq_face; cap=square_pyramid())
+    return augment(sc, sq_face; cap=square_pyramid(s=s))
 end
 
 """Johnson solid J₈₈: Sphenomegacorona (V=12, F=18)"""
-function sphenomegacorona()
-    a = 0.5
-    b = 0.788675
-    c = 0.288675
-    d = 0.654654
-    v = [
-        Pt3{Float64}( a,  b,  0.7),
-        Pt3{Float64}(-a,  b,  0.7),
-        Pt3{Float64}( a, -b,  0.7),
-        Pt3{Float64}(-a, -b,  0.7),
-        Pt3{Float64}( a,  c,  0.0),
-        Pt3{Float64}(-a,  c,  0.0),
-        Pt3{Float64}( a, -c,  0.0),
-        Pt3{Float64}(-a, -c,  0.0),
-        Pt3{Float64}( 0.0,  d, -0.6),
-        Pt3{Float64}( 0.0, -d, -0.6),
-        Pt3{Float64}( a,  0.0, -1.0),
-        Pt3{Float64}(-a,  0.0, -1.0)
+function sphenomegacorona(; s::Real=1.0)
+    # Timofeenko 16th-degree polynomial root
+    A = _poly_root(A -> 1680*A^16 - 4800*A^15 - 3712*A^14 + 17216*A^13 + 1568*A^12 - 24576*A^11 + 2464*A^10 + 17248*A^9 - 3384*A^8 - 5584*A^7 + 2000*A^6 + 240*A^5 - 776*A^4 + 304*A^3 + 200*A^2 - 56*A - 23, 0.59)
+    B = sqrt(1.0 - A^2)
+    C = sqrt(3.0 - 4.0*A^2)
+    D = 1.0 - 2.0*A^2
+    
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[
+        Pt3{Float64}( 1.0, 0.0, 2*B) * scale,
+        Pt3{Float64}(-1.0, 0.0, 2*B) * scale,
+        Pt3{Float64}( 1.0,  2*A, 0.0) * scale,
+        Pt3{Float64}( 1.0, -2*A, 0.0) * scale,
+        Pt3{Float64}(-1.0,  2*A, 0.0) * scale,
+        Pt3{Float64}(-1.0, -2*A, 0.0) * scale,
+        Pt3{Float64}( (C+B)/B, 0.0, D/B) * scale,
+        Pt3{Float64}(-(C+B)/B, 0.0, D/B) * scale,
+        Pt3{Float64}(0.0,  1.0, -sqrt(2.0 + 4.0*A - 4.0*A^2)) * scale,
+        Pt3{Float64}(0.0, -1.0, -sqrt(2.0 + 4.0*A - 4.0*A^2)) * scale,
+        Pt3{Float64}( (1.0 + C*D/B^3), 0.0, (2.0*A^4 - 1.0)/B^3) * scale,
+        Pt3{Float64}(-(1.0 + C*D/B^3), 0.0, (2.0*A^4 - 1.0)/B^3) * scale
     ]
     return convex_hull(v; merge_coplanar=true)
 end
 
 """Johnson solid J₈₉: Hebesphenomegacorona (V=14, F=21)"""
-function hebesphenomegacorona()
-    a = 0.5
-    b = 0.866025
-    c = 0.707107
-    d = 0.353553
-    v = [
-        Pt3{Float64}( a,  a,  0.8),
-        Pt3{Float64}(-a,  a,  0.8),
-        Pt3{Float64}( a, -a,  0.8),
-        Pt3{Float64}(-a, -a,  0.8),
-        Pt3{Float64}( b,  0.0,  0.4),
-        Pt3{Float64}(-b,  0.0,  0.4),
-        Pt3{Float64}( 0.0,  b,  0.4),
-        Pt3{Float64}( 0.0, -b,  0.4),
-        Pt3{Float64}( c,  d, -0.3),
-        Pt3{Float64}(-c,  d, -0.3),
-        Pt3{Float64}( c, -d, -0.3),
-        Pt3{Float64}(-c, -d, -0.3),
-        Pt3{Float64}( 0.0,  0.0, -0.9),
-        Pt3{Float64}( 0.0,  0.0, -1.2)
+function hebesphenomegacorona(; s::Real=1.0)
+    # Timofeenko 10th-degree polynomial root
+    A = _poly_root(A -> 26880*A^10 + 35328*A^9 - 25600*A^8 - 39680*A^7 + 6112*A^6 + 13696*A^5 + 2128*A^4 - 1808*A^3 - 1119*A^2 + 494*A - 47, 0.21)
+    B = sqrt(1.0 - A^2)
+    C = sqrt(2.0*(1.0 - 2.0*A))
+    D = sqrt(3.0 - 4.0*A^2)
+    E = sqrt(1.0 + A)
+    F = 2.0*(1.0 - A)
+    
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[
+        Pt3{Float64}( 1.0,  1.0, 2*B) * scale,
+        Pt3{Float64}( 1.0, -1.0, 2*B) * scale,
+        Pt3{Float64}(-1.0,  1.0, 2*B) * scale,
+        Pt3{Float64}(-1.0, -1.0, 2*B) * scale,
+        Pt3{Float64}( 1.0,  (1.0+2*A), 0.0) * scale,
+        Pt3{Float64}( 1.0, -(1.0+2*A), 0.0) * scale,
+        Pt3{Float64}(-1.0,  (1.0+2*A), 0.0) * scale,
+        Pt3{Float64}(-1.0, -(1.0+2*A), 0.0) * scale,
+        Pt3{Float64}( (1.0 + C/sqrt(1.0-A)), 0.0, -(2.0*A^2 + A - 1.0)/B) * scale,
+        Pt3{Float64}(-(1.0 + C/sqrt(1.0-A)), 0.0, -(2.0*A^2 + A - 1.0)/B) * scale,
+        Pt3{Float64}(0.0,  1.0, -D) * scale,
+        Pt3{Float64}(0.0, -1.0, -D) * scale,
+        Pt3{Float64}( (D*C+E)/(F*E), 0.0, ((2.0*A-1.0)*D)/F - C/(F*E)) * scale,
+        Pt3{Float64}(-(D*C+E)/(F*E), 0.0, ((2.0*A-1.0)*D)/F - C/(F*E)) * scale
     ]
     return convex_hull(v; merge_coplanar=true)
 end
 
 """Johnson solid J₉₀: Disphenocingulum (V=16, F=24)"""
-function disphenocingulum()
-    a = 0.5
-    b = 0.866025
-    c = 0.707107
-    v = [
-        Pt3{Float64}( a,  0.0,  1.0),
-        Pt3{Float64}(-a,  0.0,  1.0),
-        Pt3{Float64}( 0.0,  a, -1.0),
-        Pt3{Float64}( 0.0, -a, -1.0),
-        Pt3{Float64}( b,  c,  0.4),
-        Pt3{Float64}( b, -c,  0.4),
-        Pt3{Float64}(-b,  c,  0.4),
-        Pt3{Float64}(-b, -c,  0.4),
-        Pt3{Float64}( c,  b, -0.4),
-        Pt3{Float64}( c, -b, -0.4),
-        Pt3{Float64}(-c,  b, -0.4),
-        Pt3{Float64}(-c, -b, -0.4),
-        Pt3{Float64}( a,  a,  0.0),
-        Pt3{Float64}(-a,  a,  0.0),
-        Pt3{Float64}( a, -a,  0.0),
-        Pt3{Float64}(-a, -a,  0.0)
+function disphenocingulum(; s::Real=1.0)
+    # Timofeenko 12th-degree polynomial root
+    B = _poly_root(B -> B^12 - 4*B^11 - 26*B^10 + 116*B^9 + 97*B^8 - 824*B^7 + 312*B^6 + 2176*B^5 - 2024*B^4 - 1888*B^3 + 2688*B^2 - 192*B - 368, 1.55)
+    C = sqrt((1.0 + 2.0*B - B^2) / 2.0)
+    A = C + sqrt(4.0 - B^2)
+    E = (A^2 - B^2 - C^2) / (2.0 * sqrt(4.0 - B^2))
+    D = 1.0 + sqrt(4.0 - (A - E)^2)
+    
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[
+        Pt3{Float64}( 1.0, 0.0,  A) * scale,
+        Pt3{Float64}(-1.0, 0.0,  A) * scale,
+        Pt3{Float64}( 1.0,  B,  C) * scale,
+        Pt3{Float64}( 1.0, -B,  C) * scale,
+        Pt3{Float64}(-1.0,  B,  C) * scale,
+        Pt3{Float64}(-1.0, -B,  C) * scale,
+        Pt3{Float64}( D, 0.0,  E) * scale,
+        Pt3{Float64}(-D, 0.0,  E) * scale,
+        Pt3{Float64}(0.0,  D, -E) * scale,
+        Pt3{Float64}(0.0, -D, -E) * scale,
+        Pt3{Float64}( B,  1.0, -C) * scale,
+        Pt3{Float64}( B, -1.0, -C) * scale,
+        Pt3{Float64}(-B,  1.0, -C) * scale,
+        Pt3{Float64}(-B, -1.0, -C) * scale,
+        Pt3{Float64}(0.0,  1.0, -A) * scale,
+        Pt3{Float64}(0.0, -1.0, -A) * scale
     ]
     return convex_hull(v; merge_coplanar=true)
 end
 
 """Johnson solid J₉₁: Bilunabirotunda (V=14, F=14)"""
-function bilunabirotunda()
-    # Bilunabirotunda coordinates
-    ϕ = (1 + √5) / 2
-    v = [
-        Pt3{Float64}( 0.0,  0.5,  ϕ),
-        Pt3{Float64}( 0.0, -0.5,  ϕ),
-        Pt3{Float64}( 0.0,  0.5, -ϕ),
-        Pt3{Float64}( 0.0, -0.5, -ϕ),
-        Pt3{Float64}( ϕ/2,  (ϕ+1)/2,  0.0),
-        Pt3{Float64}(-ϕ/2,  (ϕ+1)/2,  0.0),
-        Pt3{Float64}( ϕ/2, -(ϕ+1)/2,  0.0),
-        Pt3{Float64}(-ϕ/2, -(ϕ+1)/2,  0.0),
-        Pt3{Float64}( (ϕ+1)/2,  0.0,  ϕ/2),
-        Pt3{Float64}(-(ϕ+1)/2,  0.0,  ϕ/2),
-        Pt3{Float64}( (ϕ+1)/2,  0.0, -ϕ/2),
-        Pt3{Float64}(-(ϕ+1)/2,  0.0, -ϕ/2),
-        Pt3{Float64}( 0.5,  0.0,  0.0),
-        Pt3{Float64}(-0.5,  0.0,  0.0)
-    ]
+function bilunabirotunda(; s::Real=1.0)
+    ϕ = (1.0 + √5) / 2.0
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[]
+    for sx in (-1, 1), sz in (-1, 1)
+        push!(v, Pt3{Float64}(sx, 0.0, sz * ϕ^2) * scale)
+    end
+    for sx in (-1, 1), sy in (-1, 1), sz in (-1, 1)
+        push!(v, Pt3{Float64}(sx * ϕ, sy, sz) * scale)
+    end
+    for sy in (-1, 1)
+        push!(v, Pt3{Float64}(0.0, sy * ϕ, 0.0) * scale)
+    end
     return convex_hull(v; merge_coplanar=true)
 end
 
 """Johnson solid J₉₂: Triangular hebesphenorotunda (V=18, F=20)"""
-function triangular_hebesphenorotunda()
-    ϕ = (1 + √5) / 2
-    v = [
-        Pt3{Float64}( 1.0,  0.0,  1.2),
-        Pt3{Float64}(-0.5,  √3/2,  1.2),
-        Pt3{Float64}(-0.5, -√3/2,  1.2),
-        Pt3{Float64}( ϕ,  0.0,  0.5),
-        Pt3{Float64}(-ϕ/2,  ϕ*√3/2,  0.5),
-        Pt3{Float64}(-ϕ/2, -ϕ*√3/2,  0.5),
-        Pt3{Float64}( 0.0,  1.0,  0.0),
-        Pt3{Float64}( √3/2, -0.5,  0.0),
-        Pt3{Float64}(-√3/2, -0.5,  0.0),
-        Pt3{Float64}( 1.5,  0.0, -0.5),
-        Pt3{Float64}(-0.75,  1.5*√3/2, -0.5),
-        Pt3{Float64}(-0.75, -1.5*√3/2, -0.5),
-        Pt3{Float64}( 0.5,  √3/2, -1.0),
-        Pt3{Float64}( 0.5, -√3/2, -1.0),
-        Pt3{Float64}(-1.0,  0.0, -1.0),
-        Pt3{Float64}( 0.0,  0.0, -1.5),
-        Pt3{Float64}( 0.5,  0.0, -1.5),
-        Pt3{Float64}(-0.5,  0.0, -1.5)
+function triangular_hebesphenorotunda(; s::Real=1.0)
+    ϕ = (1.0 + √5) / 2.0
+    scale = Float64(s) / 2.0
+    v = Pt3{Float64}[
+        Pt3{Float64}( 0.0,  2.0/√3,  2.0*ϕ^2/√3) * scale,
+        Pt3{Float64}( 1.0, -1.0/√3,  2.0*ϕ^2/√3) * scale,
+        Pt3{Float64}(-1.0, -1.0/√3,  2.0*ϕ^2/√3) * scale,
+        Pt3{Float64}( 1.0,  ϕ^3/√3,  2.0*ϕ/√3)   * scale,
+        Pt3{Float64}(-1.0,  ϕ^3/√3,  2.0*ϕ/√3)   * scale,
+        Pt3{Float64}( ϕ^2, -1.0/(ϕ*√3),  2.0*ϕ/√3) * scale,
+        Pt3{Float64}(-ϕ^2, -1.0/(ϕ*√3),  2.0*ϕ/√3) * scale,
+        Pt3{Float64}( ϕ,   -(ϕ+2.0)/√3,  2.0*ϕ/√3) * scale,
+        Pt3{Float64}(-ϕ,   -(ϕ+2.0)/√3,  2.0*ϕ/√3) * scale,
+        Pt3{Float64}( ϕ^2,  ϕ^2/√3,    2.0/√3)   * scale,
+        Pt3{Float64}(-ϕ^2,  ϕ^2/√3,    2.0/√3)   * scale,
+        Pt3{Float64}( 0.0, -2.0*ϕ^2/√3,  2.0/√3) * scale,
+        Pt3{Float64}( 1.0,  √3,  0.0) * scale,
+        Pt3{Float64}(-1.0,  √3,  0.0) * scale,
+        Pt3{Float64}( 1.0, -√3,  0.0) * scale,
+        Pt3{Float64}(-1.0, -√3,  0.0) * scale,
+        Pt3{Float64}( 2.0, 0.0,  0.0) * scale,
+        Pt3{Float64}(-2.0, 0.0,  0.0) * scale
     ]
     return convex_hull(v; merge_coplanar=true)
 end

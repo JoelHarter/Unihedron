@@ -1,5 +1,6 @@
 using Test
 using LinearAlgebra
+using GLMakie
 include("unihedron.jl")
 using .Unihedron
 
@@ -503,12 +504,16 @@ using .Unihedron
         @test length(johnson(26).v) == 8 && length(johnson(26)) == 8 # J26: gyrobifastigium
         @test length(johnson(37).v) == 24 && length(johnson(37)) == 26 # J37: elongated square gyrobicupola (pseudo-rhombicuboctahedron)
 
-        # 3. Elementary solids
+        # 3. Elementary solids (Exact algebraic constructions)
         @test length(johnson(84).v) == 8 && length(johnson(84)) == 12 # J84: snub disphenoid
         @test length(johnson(85).v) == 16 && length(johnson(85)) == 26 # J85: snub square antiprism
-        @test length(johnson(86).v) == 10 # J86: sphenocorona
-        @test length(johnson(91).v) >= 12 # J91: bilunabirotunda
-        @test length(johnson(92).v) >= 14 # J92: triangular hebesphenorotunda
+        @test length(johnson(86).v) == 10 && length(johnson(86)) == 14 # J86: sphenocorona
+        @test length(johnson(87).v) == 11 && length(johnson(87)) == 17 # J87: augmented sphenocorona
+        @test length(johnson(88).v) == 12 && length(johnson(88)) == 18 # J88: sphenomegacorona
+        @test length(johnson(89).v) == 14 && length(johnson(89)) == 21 # J89: hebesphenomegacorona
+        @test length(johnson(90).v) == 16 && length(johnson(90)) == 24 # J90: disphenocingulum
+        @test length(johnson(91).v) == 14 && length(johnson(91)) == 14 # J91: bilunabirotunda
+        @test length(johnson(92).v) == 18 && length(johnson(92)) == 20 # J92: triangular hebesphenorotunda
 
         # 4. Dispatchers & metadata
         @test johnson(:square_pyramid) isa Polyhedron
@@ -537,7 +542,36 @@ using .Unihedron
         end
     end
 
+    @testset "Makie Visualization & Display" begin
+        # 1. 2D Polygon display
+        p2 = [Pt2{Float64}(0,0), Pt2{Float64}(1,0), Pt2{Float64}(1,1), Pt2{Float64}(0,1)]
+        fig_2d = display_polygon(p2; title="Square", show_vertices=true, show_labels=true)
+        @test fig_2d isa Figure
+
+        # 2. 3D Polygon display
+        p3 = [Pt3{Float64}(0,0,0), Pt3{Float64}(1,0,0), Pt3{Float64}(1,1,1), Pt3{Float64}(0,1,1)]
+        fig_3d = display_polygon(p3; title="3D Quad", show_vertices=true, show_labels=true)
+        @test fig_3d isa Figure
+
+        # 3. 3D Polyhedron display
+        dodec = dodecahedron()
+        fig_poly1 = display_polyhedron(dodec; show_faces=true, show_edges=true, show_vertices=true, show_vertex_labels=true, show_face_labels=true)
+        @test fig_poly1 isa Figure
+
+        # Face coloring by face polygon size
+        bucky = truncated_icosahedron()
+        fig_poly2 = plot_polyhedron(bucky; color_by_face_size=true)
+        @test fig_poly2 isa Figure
+
+        # Unified viz dispatcher
+        @test viz(p2) isa Figure
+        @test viz(p3) isa Figure
+        @test viz(dodec) isa Figure
+        @test viz(:icosahedron) isa Figure
+    end
+
 end
+
 
 
 
