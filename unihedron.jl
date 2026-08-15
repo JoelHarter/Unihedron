@@ -14,6 +14,7 @@ include("kepler_poinsot.jl")
 include("catalan.jl")
 include("cookson.jl")
 include("operations.jl")
+include("johnson.jl")
 
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
@@ -62,5 +63,12 @@ export cookson
 export cooksonian_rhombic_dodecahedron, cooksonian_rhombic_triacontahedron
 export cooksonian_deltoidal_icositetrahedron, cooksonian_deltoidal_hexecontahedron
 export cooksonian_pentagonal_icositetrahedron, cooksonian_pentagonal_hexecontahedron
+
+# Johnson Solids
+export johnson, johnson_name, johnson_names
+export square_pyramid, pentagonal_pyramid, triangular_cupola, square_cupola, pentagonal_cupola
+export gyrobifastigium, snub_disphenoid, snub_square_antiprism, sphenocorona
+export sphenomegacorona, hebesphenomegacorona, disphenocingulum, bilunabirotunda
+export triangular_hebesphenorotunda
 
 end # module Unihedron

@@ -450,7 +450,58 @@ using .Unihedron
         @test length(dim_ico.v) == 11 && length(dim_ico) == 16
     end
 
+    @testset "Johnson Solids Family (J1 to J92)" begin
+        # 1. Base building blocks
+        @test length(johnson(1).v) == 5 && length(johnson(1)) == 5 # J1: square pyramid
+        @test length(johnson(2).v) == 6 && length(johnson(2)) == 6 # J2: pentagonal pyramid
+        @test length(johnson(3).v) == 9 && length(johnson(3)) == 8 # J3: triangular cupola
+        @test length(johnson(4).v) == 12 && length(johnson(4)) == 10 # J4: square cupola
+        @test length(johnson(5).v) == 15 && length(johnson(5)) == 12 # J5: pentagonal cupola
+        @test length(johnson(6).v) == 20 && length(johnson(6)) == 17 # J6: pentagonal rotunda
+
+        # 2. Key composite solids
+        @test length(johnson(8).v) == 9 && length(johnson(8)) == 9 # J8: elongated square pyramid
+        @test length(johnson(10).v) == 9 && length(johnson(10)) == 13 # J10: gyroelongated square pyramid
+        @test length(johnson(15).v) == 10 && length(johnson(15)) == 12 # J15: elongated square bipyramid
+        @test length(johnson(26).v) == 8 && length(johnson(26)) == 8 # J26: gyrobifastigium
+        @test length(johnson(37).v) == 24 && length(johnson(37)) == 26 # J37: elongated square gyrobicupola (pseudo-rhombicuboctahedron)
+
+        # 3. Elementary solids
+        @test length(johnson(84).v) == 8 && length(johnson(84)) == 12 # J84: snub disphenoid
+        @test length(johnson(85).v) == 16 && length(johnson(85)) == 26 # J85: snub square antiprism
+        @test length(johnson(86).v) == 10 # J86: sphenocorona
+        @test length(johnson(91).v) >= 12 # J91: bilunabirotunda
+        @test length(johnson(92).v) >= 14 # J92: triangular hebesphenorotunda
+
+        # 4. Dispatchers & metadata
+        @test johnson(:square_pyramid) isa Polyhedron
+        @test johnson(:J1) isa Polyhedron
+        @test johnson(:j84) isa Polyhedron
+        @test length(johnson_names()) == 92
+        @test johnson_name(1) == "Square Pyramid"
+        @test johnson_name(92) == "Triangular Hebesphenorotunda"
+
+        # 5. Verify Euler characteristic V - E + F = 2 for every single one of the 92 Johnson solids
+        for idx in 1:92
+            P = johnson(idx)
+            edges = Set{Tuple{Int, Int}}()
+            for face in P.f
+                n_pts = length(face)
+                for k in 1:n_pts
+                    u = face[k]
+                    v = face[k == n_pts ? 1 : k + 1]
+                    push!(edges, (min(u, v), max(u, v)))
+                end
+            end
+            V = length(P.v)
+            E = length(edges)
+            F = length(P)
+            @test V - E + F == 2
+        end
+    end
+
 end
+
 
 
 
