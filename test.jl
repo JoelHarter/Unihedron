@@ -334,5 +334,75 @@ using .Unihedron
         @test length(cookson(cube()).v) == 8
     end
 
+    @testset "Prisms, Antiprisms, Pyramids, Bipyramids, and Trapezohedra" begin
+        # 1. Prisms
+        p3 = prism(3)
+        @test length(p3.v) == 6 && length(p3) == 5 # 2 triangles, 3 squares
+
+        p5 = prism(5)
+        @test length(p5.v) == 10 && length(p5) == 7 # 2 pentagons, 5 squares
+        @test count(length.(p5.f) .== 5) == 2
+        @test count(length.(p5.f) .== 4) == 5
+
+        # 2. Antiprisms
+        ap3 = antiprism(3) # Octahedron topology
+        @test length(ap3.v) == 6 && length(ap3) == 8
+        @test all(length.(ap3.f) .== 3)
+
+        ap5 = antiprism(5)
+        @test length(ap5.v) == 10 && length(ap5) == 12 # 2 pentagons, 10 triangles
+        @test count(length.(ap5.f) .== 5) == 2
+        @test count(length.(ap5.f) .== 3) == 10
+
+        # 3. Pyramids
+        pyr3 = pyramid(3) # Regular tetrahedron
+        @test length(pyr3.v) == 4 && length(pyr3) == 4
+
+        pyr4 = pyramid(4) # Johnson J1 square pyramid
+        @test length(pyr4.v) == 5 && length(pyr4) == 5
+        @test count(length.(pyr4.f) .== 4) == 1
+        @test count(length.(pyr4.f) .== 3) == 4
+
+        pyr5 = pyramid(5) # Johnson J2 pentagonal pyramid
+        @test length(pyr5.v) == 6 && length(pyr5) == 6
+        @test count(length.(pyr5.f) .== 5) == 1
+        @test count(length.(pyr5.f) .== 3) == 5
+
+        # 4. Bipyramids / Dipyramids
+        bp3 = bipyramid(3) # Johnson J12 triangular bipyramid
+        @test length(bp3.v) == 5 && length(bp3) == 6
+
+        bp4 = dipyramid(4) # Regular octahedron
+        @test length(bp4.v) == 6 && length(bp4) == 8
+
+        bp5 = bipyramid(5) # Johnson J13 pentagonal bipyramid
+        @test length(bp5.v) == 7 && length(bp5) == 10
+        @test all(length.(bp5.f) .== 3)
+
+        # 5. Trapezohedra / Gyrated Bipyramids
+        # n=3: Trigonal trapezohedron / Rhombohedron (V=8, F=6 quadrilaterals)
+        trap3 = trapezohedron(3; gyration=0.5)
+        @test length(trap3.v) == 8 && length(trap3) == 6
+        @test all(length.(trap3.f) .== 4)
+
+        # n=5: Pentagonal trapezohedron / d10 die (V=12, F=10 quadrilaterals)
+        trap5 = trapezohedron(5; gyration=0.5)
+        @test length(trap5.v) == 12 && length(trap5) == 10
+        @test all(length.(trap5.f) .== 4)
+
+        # Aliases test
+        @test gyrobipyramid(5) isa Polyhedron
+        @test antidipyramid(5) isa Polyhedron
+        @test deltohedron(5) isa Polyhedron
+
+        # Gyration parameter sweep (0.1, 0.25, 0.5, 0.75, 0.9)
+        for t in [0.1, 0.25, 0.5, 0.75, 0.9]
+            th = trapezohedron(5; gyration=t)
+            @test length(th.v) == 12 && length(th) == 10
+            @test all(length.(th.f) .== 4)
+        end
+    end
+
 end
+
 

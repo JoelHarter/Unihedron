@@ -7,6 +7,7 @@ using QHull
 include("types.jl")
 include("geometrytools.jl")
 include("convexhull.jl")
+include("prisms.jl")
 include("platonic.jl")
 include("archimedean.jl")
 include("kepler_poinsot.jl")
@@ -23,6 +24,10 @@ export backwards, increment
 
 # Convex Hull
 export convex_hull
+
+# Prisms, Antiprisms, Pyramids, Bipyramids, Trapezohedra
+export prism, antiprism, pyramid, bipyramid, dipyramid
+export trapezohedron, gyrobipyramid, antidipyramid, deltohedron
 
 # Platonic Solids
 export platonic

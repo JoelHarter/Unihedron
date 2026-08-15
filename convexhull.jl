@@ -51,6 +51,7 @@ function convex_hull(pts::AbstractVector{<:SVector{3, T}}; merge_coplanar::Bool=
     end
     
     # Merge coplanar facets into n-gons
+    poly_center = sum(pts) / length(pts)
     facet_normals = Pt3{Float64}[]
     facet_d = Float64[]
     for s in simplices
@@ -59,7 +60,7 @@ function convex_hull(pts::AbstractVector{<:SVector{3, T}}; merge_coplanar::Bool=
         len = norm(nv)
         nv = len > 0 ? nv / len : nv
         c = (v1 + v2 + v3) / 3
-        if c ⋅ nv < 0
+        if (c - poly_center) ⋅ nv < 0
             nv = -nv
         end
         push!(facet_normals, nv)
