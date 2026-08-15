@@ -3,6 +3,7 @@
 # the vertices of a non-triangular Catalan solid onto a unit sphere, and subsequently
 # subdividing any resulting non-planar faces along internal creases to restore strict
 # three-dimensional planarity.
+# Discovered and classified by Art Cookson.
 
 """
     cookson(P::Polyhedron; radius::Real=1.0)
@@ -16,103 +17,219 @@ function cookson(P::Polyhedron; radius::Real=1.0)
     return convex_hull(v_sph; merge_coplanar=true)
 end
 
-# The 6 Canonical Cookson Solids
+# --- The 6 Canonical Cookson Solids ---
 
 """
+    trigonal_octasphere(; radius::Real=1.0)
     cooksonian_rhombic_dodecahedron(; radius::Real=1.0)
 
-Constructs the Cooksonian Rhombic Dodecahedron (V=14, F=24).
+Constructs Cookson solid C1: Trigonal Octasphere (V=14, F=24).
+- Polygon Root: Trigonal
+- Symmetry: Octasphere
+- Parent Catalan: Rhombic Dodecahedron
 Derived by projecting the 12 rhombic faces of the Rhombic Dodecahedron onto a sphere,
 where the rhombi crease across a diagonal into 24 triangular faces.
 """
-function cooksonian_rhombic_dodecahedron(; radius::Real=1.0)
+function trigonal_octasphere(; radius::Real=1.0)
     return cookson(rhombic_dodecahedron(); radius=radius)
 end
+const cooksonian_rhombic_dodecahedron = trigonal_octasphere
 
 """
+    trigonal_icosasphere(; radius::Real=1.0)
     cooksonian_rhombic_triacontahedron(; radius::Real=1.0)
 
-Constructs the Cooksonian Rhombic Triacontahedron (V=32, F=60).
+Constructs Cookson solid C2: Trigonal Icosasphere (V=32, F=60).
+- Polygon Root: Trigonal
+- Symmetry: Icosasphere
+- Parent Catalan: Rhombic Triacontahedron
 Derived by projecting the 30 rhombic faces of the Rhombic Triacontahedron onto a sphere,
 where the rhombi crease across a diagonal into 60 triangular faces.
 """
-function cooksonian_rhombic_triacontahedron(; radius::Real=1.0)
+function trigonal_icosasphere(; radius::Real=1.0)
     return cookson(rhombic_triacontahedron(); radius=radius)
 end
+const cooksonian_rhombic_triacontahedron = trigonal_icosasphere
 
 """
+    bitrigonal_octasphere(; radius::Real=1.0)
     cooksonian_deltoidal_icositetrahedron(; radius::Real=1.0)
 
-Constructs the Cooksonian Deltoidal Icositetrahedron (V=26, F=48).
+Constructs Cookson solid C3: Bitrigonal Octasphere (V=26, F=48).
+- Polygon Root: Bitrigonal
+- Symmetry: Octasphere
+- Parent Catalan: Deltoidal Icositetrahedron
 Derived by projecting the 24 kite-shaped faces of the Deltoidal Icositetrahedron onto a sphere,
 where the kites crease across their diagonals into 48 triangular faces.
 """
-function cooksonian_deltoidal_icositetrahedron(; radius::Real=1.0)
+function bitrigonal_octasphere(; radius::Real=1.0)
     return cookson(deltoidal_icositetrahedron(); radius=radius)
 end
+const cooksonian_deltoidal_icositetrahedron = bitrigonal_octasphere
 
 """
+    bitrigonal_icosasphere(; radius::Real=1.0)
     cooksonian_deltoidal_hexecontahedron(; radius::Real=1.0)
 
-Constructs the Cooksonian Deltoidal Hexecontahedron (V=62, F=120).
+Constructs Cookson solid C4: Bitrigonal Icosasphere (V=62, F=120).
+- Polygon Root: Bitrigonal
+- Symmetry: Icosasphere
+- Parent Catalan: Deltoidal Hexecontahedron
 Derived by projecting the 60 kite-shaped faces of the Deltoidal Hexecontahedron onto a sphere,
 where the kites crease across their diagonals into 120 triangular faces.
 """
-function cooksonian_deltoidal_hexecontahedron(; radius::Real=1.0)
+function bitrigonal_icosasphere(; radius::Real=1.0)
     return cookson(deltoidal_hexecontahedron(); radius=radius)
 end
+const cooksonian_deltoidal_hexecontahedron = bitrigonal_icosasphere
 
 """
+    gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
     cooksonian_pentagonal_icositetrahedron(; radius::Real=1.0)
 
-Constructs the Cooksonian Pentagonal Icositetrahedron (V=38, F=48).
+Constructs Cookson solid C5: Gyrotrapezotrigonal Octasphere (V=38, F=48).
+- Polygon Root: Gyrotrapezotrigonal
+- Symmetry: Octasphere
+- Parent Catalan: Pentagonal Icositetrahedron
 Derived by projecting the 24 irregular pentagonal faces of the Pentagonal Icositetrahedron onto a sphere,
 which crease into a uniform mosaic of 24 trapezoids and 24 triangles.
 """
-function cooksonian_pentagonal_icositetrahedron(; radius::Real=1.0)
+function gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
     return cookson(pentagonal_icositetrahedron(); radius=radius)
 end
+const cooksonian_pentagonal_icositetrahedron = gyrotrapezotrigonal_octasphere
 
 """
+    gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
     cooksonian_pentagonal_hexecontahedron(; radius::Real=1.0)
 
-Constructs the canonical Cooksonian Pentagonal Hexecontahedron (V=92, F=120).
+Constructs Cookson solid C6: Gyrotrapezotrigonal Icosasphere (V=92, F=120).
+- Polygon Root: Gyrotrapezotrigonal
+- Symmetry: Icosasphere
+- Parent Catalan: Pentagonal Hexecontahedron
 Derived by projecting the 60 irregular pentagonal faces of the Pentagonal Hexecontahedron onto a sphere.
 The 60 pentagons fracture into exactly 120 planar faces: 60 trapezoids and 60 scalene triangles.
 """
-function cooksonian_pentagonal_hexecontahedron(; radius::Real=1.0)
+function gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
     return cookson(pentagonal_hexecontahedron(); radius=radius)
 end
+const cooksonian_pentagonal_hexecontahedron = gyrotrapezotrigonal_icosasphere
 
-const COOKSON_SOLID_MAP = Dict{Symbol, Function}(
-    :rhombic_dodecahedron => cooksonian_rhombic_dodecahedron,
-    :cooksonian_rhombic_dodecahedron => cooksonian_rhombic_dodecahedron,
-    :rhombic_triacontahedron => cooksonian_rhombic_triacontahedron,
-    :cooksonian_rhombic_triacontahedron => cooksonian_rhombic_triacontahedron,
-    :deltoidal_icositetrahedron => cooksonian_deltoidal_icositetrahedron,
-    :cooksonian_deltoidal_icositetrahedron => cooksonian_deltoidal_icositetrahedron,
-    :deltoidal_hexecontahedron => cooksonian_deltoidal_hexecontahedron,
-    :cooksonian_deltoidal_hexecontahedron => cooksonian_deltoidal_hexecontahedron,
-    :pentagonal_icositetrahedron => cooksonian_pentagonal_icositetrahedron,
-    :cooksonian_pentagonal_icositetrahedron => cooksonian_pentagonal_icositetrahedron,
-    :pentagonal_hexecontahedron => cooksonian_pentagonal_hexecontahedron,
-    :cooksonian_pentagonal_hexecontahedron => cooksonian_pentagonal_hexecontahedron
-)
+# --- Metadata, Classification & Dispatchers ---
+
+struct CooksonMeta
+    index::Int
+    name::String
+    polygon_root::String
+    symmetry::String
+    parent_catalan::String
+end
+
+const COOKSON_SOLIDS_TABLE = [
+    CooksonMeta(1, "Trigonal Octasphere", "Trigonal", "Octasphere", "Rhombic Dodecahedron"),
+    CooksonMeta(2, "Trigonal Icosasphere", "Trigonal", "Icosasphere", "Rhombic Triacontahedron"),
+    CooksonMeta(3, "Bitrigonal Octasphere", "Bitrigonal", "Octasphere", "Deltoidal Icositetrahedron"),
+    CooksonMeta(4, "Bitrigonal Icosasphere", "Bitrigonal", "Icosasphere", "Deltoidal Hexecontahedron"),
+    CooksonMeta(5, "Gyrotrapezotrigonal Octasphere", "Gyrotrapezotrigonal", "Octasphere", "Pentagonal Icositetrahedron"),
+    CooksonMeta(6, "Gyrotrapezotrigonal Icosasphere", "Gyrotrapezotrigonal", "Icosasphere", "Pentagonal Hexecontahedron")
+]
+
+const COOKSON_SOLID_NAMES = [m.name for m in COOKSON_SOLIDS_TABLE]
 
 const COOKSON_SOLID_ORDER = [
-    :cooksonian_rhombic_dodecahedron,
-    :cooksonian_rhombic_triacontahedron,
-    :cooksonian_deltoidal_icositetrahedron,
-    :cooksonian_deltoidal_hexecontahedron,
-    :cooksonian_pentagonal_icositetrahedron,
-    :cooksonian_pentagonal_hexecontahedron
+    :trigonal_octasphere,
+    :trigonal_icosasphere,
+    :bitrigonal_octasphere,
+    :bitrigonal_icosasphere,
+    :gyrotrapezotrigonal_octasphere,
+    :gyrotrapezotrigonal_icosasphere
 ]
+
+const COOKSON_SOLID_MAP = Dict{Symbol, Function}(
+    # Official names
+    :trigonal_octasphere => trigonal_octasphere,
+    :trigonal_icosasphere => trigonal_icosasphere,
+    :bitrigonal_octasphere => bitrigonal_octasphere,
+    :bitrigonal_icosasphere => bitrigonal_icosasphere,
+    :gyrotrapezotrigonal_octasphere => gyrotrapezotrigonal_octasphere,
+    :gyrotrapezotrigonal_icosasphere => gyrotrapezotrigonal_icosasphere,
+
+    # Index shorthands C1..C6
+    :C1 => trigonal_octasphere,
+    :c1 => trigonal_octasphere,
+    :C2 => trigonal_icosasphere,
+    :c2 => trigonal_icosasphere,
+    :C3 => bitrigonal_octasphere,
+    :c3 => bitrigonal_octasphere,
+    :C4 => bitrigonal_icosasphere,
+    :c4 => bitrigonal_icosasphere,
+    :C5 => gyrotrapezotrigonal_octasphere,
+    :c5 => gyrotrapezotrigonal_octasphere,
+    :C6 => gyrotrapezotrigonal_icosasphere,
+    :c6 => gyrotrapezotrigonal_icosasphere,
+
+    # Legacy & Catalan parent aliases
+    :rhombic_dodecahedron => trigonal_octasphere,
+    :cooksonian_rhombic_dodecahedron => trigonal_octasphere,
+    :rhombic_triacontahedron => trigonal_icosasphere,
+    :cooksonian_rhombic_triacontahedron => trigonal_icosasphere,
+    :deltoidal_icositetrahedron => bitrigonal_octasphere,
+    :cooksonian_deltoidal_icositetrahedron => bitrigonal_octasphere,
+    :deltoidal_hexecontahedron => bitrigonal_icosasphere,
+    :cooksonian_deltoidal_hexecontahedron => bitrigonal_icosasphere,
+    :pentagonal_icositetrahedron => gyrotrapezotrigonal_octasphere,
+    :cooksonian_pentagonal_icositetrahedron => gyrotrapezotrigonal_octasphere,
+    :pentagonal_hexecontahedron => gyrotrapezotrigonal_icosasphere,
+    :cooksonian_pentagonal_hexecontahedron => gyrotrapezotrigonal_icosasphere
+)
+
+"""
+    cookson_names()
+
+Returns the list of official names for the 6 Cookson solids (C1 to C6).
+"""
+cookson_names() = copy(COOKSON_SOLID_NAMES)
+
+"""
+    cookson_name(index::Integer)
+
+Returns the official name string for the Cookson solid at index 1 to 6.
+"""
+function cookson_name(index::Integer)
+    1 <= index <= 6 || error("Cookson solid index must be between 1 and 6.")
+    return COOKSON_SOLID_NAMES[index]
+end
+
+"""
+    cookson_info(index::Integer)
+    cookson_info(name::Symbol)
+
+Returns structural metadata (name, polygon root, symmetry, parent Catalan solid) for a Cookson solid.
+"""
+function cookson_info(index::Integer)
+    1 <= index <= 6 || error("Cookson solid index must be between 1 and 6.")
+    return COOKSON_SOLIDS_TABLE[index]
+end
+
+function cookson_info(name::Symbol)
+    # Check if C1..C6
+    s_str = uppercase(string(name))
+    if startswith(s_str, "C") && length(s_str) == 2 && isdigit(s_str[2])
+        idx = parse(Int, s_str[2])
+        return cookson_info(idx)
+    end
+    idx = findfirst(==(name), COOKSON_SOLID_ORDER)
+    if idx !== nothing
+        return COOKSON_SOLIDS_TABLE[idx]
+    end
+    error("Unknown Cookson solid: $name")
+end
 
 """
     cookson(name::Symbol; radius::Real=1.0)
     cookson(index::Integer; radius::Real=1.0)
 
-Access any of the 6 canonical Cookson solids by name symbol or index (1-6).
+Access any of the 6 canonical Cookson solids by official name symbol, index (1-6), or shorthand (`:C1` - `:C6`).
 """
 function cookson(name::Symbol; radius::Real=1.0)
     haskey(COOKSON_SOLID_MAP, name) || error("Unknown Cookson solid: $name. Available: $(keys(COOKSON_SOLID_MAP))")

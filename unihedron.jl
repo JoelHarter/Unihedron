@@ -68,7 +68,10 @@ export rhombic_triacontahedron, pentakis_dodecahedron, triakis_icosahedron
 export deltoidal_hexecontahedron, disdyakis_triacontahedron, pentagonal_hexecontahedron
 
 # Cookson Solids
-export cookson
+export cookson, cookson_name, cookson_names, cookson_info
+export trigonal_octasphere, trigonal_icosasphere
+export bitrigonal_octasphere, bitrigonal_icosasphere
+export gyrotrapezotrigonal_octasphere, gyrotrapezotrigonal_icosasphere
 export cooksonian_rhombic_dodecahedron, cooksonian_rhombic_triacontahedron
 export cooksonian_deltoidal_icositetrahedron, cooksonian_deltoidal_hexecontahedron
 export cooksonian_pentagonal_icositetrahedron, cooksonian_pentagonal_hexecontahedron

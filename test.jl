@@ -363,12 +363,33 @@ using .Unihedron
 
         # Verify all vertices lie on sphere of given radius
         @test all(isapprox.(norm.(cph.v), 1.0, atol=1e-10))
-        cph_r2 = cooksonian_pentagonal_hexecontahedron(radius=2.5)
+        cph_r2 = gyrotrapezotrigonal_icosasphere(radius=2.5)
         @test all(isapprox.(norm.(cph_r2.v), 2.5, atol=1e-10))
 
-        # Test operator and dispatchers
-        @test cookson(:cooksonian_pentagonal_hexecontahedron) isa Polyhedron
+        # Official function names
+        @test trigonal_octasphere() isa Polyhedron
+        @test trigonal_icosasphere() isa Polyhedron
+        @test bitrigonal_octasphere() isa Polyhedron
+        @test bitrigonal_icosasphere() isa Polyhedron
+        @test gyrotrapezotrigonal_octasphere() isa Polyhedron
+        @test gyrotrapezotrigonal_icosasphere() isa Polyhedron
+
+        # Shorthand symbols and names
+        @test cookson(:C1) isa Polyhedron
+        @test cookson(:C6) isa Polyhedron
+        @test cookson(:trigonal_octasphere) isa Polyhedron
         @test cookson(1) isa Polyhedron
+        @test length(cookson_names()) == 6
+        @test cookson_name(1) == "Trigonal Octasphere"
+        @test cookson_name(6) == "Gyrotrapezotrigonal Icosasphere"
+
+        # Structural metadata verification
+        info1 = cookson_info(1)
+        @test info1.polygon_root == "Trigonal" && info1.symmetry == "Octasphere" && info1.parent_catalan == "Rhombic Dodecahedron"
+        info6 = cookson_info(:C6)
+        @test info6.polygon_root == "Gyrotrapezotrigonal" && info6.symmetry == "Icosasphere" && info6.parent_catalan == "Pentagonal Hexecontahedron"
+
+        # Arbitrary polyhedron projection operator
         @test length(cookson(cube()).v) == 8
     end
 
