@@ -3,7 +3,7 @@
 # the vertices of a non-triangular Catalan solid onto a unit sphere, and subsequently
 # subdividing any resulting non-planar faces along internal creases to restore strict
 # three-dimensional planarity.
-# Discovered by Arthur J Cookson.
+# Discovered by Arthur J Cookson in 2026.
 
 """
     cookson(P::Polyhedron; radius::Real=1.0)
