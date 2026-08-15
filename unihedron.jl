@@ -20,6 +20,7 @@ include("catalan.jl")
 include("cookson.jl")
 include("operations.jl")
 include("johnson.jl")
+include("geodesic.jl")
 include("visualization.jl")
 include("io.jl")
 include("print.jl")
@@ -112,5 +113,9 @@ export square_pyramid, pentagonal_pyramid, triangular_cupola, square_cupola, pen
 export gyrobifastigium, snub_disphenoid, snub_square_antiprism, sphenocorona
 export sphenomegacorona, hebesphenomegacorona, disphenocingulum, bilunabirotunda
 export triangular_hebesphenorotunda
+
+# Geodesic Spheres & Buckyballs / Fullerenes / Goldberg Polyhedra
+export buckyball, fullerene, goldberg_polyhedron
+export geodesic_sphere, geodesic_icosahedron
 
 end # module Unihedron
