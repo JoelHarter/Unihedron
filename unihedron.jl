@@ -23,6 +23,7 @@ export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
 export Polygon2, center_of_mass, centroid, face_normal, dual
 export isBordering, isCoplanar, isSimilar, isCongruent
 export backwards, increment
+export sew_coplanar_faces, merge_coplanar_faces, sew_faces
 
 # Convex Hull
 export convex_hull

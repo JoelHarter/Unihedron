@@ -99,6 +99,43 @@ using .Unihedron
         @test all(length.(cube_hull.f) .== 4)
     end
 
+    @testset "Coplanar Face Sewing (sew_coplanar_faces / merge_coplanar_faces)" begin
+        # 1. Dodecahedron vertices in raw convex hull produces 36 triangles -> sew into 12 pentagons
+        dodec_pts = dodecahedron().v
+        raw_dodec = convex_hull(dodec_pts; merge_coplanar=false)
+        @test length(raw_dodec.v) == 20
+        @test length(raw_dodec) == 36 # 36 triangulated facets
+        @test all(length.(raw_dodec.f) .== 3)
+
+        sewn_dodec = sew_coplanar_faces(raw_dodec)
+        @test length(sewn_dodec.v) == 20
+        @test length(sewn_dodec) == 12 # 12 regular pentagons!
+        @test all(length.(sewn_dodec.f) .== 5)
+
+        # Alias test: merge_coplanar_faces & sew_faces
+        @test merge_coplanar_faces(raw_dodec) isa Polyhedron
+        @test sew_faces(raw_dodec) isa Polyhedron
+
+        # 2. Cube vertices in raw convex hull produces 12 triangles -> sew into 6 squares
+        raw_cube = convex_hull(cube().v; merge_coplanar=false)
+        @test length(raw_cube) == 12
+        sewn_cube = sew_coplanar_faces(raw_cube)
+        @test length(sewn_cube) == 6
+        @test all(length.(sewn_cube.f) .== 4)
+
+        # 3. Truncated icosahedron (Buckyball) raw triangles -> 12 pentagons + 20 hexagons
+        raw_bucky = convex_hull(truncated_icosahedron().v; merge_coplanar=false)
+        sewn_bucky = sew_coplanar_faces(raw_bucky)
+        @test length(sewn_bucky.v) == 60
+        @test length(sewn_bucky) == 32
+        @test count(length.(sewn_bucky.f) .== 5) == 12
+        @test count(length.(sewn_bucky.f) .== 6) == 20
+
+        # 4. Purely triangular solids remain unchanged (idempotence)
+        raw_ico = icosahedron()
+        @test sew_coplanar_faces(raw_ico) == raw_ico
+    end
+
     @testset "Dual Operation (dual)" begin
         c = cube()
         d_c = dual(c)

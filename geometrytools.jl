@@ -251,6 +251,138 @@ function isCongruent(P₁::AbstractVector{SVector{N₁, T₁}},
 end
 
 """
+    sew_coplanar_faces(P::Polyhedron{T}; atol::Float64=1e-6) where T
+    merge_coplanar_faces(P::Polyhedron; atol=1e-6)
+    sew_faces(P::Polyhedron; atol=1e-6)
+
+Finds all adjacent (bordering) coplanar faces in a polyhedron and sews them together into single `n`-gon faces.
+Useful for converting raw triangulated meshes (e.g. from `convex_hull(pts; merge_coplanar=false)`) into polyhedra with combined regular/irregular polygon faces (e.g. recovering the 12 regular pentagons of a dodecahedron from 36 triangles).
+"""
+function sew_coplanar_faces(P::Polyhedron{T}; atol::Float64=1e-6) where T
+    n_faces = length(P)
+    n_faces <= 1 && return P
+    
+    # 1. Compute face normals and plane offsets relative to centroid
+    poly_center = sum(P.v) / length(P.v)
+    normals = Pt3{Float64}[]
+    offsets = Float64[]
+    
+    for k in 1:n_faces
+        pts = [P.v[i] for i in P.f[k]]
+        nv = face_normal(pts)
+        c = centroid(pts)
+        if (c - poly_center) ⋅ nv < 0
+            nv = -nv
+        end
+        push!(normals, nv)
+        push!(offsets, c ⋅ nv)
+    end
+    
+    # 2. Build map from undirected edge -> incident face indices
+    edge_to_faces = Dict{Tuple{Int, Int}, Vector{Int}}()
+    for (f_idx, face) in enumerate(P.f)
+        n = length(face)
+        for i in 1:n
+            u = face[i]
+            v = face[i == n ? 1 : i + 1]
+            key = (min(u, v), max(u, v))
+            push!(get!(edge_to_faces, key, Int[]), f_idx)
+        end
+    end
+    
+    # Build adjacency graph for bordering coplanar faces
+    adj = [Int[] for _ in 1:n_faces]
+    for (edge, incident) in edge_to_faces
+        if length(incident) == 2
+            f1, f2 = incident[1], incident[2]
+            if isapprox(normals[f1], normals[f2]; atol=atol) && isapprox(offsets[f1], offsets[f2]; atol=atol)
+                push!(adj[f1], f2)
+                push!(adj[f2], f1)
+            end
+        end
+    end
+    
+    # 3. Find connected components of bordering coplanar faces
+    visited = falses(n_faces)
+    merged_faces = Vector{Int}[]
+    
+    for start_f in 1:n_faces
+        visited[start_f] && continue
+        
+        group = Int[]
+        queue = Int[start_f]
+        visited[start_f] = true
+        
+        while !isempty(queue)
+            curr = popfirst!(queue)
+            push!(group, curr)
+            for neighbor in adj[curr]
+                if !visited[neighbor]
+                    visited[neighbor] = true
+                    push!(queue, neighbor)
+                end
+            end
+        end
+        
+        if length(group) == 1
+            push!(merged_faces, P.f[start_f])
+            continue
+        end
+        
+        # Merge faces in group by cancelling shared interior edges
+        ref_n = normals[start_f]
+        edge_counts = Dict{Tuple{Int, Int}, Int}()
+        
+        for f_idx in group
+            face = P.f[f_idx]
+            pts = [P.v[i] for i in face]
+            tri_n = face_normal(pts)
+            ordered_face = (tri_n ⋅ ref_n < 0) ? reverse(face) : face
+            n = length(ordered_face)
+            for k in 1:n
+                u = ordered_face[k]
+                v = ordered_face[k == n ? 1 : k + 1]
+                edge_counts[(u, v)] = get(edge_counts, (u, v), 0) + 1
+            end
+        end
+        
+        # Boundary edges are those whose reverse directed edge does not appear
+        boundary_next = Dict{Int, Int}()
+        for ((u, v), cnt) in edge_counts
+            if get(edge_counts, (v, u), 0) == 0
+                boundary_next[u] = v
+            end
+        end
+        
+        if isempty(boundary_next)
+            push!(merged_faces, P.f[start_f])
+            continue
+        end
+        
+        # Traverse directed boundary cycle
+        start_v = first(keys(boundary_next))
+        cycle = [start_v]
+        curr = boundary_next[start_v]
+        while curr != start_v && length(cycle) <= length(boundary_next)
+            push!(cycle, curr)
+            curr = get(boundary_next, curr, start_v)
+        end
+        push!(merged_faces, cycle)
+    end
+    
+    # 4. Clean unused vertices and remap indices
+    used_indices = sort(unique(vcat(merged_faces...)))
+    index_map = Dict{Int, Int}(old_idx => new_idx for (new_idx, old_idx) in enumerate(used_indices))
+    cleaned_v = P.v[used_indices]
+    cleaned_f = [[index_map[i] for i in face] for face in merged_faces]
+    
+    return Polyhedron(cleaned_v, cleaned_f)
+end
+
+const merge_coplanar_faces = sew_coplanar_faces
+const sew_faces = sew_coplanar_faces
+
+"""
     dual(P::Polyhedron{T}; polar::Bool=true) where T
 
 Computes the dual polyhedron of `P`.
