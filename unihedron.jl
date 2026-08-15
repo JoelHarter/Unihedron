@@ -6,14 +6,17 @@ using QHull
 
 include("types.jl")
 include("geometrytools.jl")
-include("platonic.jl")
 include("convexhull.jl")
+include("platonic.jl")
+include("archimedean.jl")
+include("kepler_poinsot.jl")
+include("catalan.jl")
 
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
 
 # Geometry Tools
-export Polygon2, center_of_mass, centroid, face_normal
+export Polygon2, center_of_mass, centroid, face_normal, dual
 export isBordering, isCoplanar, isSimilar, isCongruent
 export backwards, increment
 
@@ -21,6 +24,26 @@ export backwards, increment
 export convex_hull
 
 # Platonic Solids
+export platonic
 export tetrahedron, cube, octahedron, icosahedron, dodecahedron
+
+# Archimedean Solids
+export archimedean
+export truncated_tetrahedron, cuboctahedron, truncated_cube, truncated_octahedron
+export rhombicuboctahedron, truncated_cuboctahedron, snub_cube
+export icosidodecahedron, truncated_icosahedron, truncated_dodecahedron
+export rhombicosidodecahedron, truncated_icosidodecahedron, snub_dodecahedron
+
+# Kepler-Poinsot Solids
+export kepler_poinsot
+export great_dodecahedron, small_stellated_dodecahedron
+export great_stellated_dodecahedron, great_icosahedron
+
+# Catalan Solids
+export catalan
+export triakis_tetrahedron, rhombic_dodecahedron, triakis_octahedron, tetrakis_hexahedron
+export deltoidal_icositetrahedron, disdyakis_dodecahedron, pentagonal_icositetrahedron
+export rhombic_triacontahedron, pentakis_dodecahedron, triakis_icosahedron
+export deltoidal_hexecontahedron, disdyakis_triacontahedron, pentagonal_hexecontahedron
 
 end # module Unihedron

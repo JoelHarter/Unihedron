@@ -249,3 +249,81 @@ function isCongruent(P₁::AbstractVector{SVector{N₁, T₁}},
                     allow_flipped::Bool = false) where {N₁, T₁, N₂, T₂}
     return isSimilar(P₁, P₂; allow_scaling=false, allow_flipped=allow_flipped)
 end
+
+"""
+    dual(P::Polyhedron{T}; polar::Bool=true) where T
+
+Computes the dual polyhedron of `P`.
+- **Vertices**: Each dual vertex corresponds to a primal face. If `polar=true` and the origin is in the interior, polar reciprocation ``v^* = n / (c \\cdot n)`` is used, ensuring exact face planarity for regular and semi-regular solids. If `polar=false`, face centroids are used directly.
+- **Faces**: Each dual face corresponds to a primal vertex, ordered cyclically around the primal vertex.
+"""
+function dual(P::Polyhedron{T}; polar::Bool=true) where T
+    n_faces = length(P)
+    n_verts = length(P.v)
+    
+    # 1. Dual vertices from primal faces
+    dual_verts = Pt3{Float64}[]
+    for k in 1:n_faces
+        c = centroid(P[k])
+        n = face_normal(P[k])
+        d = c ⋅ n
+        if polar && abs(d) > 1e-12
+            push!(dual_verts, Pt3{Float64}(n / d))
+        else
+            push!(dual_verts, Pt3{Float64}(c))
+        end
+    end
+    
+    # 2. Directed half-edge map: (u, v) -> face index
+    edge_to_face = Dict{Tuple{Int, Int}, Int}()
+    for (f_idx, face) in enumerate(P.f)
+        n = length(face)
+        for i in 1:n
+            u = face[i]
+            v = face[i == n ? 1 : i + 1]
+            edge_to_face[(u, v)] = f_idx
+        end
+    end
+    
+    # 3. For each primal vertex, order incident faces cyclically
+    dual_faces = Vector{Int}[]
+    for v_idx in 1:n_verts
+        incident_faces = [k for k in 1:n_faces if v_idx in P.f[k]]
+        isempty(incident_faces) && continue
+        
+        f_start = incident_faces[1]
+        ordered_face_indices = Int[f_start]
+        
+        face_verts = P.f[f_start]
+        pos = findfirst(==(v_idx), face_verts)
+        u = face_verts[pos == length(face_verts) ? 1 : pos + 1]
+        
+        curr_f = f_start
+        curr_u = u
+        
+        while true
+            next_f = get(edge_to_face, (curr_u, v_idx), 0)
+            if next_f == 0 || next_f == f_start
+                break
+            end
+            push!(ordered_face_indices, next_f)
+            
+            next_face_verts = P.f[next_f]
+            pos_next = findfirst(==(v_idx), next_face_verts)
+            curr_u = next_face_verts[pos_next == length(next_face_verts) ? 1 : pos_next + 1]
+            curr_f = next_f
+            
+            if length(ordered_face_indices) > length(incident_faces) + 2
+                break
+            end
+        end
+        
+        if length(ordered_face_indices) != length(incident_faces)
+            ordered_face_indices = incident_faces
+        end
+        
+        push!(dual_faces, ordered_face_indices)
+    end
+    
+    return Polyhedron(dual_verts, dual_faces)
+end

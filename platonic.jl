@@ -137,3 +137,36 @@ function dodecahedron()
     ]
     return Polyhedron(v, f)
 end
+
+const PLATONIC_SOLID_MAP = Dict{Symbol, Function}(
+    :tetrahedron => tetrahedron,
+    :cube => cube,
+    :octahedron => octahedron,
+    :icosahedron => icosahedron,
+    :dodecahedron => dodecahedron
+)
+
+const PLATONIC_SOLID_ORDER = [
+    :tetrahedron,
+    :cube,
+    :octahedron,
+    :icosahedron,
+    :dodecahedron
+]
+
+"""
+    platonic(name::Symbol)
+    platonic(index::Integer)
+
+Access any of the 5 Platonic solids by name symbol or index (1-5).
+"""
+function platonic(name::Symbol)
+    haskey(PLATONIC_SOLID_MAP, name) || error("Unknown Platonic solid: $name. Available: $(keys(PLATONIC_SOLID_MAP))")
+    return PLATONIC_SOLID_MAP[name]()
+end
+
+function platonic(index::Integer)
+    1 <= index <= 5 || error("Platonic solid index must be between 1 and 5.")
+    return platonic(PLATONIC_SOLID_ORDER[index])
+end
+
