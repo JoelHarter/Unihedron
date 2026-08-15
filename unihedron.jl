@@ -11,6 +11,7 @@ include("platonic.jl")
 include("archimedean.jl")
 include("kepler_poinsot.jl")
 include("catalan.jl")
+include("cookson.jl")
 
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
@@ -45,5 +46,11 @@ export triakis_tetrahedron, rhombic_dodecahedron, triakis_octahedron, tetrakis_h
 export deltoidal_icositetrahedron, disdyakis_dodecahedron, pentagonal_icositetrahedron
 export rhombic_triacontahedron, pentakis_dodecahedron, triakis_icosahedron
 export deltoidal_hexecontahedron, disdyakis_triacontahedron, pentagonal_hexecontahedron
+
+# Cookson Solids
+export cookson
+export cooksonian_rhombic_dodecahedron, cooksonian_rhombic_triacontahedron
+export cooksonian_deltoidal_icositetrahedron, cooksonian_deltoidal_hexecontahedron
+export cooksonian_pentagonal_icositetrahedron, cooksonian_pentagonal_hexecontahedron
 
 end # module Unihedron

@@ -1,4 +1,5 @@
 using Test
+using LinearAlgebra
 include("unihedron.jl")
 using .Unihedron
 
@@ -289,4 +290,49 @@ using .Unihedron
         @test length(catalan(13).v) == 92
     end
 
+    @testset "Cookson Solids (6 solids & cookson operator)" begin
+        # 1. Cooksonian Rhombic Dodecahedron (V=14, F=24 triangles)
+        crd = cooksonian_rhombic_dodecahedron()
+        @test length(crd.v) == 14 && length(crd) == 24
+        @test all(length.(crd.f) .== 3)
+
+        # 2. Cooksonian Rhombic Triacontahedron (V=32, F=60 triangles)
+        crt = cooksonian_rhombic_triacontahedron()
+        @test length(crt.v) == 32 && length(crt) == 60
+        @test all(length.(crt.f) .== 3)
+
+        # 3. Cooksonian Deltoidal Icositetrahedron (V=26, F=48 triangles)
+        cdi = cooksonian_deltoidal_icositetrahedron()
+        @test length(cdi.v) == 26 && length(cdi) == 48
+        @test all(length.(cdi.f) .== 3)
+
+        # 4. Cooksonian Deltoidal Hexecontahedron (V=62, F=120 triangles)
+        cdh = cooksonian_deltoidal_hexecontahedron()
+        @test length(cdh.v) == 62 && length(cdh) == 120
+        @test all(length.(cdh.f) .== 3)
+
+        # 5. Cooksonian Pentagonal Icositetrahedron (V=38, F=48: 24 trapezoids, 24 triangles)
+        cpi = cooksonian_pentagonal_icositetrahedron()
+        @test length(cpi.v) == 38 && length(cpi) == 48
+        @test count(length.(cpi.f) .== 4) == 24
+        @test count(length.(cpi.f) .== 3) == 24
+
+        # 6. Cooksonian Pentagonal Hexecontahedron (V=92, F=120: 60 trapezoids, 60 triangles)
+        cph = cooksonian_pentagonal_hexecontahedron()
+        @test length(cph.v) == 92 && length(cph) == 120
+        @test count(length.(cph.f) .== 4) == 60
+        @test count(length.(cph.f) .== 3) == 60
+
+        # Verify all vertices lie on sphere of given radius
+        @test all(isapprox.(norm.(cph.v), 1.0, atol=1e-10))
+        cph_r2 = cooksonian_pentagonal_hexecontahedron(radius=2.5)
+        @test all(isapprox.(norm.(cph_r2.v), 2.5, atol=1e-10))
+
+        # Test operator and dispatchers
+        @test cookson(:cooksonian_pentagonal_hexecontahedron) isa Polyhedron
+        @test cookson(1) isa Polyhedron
+        @test length(cookson(cube()).v) == 8
+    end
+
 end
+
