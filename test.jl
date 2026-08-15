@@ -403,6 +403,54 @@ using .Unihedron
         end
     end
 
+    @testset "Constructive Operations (cupola, rotunda, elongate, gyroelongate, augment, diminish, gyrate)" begin
+        # 1. Cupolae (J3, J4, J5)
+        c3 = cupola(3) # Triangular cupola (V=9, F=8)
+        @test length(c3.v) == 9 && length(c3) == 8
+        @test count(length.(c3.f) .== 6) == 1
+        @test count(length.(c3.f) .== 4) == 3
+        @test count(length.(c3.f) .== 3) == 4
+
+        c4 = cupola(4) # Square cupola (V=12, F=10)
+        @test length(c4.v) == 12 && length(c4) == 10
+        @test count(length.(c4.f) .== 8) == 1
+        @test count(length.(c4.f) .== 4) == 5
+
+        c5 = cupola(5) # Pentagonal cupola (V=15, F=12)
+        @test length(c5.v) == 15 && length(c5) == 12
+        @test count(length.(c5.f) .== 10) == 1
+        @test count(length.(c5.f) .== 5) == 1
+
+        # 2. Rotunda (J6)
+        rot = rotunda() # Pentagonal rotunda (V=20, F=17)
+        @test length(rot.v) == 20 && length(rot) == 17
+        @test count(length.(rot.f) .== 10) == 1
+        @test count(length.(rot.f) .== 5) == 6
+        @test count(length.(rot.f) .== 3) == 10
+
+        # 3. Elongate: J1 -> J8 (Elongated square pyramid)
+        pyr4 = pyramid(4)
+        sq_idx = findfirst(f -> length(f) == 4, pyr4.f)
+        j8 = elongate(pyr4, sq_idx)
+        @test length(j8.v) == 9 && length(j8) == 9
+
+        # 4. Gyroelongate: J1 -> J10 (Gyroelongated square pyramid)
+        j10 = gyroelongate(pyr4, sq_idx)
+        @test length(j10.v) == 9 && length(j10) == 13
+
+        # 5. Augment: J8 + pyramid(4) -> J15 (Elongated square bipyramid)
+        sq_idx_j8 = findfirst(f -> length(f) == 4, j8.f)
+        j15 = augment(j8, sq_idx_j8; cap=pyr4)
+        @test length(j15.v) == 10 && length(j15) == 12
+
+        # 6. Diminish & Gyrate on Icosahedron
+        ico = icosahedron()
+        # Diminishing top vertex of icosahedron yields pentagonal pyramid base (Johnson solid)
+        dim_ico = diminish(ico, [1])
+        @test length(dim_ico.v) == 11 && length(dim_ico) == 16
+    end
+
 end
+
 
 

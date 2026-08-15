@@ -13,6 +13,7 @@ include("archimedean.jl")
 include("kepler_poinsot.jl")
 include("catalan.jl")
 include("cookson.jl")
+include("operations.jl")
 
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
@@ -28,6 +29,10 @@ export convex_hull
 # Prisms, Antiprisms, Pyramids, Bipyramids, Trapezohedra
 export prism, antiprism, pyramid, bipyramid, dipyramid
 export trapezohedron, gyrobipyramid, antidipyramid, deltohedron
+
+# Constructive Operations & Caps
+export cupola, rotunda, pentagonal_rotunda
+export elongate, gyroelongate, augment, diminish, gyrate
 
 # Platonic Solids
 export platonic

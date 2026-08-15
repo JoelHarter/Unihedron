@@ -122,7 +122,13 @@ function convex_hull(pts::AbstractVector{<:SVector{3, T}}; merge_coplanar::Bool=
         push!(merged_faces, cycle)
     end
     
-    return Polyhedron(pts, merged_faces)
+    # Filter to only vertices that are part of the hull faces
+    used_indices = sort(unique(vcat(merged_faces...)))
+    index_map = Dict{Int, Int}(old_idx => new_idx for (new_idx, old_idx) in enumerate(used_indices))
+    cleaned_v = pts[used_indices]
+    cleaned_f = [[index_map[i] for i in face] for face in merged_faces]
+    
+    return Polyhedron(cleaned_v, cleaned_f)
 end
 
 # Convenience overloads for Tuples or splatted SVectors
