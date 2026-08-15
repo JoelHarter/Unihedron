@@ -5,6 +5,8 @@ using LinearAlgebra
 using QHull
 using GLMakie
 using GLMakie.GeometryBasics
+using HDF5
+using JSON3
 
 include("types.jl")
 include("geometrytools.jl")
@@ -18,6 +20,7 @@ include("cookson.jl")
 include("operations.jl")
 include("johnson.jl")
 include("visualization.jl")
+include("io.jl")
 
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
@@ -30,6 +33,17 @@ export sew_coplanar_faces, merge_coplanar_faces, sew_faces
 
 # Convex Hull
 export convex_hull
+
+# File I/O & Export
+export save_polyhedron, load_polyhedron
+export save_off, load_off
+export save_obj, load_obj
+export save_json, load_json
+export save_hdf5, load_hdf5
+export save_stl
+export save_polygon, load_polygon2d, load_polygon3d
+export export_database_hdf5
+export DEFAULT_POLYHEDRON_FORMAT
 
 # Visualization & Display (Makie)
 export display_polygon, display_polygon!, plot_polygon, plot_polygon!

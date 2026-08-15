@@ -591,7 +591,72 @@ using .Unihedron
         @test viz(:icosahedron) isa Figure
     end
 
+    @testset "File I/O and Exporters (OFF, OBJ, JSON, HDF5, STL, CSV)" begin
+        mktempdir() do tmpdir
+            cube_p = cube()
+
+            # 1. Default format save (defaults to .off)
+            f_def = save_polyhedron(cube_p, joinpath(tmpdir, "cube_default"))
+            @test endswith(f_def, ".off")
+            @test isfile(f_def)
+            cube_loaded_def = load_polyhedron(f_def)
+            @test length(cube_loaded_def.v) == 8 && length(cube_loaded_def) == 6
+
+            # 2. OFF format save & load
+            f_off = joinpath(tmpdir, "dodec.off")
+            save_off(dodecahedron(), f_off)
+            dodec_loaded = load_off(f_off)
+            @test length(dodec_loaded.v) == 20 && length(dodec_loaded) == 12
+
+            # 3. Wavefront OBJ format save & load
+            f_obj = joinpath(tmpdir, "octa.obj")
+            save_obj(octahedron(), f_obj)
+            octa_loaded = load_obj(f_obj)
+            @test length(octa_loaded.v) == 6 && length(octa_loaded) == 8
+
+            # 4. JSON format save & load
+            f_json = joinpath(tmpdir, "bucky.json")
+            save_json(truncated_icosahedron(), f_json; name="Buckyball")
+            bucky_loaded = load_json(f_json)
+            @test length(bucky_loaded.v) == 60 && length(bucky_loaded) == 32
+
+            # 5. HDF5 format save & load
+            f_h5 = joinpath(tmpdir, "j84.h5")
+            save_hdf5(johnson(84), f_h5; group="j84", name="Snub Disphenoid")
+            j84_loaded = load_hdf5(f_h5; group="j84")
+            @test length(j84_loaded.v) == 8 && length(j84_loaded) == 12
+
+            # 6. STL format save
+            f_stl = joinpath(tmpdir, "tetra.stl")
+            save_stl(tetrahedron(), f_stl)
+            @test isfile(f_stl) && filesize(f_stl) > 0
+
+            # 7. Polygons 2D & 3D save and load
+            f_poly2 = joinpath(tmpdir, "square.csv")
+            p2 = [Pt2{Float64}(0,0), Pt2{Float64}(1,0), Pt2{Float64}(1,1), Pt2{Float64}(0,1)]
+            save_polygon(p2, f_poly2)
+            p2_loaded = load_polygon2d(f_poly2)
+            @test length(p2_loaded) == 4
+
+            f_poly3 = joinpath(tmpdir, "quad.json")
+            p3 = [Pt3{Float64}(0,0,0), Pt3{Float64}(1,0,0), Pt3{Float64}(1,1,1), Pt3{Float64}(0,1,1)]
+            save_polygon(p3, f_poly3)
+            p3_loaded = load_polygon3d(f_poly3)
+            @test length(p3_loaded) == 4
+
+            # 8. Master HDF5 Database generator
+            f_db = joinpath(tmpdir, "master_archive.h5")
+            export_database_hdf5(f_db)
+            @test isfile(f_db) && filesize(f_db) > 10000
+            
+            # Load a solid back from the master archive
+            j92_from_db = load_hdf5(f_db; group="johnson/J92")
+            @test length(j92_from_db.v) == 18 && length(j92_from_db) == 20
+        end
+    end
+
 end
+
 
 
 
