@@ -1,13 +1,17 @@
-# Unihedron I/O: Exporters and Importers for Polyhedra and Polygons
-# Supports OFF, OBJ, JSON, HDF5, STL, and CSV formats with .off as the default.
+# Unihedron I/O: Exporters, Importers, and Image Renderers for Polyhedra and Polygons
+# Supports OFF, OBJ, JSON, HDF5, STL, CSV, and Image formats (PNG, JPG, JPEG, SVG, PDF).
 
 using HDF5
 using JSON3
 using LinearAlgebra
 using StaticArrays
+using GLMakie
+using GLMakie.GeometryBasics
 
 # --- Default File Format Configuration ---
 const DEFAULT_POLYHEDRON_FORMAT = :off
+
+const IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".svg", ".pdf")
 
 function _infer_format(filepath::AbstractString; default::Symbol=DEFAULT_POLYHEDRON_FORMAT)
     ext = lowercase(splitext(filepath)[2])
@@ -23,10 +27,12 @@ function _infer_format(filepath::AbstractString; default::Symbol=DEFAULT_POLYHED
         return :stl
     elseif ext == ".csv"
         return :csv
+    elseif ext in IMAGE_EXTENSIONS
+        return :image
     elseif isempty(ext)
         return default
     else
-        error("Unsupported file extension: $ext. Supported: .off, .obj, .json, .h5, .hdf5, .stl, .csv")
+        error("Unsupported file extension: $ext. Supported: .off, .obj, .json, .h5, .hdf5, .stl, .csv, .png, .jpg, .svg, .pdf")
     end
 end
 
@@ -47,6 +53,8 @@ function _ensure_extension(filepath::AbstractString, fmt::Symbol)
         return filepath * ".stl"
     elseif fmt == :csv
         return filepath * ".csv"
+    elseif fmt == :image
+        return filepath * ".png"
     end
     return filepath
 end
@@ -89,7 +97,6 @@ function load_off(filepath::AbstractString)
     
     line_idx = 2
     if header != "OFF" && startswith(header, "OFF")
-        # Header has numbers on the same line
         counts_str = header[4:end]
         tokens = split(counts_str)
         nV = parse(Int, tokens[1])
@@ -287,18 +294,125 @@ function save_stl(P::Polyhedron, filepath::AbstractString; name::AbstractString=
 end
 
 # ============================================================================
-# 6. Polygons I/O (2D & 3D)
+# 6. Image Rendering & Export (PNG, JPG, SVG, PDF)
+# ============================================================================
+
+"""
+    save_polyhedron_image(P::Polyhedron, filepath::AbstractString; 
+                          size=(800, 800), 
+                          px_per_unit=2.0, 
+                          color=(:dodgerblue, 0.8), 
+                          edgecolor=:black, 
+                          linewidth=2.0, 
+                          color_by_face_size=false, 
+                          title=nothing, 
+                          kwargs...)
+
+Renders a 3D `Polyhedron` using Makie and saves it as an image file (.png, .jpg, .svg, .pdf).
+"""
+function save_polyhedron_image(P::Polyhedron, filepath::AbstractString; 
+                               size::Tuple{Int, Int}=(800, 800), 
+                               px_per_unit::Real=2.0, 
+                               color=(:dodgerblue, 0.8), 
+                               edgecolor=:black, 
+                               linewidth=2.0, 
+                               color_by_face_size::Bool=false, 
+                               title::Union{AbstractString, Nothing}=nothing, 
+                               kwargs...)
+    fig = display_polyhedron(P; 
+                             size=size, 
+                             color=color, 
+                             edgecolor=edgecolor, 
+                             linewidth=linewidth, 
+                             color_by_face_size=color_by_face_size, 
+                             title=title, 
+                             kwargs...)
+    GLMakie.save(filepath, fig; px_per_unit=Float32(px_per_unit))
+    return filepath
+end
+
+"""
+    save_polygon_image(poly::AbstractVector{<:Union{Pt2, Pt3}}, filepath::AbstractString; 
+                       size=(600, 600), 
+                       px_per_unit=2.0, 
+                       color=(:dodgerblue, 0.6), 
+                       edgecolor=:black, 
+                       linewidth=2.0, 
+                       title="Polygon", 
+                       kwargs...)
+
+Renders a 2D or 3D polygon using Makie and saves it as an image file.
+"""
+function save_polygon_image(poly::AbstractVector{<:Pt2}, filepath::AbstractString; 
+                            size::Tuple{Int, Int}=(600, 600), 
+                            px_per_unit::Real=2.0, 
+                            color=(:dodgerblue, 0.6), 
+                            edgecolor=:black, 
+                            linewidth=2.0, 
+                            title::AbstractString="2D Polygon", 
+                            kwargs...)
+    fig = display_polygon(poly; size=size, color=color, edgecolor=edgecolor, linewidth=linewidth, title=title, kwargs...)
+    GLMakie.save(filepath, fig; px_per_unit=Float32(px_per_unit))
+    return filepath
+end
+
+function save_polygon_image(poly::AbstractVector{<:Pt3}, filepath::AbstractString; 
+                            size::Tuple{Int, Int}=(700, 700), 
+                            px_per_unit::Real=2.0, 
+                            color=(:dodgerblue, 0.7), 
+                            edgecolor=:black, 
+                            linewidth=2.0, 
+                            title::AbstractString="3D Polygon", 
+                            kwargs...)
+    fig = display_polygon(poly; size=size, color=color, edgecolor=edgecolor, linewidth=linewidth, title=title, kwargs...)
+    GLMakie.save(filepath, fig; px_per_unit=Float32(px_per_unit))
+    return filepath
+end
+
+"""
+    save_image(poly_or_polyhedron, filepath::AbstractString; kwargs...)
+    save_image(name::Symbol, filepath::AbstractString; kwargs...)
+
+Unified image exporter for polyhedra, 2D polygons, 3D polygons, or named solid symbols.
+"""
+save_image(P::Polyhedron, filepath::AbstractString; kwargs...) = save_polyhedron_image(P, filepath; kwargs...)
+save_image(poly::AbstractVector{<:Union{Pt2, Pt3}}, filepath::AbstractString; kwargs...) = save_polygon_image(poly, filepath; kwargs...)
+
+function save_image(name::Symbol, filepath::AbstractString; kwargs...)
+    P = if haskey(PLATONIC_SOLID_MAP, name)
+        platonic(name)
+    elseif haskey(ARCHIMEDEAN_SOLID_MAP, name)
+        archimedean(name)
+    elseif haskey(KEPLER_POINSOT_SOLID_MAP, name)
+        kepler_poinsot(name)
+    elseif haskey(CATALAN_SOLID_MAP, name)
+        catalan(name)
+    elseif haskey(COOKSON_SOLID_MAP, name)
+        cookson(name)
+    elseif haskey(JOHNSON_SOLID_MAP, name)
+        johnson(name)
+    else
+        error("Unknown solid symbol: :$name")
+    end
+    title_str = titlecase(replace(string(name), "_" => " "))
+    return save_polyhedron_image(P, filepath; title=title_str, kwargs...)
+end
+
+# ============================================================================
+# 7. Polygons I/O (2D & 3D Tabular & JSON)
 # ============================================================================
 
 """
     save_polygon(poly::AbstractVector{<:Union{Pt2, Pt3}}, filepath)
 
-Saves a 2D or 3D polygon to CSV or JSON.
+Saves a 2D or 3D polygon to CSV, JSON, or Image (PNG/JPG/SVG).
 """
-function save_polygon(poly::AbstractVector{<:Pt2}, filepath::AbstractString)
+function save_polygon(poly::AbstractVector{<:Pt2}, filepath::AbstractString; kwargs...)
     fmt = _infer_format(filepath; default=:csv)
     target = _ensure_extension(filepath, fmt)
-    if fmt == :json
+    if fmt == :image
+        return save_polygon_image(poly, target; kwargs...)
+    elseif fmt == :json
         open(target, "w") do io
             JSON3.write(io, Dict("type" => "Polygon2D", "vertices" => [[p[1], p[2]] for p in poly]))
         end
@@ -313,10 +427,12 @@ function save_polygon(poly::AbstractVector{<:Pt2}, filepath::AbstractString)
     return target
 end
 
-function save_polygon(poly::AbstractVector{<:Pt3}, filepath::AbstractString)
+function save_polygon(poly::AbstractVector{<:Pt3}, filepath::AbstractString; kwargs...)
     fmt = _infer_format(filepath; default=:csv)
     target = _ensure_extension(filepath, fmt)
-    if fmt == :json
+    if fmt == :image
+        return save_polygon_image(poly, target; kwargs...)
+    elseif fmt == :json
         open(target, "w") do io
             JSON3.write(io, Dict("type" => "Polygon3D", "vertices" => [[p[1], p[2], p[3]] for p in poly]))
         end
@@ -368,21 +484,22 @@ function load_polygon3d(filepath::AbstractString)
 end
 
 # ============================================================================
-# 7. Unified Dispatcher & Exporter
+# 8. Unified Dispatcher & Exporter
 # ============================================================================
 
 """
-    save_polyhedron(P::Polyhedron, filepath::AbstractString; format=nothing, name="Polyhedron")
-    save(P::Polyhedron, filepath; ...)
+    save_polyhedron(P::Polyhedron, filepath::AbstractString; format=nothing, name="Polyhedron", kwargs...)
 
 Saves a `Polyhedron` to file. Defaults to `.off` if no extension or format is specified.
-Supported formats: `:off`, `:obj`, `:json`, `:hdf5`, `:stl`.
+Supported formats: `:off`, `:obj`, `:json`, `:hdf5`, `:stl`, and image formats (`.png`, `.jpg`, `.svg`, `.pdf`).
 """
-function save_polyhedron(P::Polyhedron, filepath::AbstractString; format::Union{Symbol, Nothing}=nothing, name::AbstractString="Polyhedron")
+function save_polyhedron(P::Polyhedron, filepath::AbstractString; format::Union{Symbol, Nothing}=nothing, name::AbstractString="Polyhedron", kwargs...)
     fmt = format !== nothing ? format : _infer_format(filepath; default=DEFAULT_POLYHEDRON_FORMAT)
     target = _ensure_extension(filepath, fmt)
     
-    if fmt == :off
+    if fmt == :image
+        save_polyhedron_image(P, target; title=name, kwargs...)
+    elseif fmt == :off
         save_off(P, target)
     elseif fmt == :obj
         save_obj(P, target)
@@ -419,7 +536,7 @@ function load_polyhedron(filepath::AbstractString; format::Union{Symbol, Nothing
 end
 
 # ============================================================================
-# 8. Complete Database HDF5 Archive Generator
+# 9. Complete Database HDF5 Archive Generator
 # ============================================================================
 
 """

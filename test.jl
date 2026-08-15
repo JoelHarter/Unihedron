@@ -658,6 +658,20 @@ using .Unihedron
             # Load a solid back from the master archive
             j92_from_db = load_hdf5(f_db; group="johnson/J92")
             @test length(j92_from_db.v) == 18 && length(j92_from_db) == 20
+
+            # 9. Image export (PNG, JPG, SVG)
+            f_png = joinpath(tmpdir, "dodec_img.png")
+            save_polyhedron(dodecahedron(), f_png; color_by_face_size=true)
+            @test isfile(f_png) && filesize(f_png) > 1000
+
+            f_poly_png = joinpath(tmpdir, "star_img.png")
+            save_polygon(star_polygon(5), f_poly_png)
+            @test isfile(f_poly_png) && filesize(f_poly_png) > 1000
+
+            # Direct save_image by solid symbol
+            f_j84_png = joinpath(tmpdir, "j84_img.png")
+            save_image(:J84, f_j84_png)
+            @test isfile(f_j84_png) && filesize(f_j84_png) > 1000
         end
     end
 

@@ -190,21 +190,35 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
     
     # 1. Shaded faces via dynamic triangulation of n-gons
     if show_faces && !isempty(P.f)
-        tris = TriangleFace{Int}[]
-        tri_values = Float64[]
-        
-        for face in P.f
-            n = length(face)
-            for i in 2:(n-1)
-                push!(tris, TriangleFace(face[1], face[i], face[i+1]))
-                push!(tri_values, Float64(n))
-            end
-        end
-        
-        m = normal_mesh(pts, tris)
         if color_by_face_size
-            mesh!(ax, m; color=tri_values, colormap=colormap)
+            mesh_pts = Point3f[]
+            mesh_tris = TriangleFace{Int}[]
+            vert_colors = Float64[]
+            
+            for face in P.f
+                n = length(face)
+                base_idx = length(mesh_pts)
+                for idx in face
+                    p = P.v[idx]
+                    push!(mesh_pts, Point3f(p[1], p[2], p[3]))
+                    push!(vert_colors, Float64(n))
+                end
+                for i in 2:(n-1)
+                    push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
+                end
+            end
+            
+            m = normal_mesh(mesh_pts, mesh_tris)
+            mesh!(ax, m; color=vert_colors, colormap=colormap)
         else
+            tris = TriangleFace{Int}[]
+            for face in P.f
+                n = length(face)
+                for i in 2:(n-1)
+                    push!(tris, TriangleFace(face[1], face[i], face[i+1]))
+                end
+            end
+            m = normal_mesh(pts, tris)
             mesh!(ax, m; color=color)
         end
     end

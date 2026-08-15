@@ -22,6 +22,7 @@ include("operations.jl")
 include("johnson.jl")
 include("visualization.jl")
 include("io.jl")
+include("print.jl")
 
 # Core Types
 export Pt2, Pt3, Points, Polyhedron, Hedron, FaceIndexList
@@ -55,6 +56,10 @@ export save_stl
 export save_polygon, load_polygon2d, load_polygon3d
 export export_database_hdf5
 export DEFAULT_POLYHEDRON_FORMAT
+
+# Printing & Image Rendering (PNG, JPG, SVG, PDF)
+export print_polyhedron, print_polygon, print_image, print_gallery
+export save_polyhedron_image, save_polygon_image, save_image
 
 # Visualization & Display (Makie)
 export display_polygon, display_polygon!, plot_polygon, plot_polygon!
