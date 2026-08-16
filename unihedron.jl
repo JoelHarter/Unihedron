@@ -102,11 +102,13 @@ export deltoidal_hexecontahedron, disdyakis_triacontahedron, pentagonal_hexecont
 export cookson, cookson_name, cookson_names, cookson_info
 export excluded_cookson, excluded_cookson_names
 export gyrotrapezotrigonal_octasphere, gyrotrapezotrigonal_icosasphere
-export triakis_octasphere, triakis_icosasphere
-export disdyakis_cuboctasphere, disdyakis_rhombic_triacontasphere
+export studded_octasphere, studded_icosasphere
+export bistudded_cuboctasphere, bi_studded_cuboctasphere
+export bistudded_rhombic_triacontasphere, bi_studded_rhombic_triacontasphere
 export gyrobitrigonal_octasphere, gyrobitrigonal_icosasphere
-export tetrakis_hexasphere, pentakis_dodecasphere
-export disdyakis_dodecasphere, disdyakis_triacontasphere
+export studded_hexasphere, studded_dodecasphere
+export bistudded_dodecasphere, bi_studded_dodecasphere
+export bistudded_triacontasphere, bi_studded_triacontasphere
 
 # Johnson Solids
 export johnson, johnson_name, johnson_names

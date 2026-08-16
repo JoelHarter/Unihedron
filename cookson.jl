@@ -4,6 +4,10 @@
 # Sequence Prefix: H (Harter) — H1, H2, H3... to avoid namespace collisions with Catalan solids (C).
 # Suffix Rule: -sphere is applied because vertices are mathematically normalized to the unit sphere.
 #
+# The "Studded" Nomenclature:
+# Traditional Greek prefixes (e.g. triakis, tetrakis, pentakis, disdyakis) are strictly banned in this namespace.
+# Archaic prefixes are replaced with the intuitive modifier "Studded" (or "Bi-studded" for dual-triangulation).
+#
 # Taxonomic Exclusion Rules:
 # - Rule A (Disqualification Gate): Disqualifies regimes sharing both the topological graph AND strict convexity
 #   with established classical solids.
@@ -127,52 +131,60 @@ end
 # --- The Concave Shadows (Classical Graphs, Different Convexity) ---
 
 """
-    triakis_octasphere(; radius::Real=1.0)
+    studded_octasphere(; radius::Real=1.0)
     cookson(:H3; radius::Real=1.0)
 
-Constructs Cookson solid H3: Triakis Octasphere (V=14, F=24).
+Constructs Cookson solid H3: Studded Octasphere (V=14, F=24).
 - Classification: Concave Shadow (Rule C Concavity Exception)
+- Classical Graph: Triakis Octahedron
 - Derivation: Concave valley-fold derivative of the Rhombic Dodecahedron (24 congruent triangles).
 """
-function triakis_octasphere(; radius::Real=1.0)
+function studded_octasphere(; radius::Real=1.0)
     return _valley_crease_quads(rhombic_dodecahedron(), radius)
 end
 
 """
-    triakis_icosasphere(; radius::Real=1.0)
+    studded_icosasphere(; radius::Real=1.0)
     cookson(:H4; radius::Real=1.0)
 
-Constructs Cookson solid H4: Triakis Icosasphere (V=32, F=60).
+Constructs Cookson solid H4: Studded Icosasphere (V=32, F=60).
 - Classification: Concave Shadow (Rule C Concavity Exception)
+- Classical Graph: Triakis Icosahedron
 - Derivation: Concave valley-fold derivative of the Rhombic Triacontahedron (60 congruent triangles).
 """
-function triakis_icosasphere(; radius::Real=1.0)
+function studded_icosasphere(; radius::Real=1.0)
     return _valley_crease_quads(rhombic_triacontahedron(), radius)
 end
 
 """
-    disdyakis_cuboctasphere(; radius::Real=1.0)
+    bistudded_cuboctasphere(; radius::Real=1.0)
+    bi_studded_cuboctasphere(; radius::Real=1.0)
     cookson(:H5; radius::Real=1.0)
 
-Constructs Cookson solid H5: Disdyakis Cuboctasphere (V=26, F=48).
+Constructs Cookson solid H5: Bi-studded Cuboctasphere (V=26, F=48).
 - Classification: Concave Shadow (Rule C Concavity Exception)
+- Classical Graph: Disdyakis Cuboctahedron
 - Derivation: Concave valley-fold derivative of the Deltoidal Icositetrahedron (48 triangles in chiral pairs).
 """
-function disdyakis_cuboctasphere(; radius::Real=1.0)
+function bistudded_cuboctasphere(; radius::Real=1.0)
     return _valley_crease_quads(deltoidal_icositetrahedron(), radius)
 end
+const bi_studded_cuboctasphere = bistudded_cuboctasphere
 
 """
-    disdyakis_rhombic_triacontasphere(; radius::Real=1.0)
+    bistudded_rhombic_triacontasphere(; radius::Real=1.0)
+    bi_studded_rhombic_triacontasphere(; radius::Real=1.0)
     cookson(:H6; radius::Real=1.0)
 
-Constructs Cookson solid H6: Disdyakis Rhombic Triacontasphere (V=62, F=120).
+Constructs Cookson solid H6: Bi-studded Rhombic Triacontasphere (V=62, F=120).
 - Classification: Concave Shadow (Rule C Concavity Exception)
+- Classical Graph: Disdyakis Rhombic Triacontahedron
 - Derivation: Concave valley-fold derivative of the Deltoidal Hexecontahedron (120 triangles in chiral pairs).
 """
-function disdyakis_rhombic_triacontasphere(; radius::Real=1.0)
+function bistudded_rhombic_triacontasphere(; radius::Real=1.0)
     return _valley_crease_quads(deltoidal_hexecontahedron(), radius)
 end
+const bi_studded_rhombic_triacontasphere = bistudded_rhombic_triacontasphere
 
 # --- The Concave Irregulars (Unique Graphs, Unique Convexity) ---
 
@@ -205,36 +217,40 @@ end
 # ============================================================================
 
 """
-    tetrakis_hexasphere(; radius::Real=1.0)
+    studded_hexasphere(; radius::Real=1.0)
 
 Excluded solid: Derived from convex projection of Rhombic Dodecahedron (V=14, F=24).
 Disqualified under Rule A (shares topological graph and convexity with Catalan Tetrakis Hexahedron).
 """
-tetrakis_hexasphere(; radius::Real=1.0) = cookson(rhombic_dodecahedron(); radius=radius)
+studded_hexasphere(; radius::Real=1.0) = cookson(rhombic_dodecahedron(); radius=radius)
 
 """
-    pentakis_dodecasphere(; radius::Real=1.0)
+    studded_dodecasphere(; radius::Real=1.0)
 
 Excluded solid: Derived from convex projection of Rhombic Triacontahedron (V=32, F=60).
 Disqualified under Rule A (shares topological graph and convexity with Catalan Pentakis Dodecahedron).
 """
-pentakis_dodecasphere(; radius::Real=1.0) = cookson(rhombic_triacontahedron(); radius=radius)
+studded_dodecasphere(; radius::Real=1.0) = cookson(rhombic_triacontahedron(); radius=radius)
 
 """
-    disdyakis_dodecasphere(; radius::Real=1.0)
+    bistudded_dodecasphere(; radius::Real=1.0)
+    bi_studded_dodecasphere(; radius::Real=1.0)
 
 Excluded solid: Derived from convex projection of Deltoidal Icositetrahedron (V=26, F=48).
 Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Dodecahedron).
 """
-disdyakis_dodecasphere(; radius::Real=1.0) = cookson(deltoidal_icositetrahedron(); radius=radius)
+bistudded_dodecasphere(; radius::Real=1.0) = cookson(deltoidal_icositetrahedron(); radius=radius)
+const bi_studded_dodecasphere = bistudded_dodecasphere
 
 """
-    disdyakis_triacontasphere(; radius::Real=1.0)
+    bistudded_triacontasphere(; radius::Real=1.0)
+    bi_studded_triacontasphere(; radius::Real=1.0)
 
 Excluded solid: Derived from convex projection of Deltoidal Hexecontahedron (V=62, F=120).
 Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Triacontahedron).
 """
-disdyakis_triacontasphere(; radius::Real=1.0) = cookson(deltoidal_hexecontahedron(); radius=radius)
+bistudded_triacontasphere(; radius::Real=1.0) = cookson(deltoidal_hexecontahedron(); radius=radius)
+const bi_studded_triacontasphere = bistudded_triacontasphere
 
 # ============================================================================
 # Metadata, Classification & Dispatchers
@@ -247,22 +263,23 @@ struct CooksonMeta
     polygon_root::String
     symmetry::String
     parent_catalan::String
+    classical_graph::String
 end
 
 const COOKSON_SOLIDS_TABLE = [
     # Convex Irregulars (H1 - H2)
-    CooksonMeta(1, "Gyrotrapezotrigonal Octasphere", "Convex Irregular", "Gyrotrapezotrigonal", "Octasphere", "Pentagonal Icositetrahedron"),
-    CooksonMeta(2, "Gyrotrapezotrigonal Icosasphere", "Convex Irregular", "Gyrotrapezotrigonal", "Icosasphere", "Pentagonal Hexecontahedron"),
+    CooksonMeta(1, "Gyrotrapezotrigonal Octasphere", "Convex Irregular", "Gyrotrapezotrigonal", "Octasphere", "Pentagonal Icositetrahedron", "Unique"),
+    CooksonMeta(2, "Gyrotrapezotrigonal Icosasphere", "Convex Irregular", "Gyrotrapezotrigonal", "Icosasphere", "Pentagonal Hexecontahedron", "Unique"),
 
     # Concave Shadows (H3 - H6)
-    CooksonMeta(3, "Triakis Octasphere", "Concave Shadow", "Trigonal", "Octasphere", "Rhombic Dodecahedron"),
-    CooksonMeta(4, "Triakis Icosasphere", "Concave Shadow", "Trigonal", "Icosasphere", "Rhombic Triacontahedron"),
-    CooksonMeta(5, "Disdyakis Cuboctasphere", "Concave Shadow", "Bitrigonal", "Octasphere", "Deltoidal Icositetrahedron"),
-    CooksonMeta(6, "Disdyakis Rhombic Triacontasphere", "Concave Shadow", "Bitrigonal", "Icosasphere", "Deltoidal Hexecontahedron"),
+    CooksonMeta(3, "Studded Octasphere", "Concave Shadow", "Studded", "Octasphere", "Rhombic Dodecahedron", "Triakis Octahedron"),
+    CooksonMeta(4, "Studded Icosasphere", "Concave Shadow", "Studded", "Icosasphere", "Rhombic Triacontahedron", "Triakis Icosahedron"),
+    CooksonMeta(5, "Bi-studded Cuboctasphere", "Concave Shadow", "Bi-studded", "Octasphere", "Deltoidal Icositetrahedron", "Disdyakis Cuboctahedron"),
+    CooksonMeta(6, "Bi-studded Rhombic Triacontasphere", "Concave Shadow", "Bi-studded", "Icosasphere", "Deltoidal Hexecontahedron", "Disdyakis Rhombic Triacontahedron"),
 
     # Concave Irregulars (H7 - H8)
-    CooksonMeta(7, "Gyrobitrigonal Octasphere", "Concave Irregular", "Gyrobitrigonal", "Octasphere", "Pentagonal Icositetrahedron"),
-    CooksonMeta(8, "Gyrobitrigonal Icosasphere", "Concave Irregular", "Gyrobitrigonal", "Icosasphere", "Pentagonal Hexecontahedron")
+    CooksonMeta(7, "Gyrobitrigonal Octasphere", "Concave Irregular", "Gyrobitrigonal", "Octasphere", "Pentagonal Icositetrahedron", "Unique"),
+    CooksonMeta(8, "Gyrobitrigonal Icosasphere", "Concave Irregular", "Gyrobitrigonal", "Icosasphere", "Pentagonal Hexecontahedron", "Unique")
 ]
 
 const COOKSON_SOLID_NAMES = [m.name for m in COOKSON_SOLIDS_TABLE]
@@ -270,46 +287,50 @@ const COOKSON_SOLID_NAMES = [m.name for m in COOKSON_SOLIDS_TABLE]
 const COOKSON_SOLID_ORDER = [
     :gyrotrapezotrigonal_octasphere,
     :gyrotrapezotrigonal_icosasphere,
-    :triakis_octasphere,
-    :triakis_icosasphere,
-    :disdyakis_cuboctasphere,
-    :disdyakis_rhombic_triacontasphere,
+    :studded_octasphere,
+    :studded_icosasphere,
+    :bistudded_cuboctasphere,
+    :bistudded_rhombic_triacontasphere,
     :gyrobitrigonal_octasphere,
     :gyrobitrigonal_icosasphere
 ]
 
 const EXCLUDED_COOKSON_MAP = Dict{Symbol, Function}(
-    :tetrakis_hexasphere => tetrakis_hexasphere,
-    :pentakis_dodecasphere => pentakis_dodecasphere,
-    :disdyakis_dodecasphere => disdyakis_dodecasphere,
-    :disdyakis_triacontasphere => disdyakis_triacontasphere
+    :studded_hexasphere => studded_hexasphere,
+    :studded_dodecasphere => studded_dodecasphere,
+    :bistudded_dodecasphere => bistudded_dodecasphere,
+    :bi_studded_dodecasphere => bistudded_dodecasphere,
+    :bistudded_triacontasphere => bistudded_triacontasphere,
+    :bi_studded_triacontasphere => bistudded_triacontasphere
 )
 
 const EXCLUDED_COOKSON_NAMES = [
-    "Tetrakis Hexasphere",
-    "Pentakis Dodecasphere",
-    "Disdyakis Dodecasphere",
-    "Disdyakis Triacontasphere"
+    "Studded Hexasphere",
+    "Studded Dodecasphere",
+    "Bi-studded Dodecasphere",
+    "Bi-studded Triacontasphere"
 ]
 
 const COOKSON_SOLID_MAP = Dict{Symbol, Function}(
     # Official names H1-H8
     :gyrotrapezotrigonal_octasphere => gyrotrapezotrigonal_octasphere,
     :gyrotrapezotrigonal_icosasphere => gyrotrapezotrigonal_icosasphere,
-    :triakis_octasphere => triakis_octasphere,
-    :triakis_icosasphere => triakis_icosasphere,
-    :disdyakis_cuboctasphere => disdyakis_cuboctasphere,
-    :disdyakis_rhombic_triacontasphere => disdyakis_rhombic_triacontasphere,
+    :studded_octasphere => studded_octasphere,
+    :studded_icosasphere => studded_icosasphere,
+    :bistudded_cuboctasphere => bistudded_cuboctasphere,
+    :bi_studded_cuboctasphere => bistudded_cuboctasphere,
+    :bistudded_rhombic_triacontasphere => bistudded_rhombic_triacontasphere,
+    :bi_studded_rhombic_triacontasphere => bistudded_rhombic_triacontasphere,
     :gyrobitrigonal_octasphere => gyrobitrigonal_octasphere,
     :gyrobitrigonal_icosasphere => gyrobitrigonal_icosasphere,
 
     # H-prefix shorthands :H1 to :H8
     :H1 => gyrotrapezotrigonal_octasphere, :h1 => gyrotrapezotrigonal_octasphere,
     :H2 => gyrotrapezotrigonal_icosasphere, :h2 => gyrotrapezotrigonal_icosasphere,
-    :H3 => triakis_octasphere, :h3 => triakis_octasphere,
-    :H4 => triakis_icosasphere, :h4 => triakis_icosasphere,
-    :H5 => disdyakis_cuboctasphere, :h5 => disdyakis_cuboctasphere,
-    :H6 => disdyakis_rhombic_triacontasphere, :h6 => disdyakis_rhombic_triacontasphere,
+    :H3 => studded_octasphere, :h3 => studded_octasphere,
+    :H4 => studded_icosasphere, :h4 => studded_icosasphere,
+    :H5 => bistudded_cuboctasphere, :h5 => bistudded_cuboctasphere,
+    :H6 => bistudded_rhombic_triacontasphere, :h6 => bistudded_rhombic_triacontasphere,
     :H7 => gyrobitrigonal_octasphere, :h7 => gyrobitrigonal_octasphere,
     :H8 => gyrobitrigonal_icosasphere, :h8 => gyrobitrigonal_icosasphere
 )
@@ -342,7 +363,7 @@ end
     cookson_info(index::Integer)
     cookson_info(name::Symbol)
 
-Returns structural metadata (h_index, name, group, polygon_root, symmetry, parent_catalan) for a Cookson solid.
+Returns structural metadata for a Cookson solid.
 """
 function cookson_info(index::Integer)
     1 <= index <= 8 || error("Cookson solid index must be between 1 and 8 (H1 to H8, got index=$index).")

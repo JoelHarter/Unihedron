@@ -90,10 +90,10 @@ For complete documentation, axioms, taxonomy, and geometry breakdowns, see **[do
 | :---: | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
 | **$H_1$** | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | Gyrotrapezotrigonal | Pentagonal Icositetrahedron | 38 | 48 | 24 Trapezoids, 24 Triangles |
 | **$H_2$** | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | Gyrotrapezotrigonal | Pentagonal Hexecontahedron | 92 | 120 | 60 Trapezoids, 60 Triangles |
-| **$H_3$** | **Triakis Octasphere** | Concave Shadow | Trigonal | Rhombic Dodecahedron | 14 | 24 | 24 Triangles |
-| **$H_4$** | **Triakis Icosasphere** | Concave Shadow | Trigonal | Rhombic Triacontahedron | 32 | 60 | 60 Triangles |
-| **$H_5$** | **Disdyakis Cuboctasphere** | Concave Shadow | Bitrigonal | Deltoidal Icositetrahedron | 26 | 48 | 48 Triangles (Chiral pairs) |
-| **$H_6$** | **Disdyakis Rhombic Triacontasphere** | Concave Shadow | Bitrigonal | Deltoidal Hexecontahedron | 62 | 120 | 120 Triangles (Chiral pairs) |
+| **$H_3$** | **Studded Octasphere** | Concave Shadow | Studded | Rhombic Dodecahedron | 14 | 24 | 24 Triangles |
+| **$H_4$** | **Studded Icosasphere** | Concave Shadow | Studded | Rhombic Triacontahedron | 32 | 60 | 60 Triangles |
+| **$H_5$** | **Bi-studded Cuboctasphere** | Concave Shadow | Bi-studded | Deltoidal Icositetrahedron | 26 | 48 | 48 Triangles (Chiral pairs) |
+| **$H_6$** | **Bi-studded Rhombic Triacontasphere** | Concave Shadow | Bi-studded | Deltoidal Hexecontahedron | 62 | 120 | 120 Triangles (Chiral pairs) |
 | **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular | Gyrobitrigonal | Pentagonal Icositetrahedron | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
 | **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular | Gyrobitrigonal | Pentagonal Hexecontahedron | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
 
