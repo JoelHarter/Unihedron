@@ -390,11 +390,18 @@ using .Unihedron
         @test cookson_name(6) == "Studded Rhombic Triacontasphere"
         @test cookson_name(7) == "Gyrobitrigonal Octasphere"
 
-        # Excluded solids list (Rule A & B)
+        # Excluded solids list (He1 to He4)
         @test length(excluded_cookson_names()) == 4
-        @test "Studded Rhombic Dodecasphere" in excluded_cookson_names()
-        @test "Studded Rhombic Triacontasphere" in excluded_cookson_names()
-        @test excluded_cookson(:studded_hexasphere) isa Polyhedron
+        @test excluded_cookson_name(1) == "Studded Hexasphere"
+        @test excluded_cookson_name(2) == "Studded Dodecasphere"
+        @test excluded_cookson_name(3) == "Studded Rhombic Dodecasphere"
+        @test excluded_cookson_name(4) == "Studded Rhombic Triacontasphere"
+        @test excluded_cookson(:He1) isa Polyhedron
+        @test excluded_cookson(:He4) isa Polyhedron
+        @test excluded_cookson(1) isa Polyhedron
+        @test excluded_cookson(4) isa Polyhedron
+        @test cookson(:He1) isa Polyhedron
+        @test cookson(:He3) isa Polyhedron
         @test length(studded_dodecasphere().v) == 32
         @test length(studded_rhombic_dodecasphere().v) == 26
         @test length(bistudded_dodecasphere().v) == 26

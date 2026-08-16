@@ -322,6 +322,13 @@ const COOKSON_SOLID_ORDER = [
     :gyrobitrigonal_icosasphere
 ]
 
+const EXCLUDED_COOKSON_ORDER = [
+    :studded_hexasphere,
+    :studded_dodecasphere,
+    :studded_rhombic_dodecasphere,
+    :studded_triacontasphere
+]
+
 const EXCLUDED_COOKSON_MAP = Dict{Symbol, Function}(
     :studded_hexasphere => studded_hexasphere,
     :studded_dodecasphere => studded_dodecasphere,
@@ -333,7 +340,13 @@ const EXCLUDED_COOKSON_MAP = Dict{Symbol, Function}(
     :studded_rhombic_triacontasphere_excluded => studded_triacontasphere,
     :studded_triacontasphere => studded_triacontasphere,
     :bistudded_triacontasphere => studded_triacontasphere,
-    :bi_studded_triacontasphere => studded_triacontasphere
+    :bi_studded_triacontasphere => studded_triacontasphere,
+
+    # He-prefix shorthands :He1 to :He4
+    :He1 => studded_hexasphere, :he1 => studded_hexasphere, :HE1 => studded_hexasphere,
+    :He2 => studded_dodecasphere, :he2 => studded_dodecasphere, :HE2 => studded_dodecasphere,
+    :He3 => studded_rhombic_dodecasphere, :he3 => studded_rhombic_dodecasphere, :HE3 => studded_rhombic_dodecasphere,
+    :He4 => studded_triacontasphere, :he4 => studded_triacontasphere, :HE4 => studded_triacontasphere
 )
 
 const EXCLUDED_COOKSON_NAMES = [
@@ -369,7 +382,13 @@ const COOKSON_SOLID_MAP = Dict{Symbol, Function}(
     :H5 => studded_cuboctahedron, :h5 => studded_cuboctahedron,
     :H6 => studded_rhombic_triacontasphere, :h6 => studded_rhombic_triacontasphere,
     :H7 => gyrobitrigonal_octasphere, :h7 => gyrobitrigonal_octasphere,
-    :H8 => gyrobitrigonal_icosasphere, :h8 => gyrobitrigonal_icosasphere
+    :H8 => gyrobitrigonal_icosasphere, :h8 => gyrobitrigonal_icosasphere,
+
+    # Excluded He-prefix shorthands :He1 to :He4
+    :He1 => studded_hexasphere, :he1 => studded_hexasphere, :HE1 => studded_hexasphere,
+    :He2 => studded_dodecasphere, :he2 => studded_dodecasphere, :HE2 => studded_dodecasphere,
+    :He3 => studded_rhombic_dodecasphere, :he3 => studded_rhombic_dodecasphere, :HE3 => studded_rhombic_dodecasphere,
+    :He4 => studded_triacontasphere, :he4 => studded_triacontasphere, :HE4 => studded_triacontasphere
 )
 
 """
@@ -382,7 +401,7 @@ cookson_names() = copy(COOKSON_SOLID_NAMES)
 """
     excluded_cookson_names()
 
-Returns the list of names for the 4 disqualified spherical solids logged in the Exclusion Roster.
+Returns the list of names for the 4 disqualified spherical solids logged in the Exclusion Roster (He1 to He4).
 """
 excluded_cookson_names() = copy(EXCLUDED_COOKSON_NAMES)
 
@@ -394,6 +413,16 @@ Returns the official name string for the Cookson solid at index 1 to 8 (H1 to H8
 function cookson_name(index::Integer)
     1 <= index <= 8 || error("Cookson solid index must be between 1 and 8 (H1 to H8, got index=$index).")
     return COOKSON_SOLID_NAMES[index]
+end
+
+"""
+    excluded_cookson_name(index::Integer)
+
+Returns the name string for the Excluded Cookson solid at index 1 to 4 (He1 to He4).
+"""
+function excluded_cookson_name(index::Integer)
+    1 <= index <= 4 || error("Excluded Cookson solid index must be between 1 and 4 (He1 to He4, got index=$index).")
+    return EXCLUDED_COOKSON_NAMES[index]
 end
 
 """
@@ -409,7 +438,7 @@ end
 
 function cookson_info(name::Symbol)
     s_str = uppercase(string(name))
-    if startswith(s_str, "H") && length(s_str) in (2, 3) && all(isdigit, s_str[2:end])
+    if startswith(s_str, "H") && !startswith(s_str, "HE") && length(s_str) in (2, 3) && all(isdigit, s_str[2:end])
         idx = parse(Int, s_str[2:end])
         if 1 <= idx <= 8
             return cookson_info(idx)
@@ -434,7 +463,7 @@ end
     cookson(name::Symbol; radius::Real=1.0)
     cookson(index::Integer; radius::Real=1.0)
 
-Access any of the 8 Cookson solid regimes by official name symbol, index (1-8), or shorthand (`:H1` - `:H8`).
+Access any of the 8 Cookson solid regimes by official name symbol, index (1-8), shorthand (`:H1` - `:H8`), or excluded shorthand (`:He1` - `:He4`).
 """
 function cookson(name::Symbol; radius::Real=1.0)
     haskey(COOKSON_SOLID_MAP, name) || error("Unknown Cookson solid: $name. Available: :H1 through :H8 or official names.")
@@ -448,10 +477,16 @@ end
 
 """
     excluded_cookson(name::Symbol; radius::Real=1.0)
+    excluded_cookson(index::Integer; radius::Real=1.0)
 
-Accesses any of the 4 disqualified spherical regimes from the Exclusion Roster.
+Accesses any of the 4 disqualified spherical regimes from the Exclusion Roster by name symbol, index (1-4), or shorthand (`:He1` - `:He4`).
 """
 function excluded_cookson(name::Symbol; radius::Real=1.0)
-    haskey(EXCLUDED_COOKSON_MAP, name) || error("Unknown excluded solid: $name. Available: $(keys(EXCLUDED_COOKSON_MAP))")
+    haskey(EXCLUDED_COOKSON_MAP, name) || error("Unknown excluded Cookson solid: $name. Available: :He1 to :He4 or $(keys(EXCLUDED_COOKSON_MAP)).")
     return EXCLUDED_COOKSON_MAP[name](; radius=radius)
+end
+
+function excluded_cookson(index::Integer; radius::Real=1.0)
+    1 <= index <= 4 || error("Excluded Cookson solid index must be between 1 and 4 (He1 to He4, got index=$index).")
+    return excluded_cookson(EXCLUDED_COOKSON_ORDER[index]; radius=radius)
 end

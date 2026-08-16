@@ -269,9 +269,9 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             end
             
             m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false, shading=NoShading)
+            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false, shading=true)
         elseif color === :auto || color === nothing
-            # Color by polygon type with less saturated shade for opposite handed mirror reflections
+            # Color by polygon type with distinct paired mirror color for opposite handed reflections
             types, is_mirror = classify_faces_with_handedness(P)
             num_types = isempty(types) ? 1 : maximum(types)
             base_colors = get_polygon_colors(num_types)
@@ -298,7 +298,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             end
             
             m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=mesh_colors, transparency=false, shading=NoShading)
+            mesh!(ax, m; color=mesh_colors, transparency=false, shading=true)
         else
             # Explicit user single color override
             tris = TriangleFace{Int}[]
@@ -309,7 +309,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 end
             end
             m = normal_mesh(pts, tris)
-            mesh!(ax, m; color=color, transparency=false, shading=NoShading)
+            mesh!(ax, m; color=color, transparency=false, shading=true)
         end
     end
     

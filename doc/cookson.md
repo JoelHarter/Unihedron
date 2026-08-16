@@ -50,16 +50,16 @@ If you rigorously apply the axioms above, the following boundaries naturally pol
 
 ---
 
-## 5. The Excluded Solids List (Unnumbered)
+## 5. The Excluded Solids List ($He_1 - He_4$)
 
-These solids pass the baseline regime rules but are disqualified under **Rule A** because they share both the topological graph and the convexity of classical Catalan solids:
+These solids pass the baseline regime rules but are disqualified under **Rule A** because they share both the topological graph and the convexity of classical Catalan solids. They are indexed as **$He_1 \dots He_4$** for convenient reference:
 
-| Preview | Excluded Solid Name | Derivation / Parent Catalan | Classical Counterpart Graph | Vertices ($V$) | Faces ($F$) |
-| :---: | :--- | :--- | :--- | :---: | :---: |
-| <img src="img/excluded_hexasphere.png" width="90" alt="Studded Hexasphere"> | **Studded Hexasphere** | Convex Rhombic Dodecahedron | Tetrakis Hexahedron | 14 | 24 |
-| <img src="img/excluded_dodecasphere.png" width="90" alt="Studded Dodecasphere"> | **Studded Dodecasphere** | Convex Rhombic Triacontahedron | Pentakis Dodecahedron | 32 | 60 |
-| <img src="img/excluded_rhombic_dodecasphere.png" width="90" alt="Studded Rhombic Dodecasphere"> | **Studded Rhombic Dodecasphere** | Convex Deltoidal Icositetrahedron | Disdyakis Dodecahedron | 26 | 48 |
-| <img src="img/excluded_rhombic_triacontasphere.png" width="90" alt="Studded Rhombic Triacontasphere"> | **Studded Rhombic Triacontasphere** | Convex Deltoidal Hexecontahedron | Disdyakis Triacontahedron | 62 | 120 |
+| Index | Preview | Excluded Solid Name | Derivation / Parent Catalan | Classical Counterpart Graph | Vertices ($V$) | Faces ($F$) |
+| :---: | :---: | :--- | :--- | :--- | :---: | :---: |
+| **$He_1$** | <img src="img/excluded_hexasphere.png" width="90" alt="He1"> | **Studded Hexasphere** | Convex Rhombic Dodecahedron | Tetrakis Hexahedron | 14 | 24 |
+| **$He_2$** | <img src="img/excluded_dodecasphere.png" width="90" alt="He2"> | **Studded Dodecasphere** | Convex Rhombic Triacontahedron | Pentakis Dodecahedron | 32 | 60 |
+| **$He_3$** | <img src="img/excluded_rhombic_dodecasphere.png" width="90" alt="He3"> | **Studded Rhombic Dodecasphere** | Convex Deltoidal Icositetrahedron | Disdyakis Dodecahedron | 26 | 48 |
+| **$He_4$** | <img src="img/excluded_rhombic_triacontasphere.png" width="90" alt="He4"> | **Studded Rhombic Triacontasphere** | Convex Deltoidal Hexecontahedron | Disdyakis Triacontahedron | 62 | 120 |
 
 ---
 
@@ -124,9 +124,11 @@ P5 = studded_cuboctahedron()
 P6 = studded_rhombic_triacontasphere()
 P7 = gyrobitrigonal_octasphere()
 
-# Accessing the Excluded list
-ex1 = excluded_cookson(:studded_hexasphere)
+# Accessing the Excluded list (by :He1 - :He4 shorthand, integer 1-4, or name)
+ex1 = excluded_cookson(:He1)                     # Studded Hexasphere
+ex3 = cookson(:He3)                              # Studded Rhombic Dodecasphere
 ex_names = excluded_cookson_names()
+ex_name2 = excluded_cookson_name(2)              # "Studded Dodecasphere"
 
 # Structural metadata query
 info = cookson_info(:H3)

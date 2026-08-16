@@ -101,7 +101,7 @@ export deltoidal_hexecontahedron, disdyakis_triacontahedron, pentagonal_hexecont
 
 # Cookson Solids (H1 - H8) & Excluded Spherical Solids
 export cookson, cookson_name, cookson_names, cookson_info
-export excluded_cookson, excluded_cookson_names
+export excluded_cookson, excluded_cookson_name, excluded_cookson_names
 export gyrotrapezotrigonal_octasphere, gyrotrapezotrigonal_icosasphere
 export studded_octahedron, studded_octasphere
 export studded_icosahedron, studded_icosasphere
