@@ -328,78 +328,76 @@ using .Unihedron
         @test length(catalan(13).v) == 92
     end
 
-    @testset "Cookson Solids (6 solids & cookson operator)" begin
-        # 1. Cooksonian Rhombic Dodecahedron (V=14, F=24 triangles)
-        crd = cooksonian_rhombic_dodecahedron()
-        @test length(crd.v) == 14 && length(crd) == 24
-        @test all(length.(crd.f) .== 3)
+    @testset "Cookson Solids (H1 - H8 & Excluded List)" begin
+        # 1. H1: Gyrotrapezotrigonal Octasphere (V=38, F=48: 24 trapezoids, 24 triangles)
+        h1 = gyrotrapezotrigonal_octasphere()
+        @test length(h1.v) == 38 && length(h1) == 48
+        @test count(length.(h1.f) .== 4) == 24
+        @test count(length.(h1.f) .== 3) == 24
 
-        # 2. Cooksonian Rhombic Triacontahedron (V=32, F=60 triangles)
-        crt = cooksonian_rhombic_triacontahedron()
-        @test length(crt.v) == 32 && length(crt) == 60
-        @test all(length.(crt.f) .== 3)
+        # 2. H2: Gyrotrapezotrigonal Icosasphere (V=92, F=120: 60 trapezoids, 60 triangles)
+        h2 = gyrotrapezotrigonal_icosasphere()
+        @test length(h2.v) == 92 && length(h2) == 120
+        @test count(length.(h2.f) .== 4) == 60
+        @test count(length.(h2.f) .== 3) == 60
 
-        # 3. Cooksonian Deltoidal Icositetrahedron (V=26, F=48 triangles)
-        cdi = cooksonian_deltoidal_icositetrahedron()
-        @test length(cdi.v) == 26 && length(cdi) == 48
-        @test all(length.(cdi.f) .== 3)
+        # 3. H3: Triakis Octasphere (V=14, F=24 triangles)
+        h3 = triakis_octasphere()
+        @test length(h3.v) == 14 && length(h3) == 24
+        @test all(length.(h3.f) .== 3)
 
-        # 4. Cooksonian Deltoidal Hexecontahedron (V=62, F=120 triangles)
-        cdh = cooksonian_deltoidal_hexecontahedron()
-        @test length(cdh.v) == 62 && length(cdh) == 120
-        @test all(length.(cdh.f) .== 3)
+        # 4. H4: Triakis Icosasphere (V=32, F=60 triangles)
+        h4 = triakis_icosasphere()
+        @test length(h4.v) == 32 && length(h4) == 60
+        @test all(length.(h4.f) .== 3)
 
-        # 5. Cooksonian Pentagonal Icositetrahedron (V=38, F=48: 24 trapezoids, 24 triangles)
-        cpi = cooksonian_pentagonal_icositetrahedron()
-        @test length(cpi.v) == 38 && length(cpi) == 48
-        @test count(length.(cpi.f) .== 4) == 24
-        @test count(length.(cpi.f) .== 3) == 24
+        # 5. H5: Disdyakis Cuboctasphere (V=26, F=48 triangles)
+        h5 = disdyakis_cuboctasphere()
+        @test length(h5.v) == 26 && length(h5) == 48
+        @test all(length.(h5.f) .== 3)
 
-        # 6. Cooksonian Pentagonal Hexecontahedron (V=92, F=120: 60 trapezoids, 60 triangles)
-        cph = cooksonian_pentagonal_hexecontahedron()
-        @test length(cph.v) == 92 && length(cph) == 120
-        @test count(length.(cph.f) .== 4) == 60
-        @test count(length.(cph.f) .== 3) == 60
+        # 6. H6: Disdyakis Rhombic Triacontasphere (V=62, F=120 triangles)
+        h6 = disdyakis_rhombic_triacontasphere()
+        @test length(h6.v) == 62 && length(h6) == 120
+        @test all(length.(h6.f) .== 3)
 
-        # Verify all vertices lie on sphere of given radius
-        @test all(isapprox.(norm.(cph.v), 1.0, atol=1e-10))
-        cph_r2 = gyrotrapezotrigonal_icosasphere(radius=2.5)
-        @test all(isapprox.(norm.(cph_r2.v), 2.5, atol=1e-10))
+        # 7. H7: Gyrobitrigonal Octasphere (V=38, F=72 triangles)
+        h7 = gyrobitrigonal_octasphere()
+        @test length(h7.v) == 38 && length(h7) == 72
+        @test all(length.(h7.f) .== 3)
 
-        # Official function names (Convex C1-C6)
-        @test trigonal_octasphere() isa Polyhedron
-        @test trigonal_icosasphere() isa Polyhedron
-        @test bitrigonal_octasphere() isa Polyhedron
-        @test bitrigonal_icosasphere() isa Polyhedron
-        @test gyrotrapezotrigonal_octasphere() isa Polyhedron
-        @test gyrotrapezotrigonal_icosasphere() isa Polyhedron
+        # 8. H8: Gyrobitrigonal Icosasphere (V=92, F=180 triangles)
+        h8 = gyrobitrigonal_icosasphere()
+        @test length(h8.v) == 92 && length(h8) == 180
+        @test all(length.(h8.f) .== 3)
 
-        # Official function names (Concave C7-C12)
-        @test concave_trigonal_octasphere() isa Polyhedron
-        @test concave_trigonal_icosasphere() isa Polyhedron
-        @test concave_bitrigonal_octasphere() isa Polyhedron
-        @test concave_bitrigonal_icosasphere() isa Polyhedron
-        @test concave_gyrotrapezotrigonal_octasphere() isa Polyhedron
-        @test concave_gyrotrapezotrigonal_icosasphere() isa Polyhedron
+        # Shorthand symbols :H1 to :H8
+        @test cookson(:H1) isa Polyhedron
+        @test cookson(:H8) isa Polyhedron
+        @test cookson(1) isa Polyhedron
+        @test cookson(8) isa Polyhedron
+        @test length(cookson_names()) == 8
+        @test cookson_name(1) == "Gyrotrapezotrigonal Octasphere"
+        @test cookson_name(3) == "Triakis Octasphere"
+        @test cookson_name(7) == "Gyrobitrigonal Octasphere"
 
-        # Shorthand symbols and names
-        @test cookson(:C1) isa Polyhedron
-        @test cookson(:C6) isa Polyhedron
-        @test cookson(:C7) isa Polyhedron
-        @test cookson(:C12) isa Polyhedron
-        @test length(cookson_names()) == 12
-        @test cookson_name(1) == "Trigonal Octasphere"
-        @test cookson_name(7) == "Concave Trigonal Octasphere"
-        @test cookson_name(12) == "Concave Gyrotrapezotrigonal Icosasphere"
+        # Excluded solids list (Rule A & B)
+        @test length(excluded_cookson_names()) == 4
+        @test excluded_cookson(:tetrakis_hexasphere) isa Polyhedron
+        @test length(pentakis_dodecasphere().v) == 32
+        @test length(disdyakis_dodecasphere().v) == 26
+        @test length(disdyakis_triacontasphere().v) == 62
 
         # Structural metadata verification
         info1 = cookson_info(1)
-        @test info1.polygon_root == "Trigonal" && info1.symmetry == "Octasphere" && info1.parent_catalan == "Rhombic Dodecahedron"
-        info11 = cookson_info(:C11)
-        @test info11.polygon_root == "Gyrotrapezotrigonal" && info11.symmetry == "Octasphere" && info11.parent_catalan == "Pentagonal Icositetrahedron"
+        @test info1.h_index == 1 && info1.group == "Convex Irregular" && info1.parent_catalan == "Pentagonal Icositetrahedron"
+        info3 = cookson_info(:H3)
+        @test info3.h_index == 3 && info3.group == "Concave Shadow" && info3.parent_catalan == "Rhombic Dodecahedron"
+        info7 = cookson_info(:H7)
+        @test info7.h_index == 7 && info7.group == "Concave Irregular" && info7.parent_catalan == "Pentagonal Icositetrahedron"
 
-        # Axiom 1 (Spherical Anchor) and Axiom 2 (Two-Polygon Limit) for all 12 Cookson solids
-        for i in 1:12
+        # Axiom 1 (Spherical Anchor) and Axiom 2 (Two-Polygon Limit) for all 8 Cookson solids
+        for i in 1:8
             solid = cookson(i)
             # Axiom 1: All vertices on sphere
             @test all(isapprox.(norm.(solid.v), 1.0, atol=1e-10))
@@ -610,9 +608,9 @@ using .Unihedron
         @test viz(:icosahedron) isa Figure
         @test viz(:cuboctahedron) isa Figure
         @test viz(:great_dodecahedron) isa Figure
-        @test viz(:rhombic_dodecahedron) isa Figure
-        @test viz(:C1) isa Figure
-        @test viz(:C6) isa Figure
+        @test viz(:H1) isa Figure
+        @test viz(:H7) isa Figure
+        @test viz(:H8) isa Figure
         @test viz(:J84) isa Figure
     end
 

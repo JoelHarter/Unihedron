@@ -80,26 +80,22 @@ print_polyhedron(bucky, "buckyball.png"; color_by_face_size=true)
 
 ---
 
-## The Cookson Solids (Discovered by Arthur J Cookson, 2026)
+## The Cookson Solids (Formalized by Arthur J. Cookson & Joel T. Harter, 2026)
 
-The Cookson solids are spherical polyhedra constructed by radially projecting the vertices of non-triangular Catalan solids onto a circumscribed sphere and subdividing non-planar faces along internal creases.
+The **Cookson solids** ($H_1, H_2, \dots, H_8$) are topological regimes of spherical polyhedra satisfying the Core Axioms (The Sieve) with at most two distinct polygon types. Regimes sharing both the topological graph and convexity of classical polyhedra are disqualified to the unnumbered Exclusion Roster (Rule A & B), while concave valley-fold derivatives are inducted (Rule C).
 
-For comprehensive documentation, taxonomy, geometric breakdown, and API usage, see **[doc/cookson.md](doc/cookson.md)**.
+For complete documentation, axioms, taxonomy, and geometry breakdowns, see **[doc/cookson.md](doc/cookson.md)**.
 
-| Index | Official Name | Polygon Root | Symmetry | Parent Catalan Solid | Regime Type | $V$ | $F$ |
-| :---: | :--- | :--- | :--- | :--- | :--- | :---: | :---: |
-| **C1** | **Trigonal Octasphere** | Trigonal | Octasphere | Rhombic Dodecahedron | Convex | 14 | 24 |
-| **C2** | **Trigonal Icosasphere** | Trigonal | Icosasphere | Rhombic Triacontahedron | Convex | 32 | 60 |
-| **C3** | **Bitrigonal Octasphere** | Bitrigonal | Octasphere | Deltoidal Icositetrahedron | Convex | 26 | 48 |
-| **C4** | **Bitrigonal Icosasphere** | Bitrigonal | Icosasphere | Deltoidal Hexecontahedron | Convex | 62 | 120 |
-| **C5** | **Gyrotrapezotrigonal Octasphere** | Gyrotrapezotrigonal | Octasphere | Pentagonal Icositetrahedron | Convex | 38 | 48 |
-| **C6** | **Gyrotrapezotrigonal Icosasphere** | Gyrotrapezotrigonal | Icosasphere | Pentagonal Hexecontahedron | Convex | 92 | 120 |
-| **C7** | **Concave Trigonal Octasphere** | Trigonal | Octasphere | Rhombic Dodecahedron | Concave Shadow | 14 | 24 |
-| **C8** | **Concave Trigonal Icosasphere** | Trigonal | Icosasphere | Rhombic Triacontahedron | Concave Shadow | 32 | 60 |
-| **C9** | **Concave Bitrigonal Octasphere** | Bitrigonal | Octasphere | Deltoidal Icositetrahedron | Concave Shadow | 26 | 48 |
-| **C10** | **Concave Bitrigonal Icosasphere** | Bitrigonal | Icosasphere | Deltoidal Hexecontahedron | Concave Shadow | 62 | 120 |
-| **C11** | **Concave Gyrotrapezotrigonal Octasphere** | Gyrotrapezotrigonal | Octasphere | Pentagonal Icositetrahedron | Concave Shadow | 38 | 72 |
-| **C12** | **Concave Gyrotrapezotrigonal Icosasphere** | Gyrotrapezotrigonal | Icosasphere | Pentagonal Hexecontahedron | Concave Shadow | 92 | 180 |
+| Index | Official Name | Classification | Polygon Root | Parent Catalan Solid | $V$ | $F$ | Face Breakdown |
+| :---: | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
+| **$H_1$** | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | Gyrotrapezotrigonal | Pentagonal Icositetrahedron | 38 | 48 | 24 Trapezoids, 24 Triangles |
+| **$H_2$** | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | Gyrotrapezotrigonal | Pentagonal Hexecontahedron | 92 | 120 | 60 Trapezoids, 60 Triangles |
+| **$H_3$** | **Triakis Octasphere** | Concave Shadow | Trigonal | Rhombic Dodecahedron | 14 | 24 | 24 Triangles |
+| **$H_4$** | **Triakis Icosasphere** | Concave Shadow | Trigonal | Rhombic Triacontahedron | 32 | 60 | 60 Triangles |
+| **$H_5$** | **Disdyakis Cuboctasphere** | Concave Shadow | Bitrigonal | Deltoidal Icositetrahedron | 26 | 48 | 48 Triangles (Chiral pairs) |
+| **$H_6$** | **Disdyakis Rhombic Triacontasphere** | Concave Shadow | Bitrigonal | Deltoidal Hexecontahedron | 62 | 120 | 120 Triangles (Chiral pairs) |
+| **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular | Gyrobitrigonal | Pentagonal Icositetrahedron | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
+| **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular | Gyrobitrigonal | Pentagonal Hexecontahedron | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
 
 ---
 

@@ -314,10 +314,12 @@ function viz(name::Symbol; kwargs...)
         catalan(name)
     elseif haskey(COOKSON_SOLID_MAP, name)
         cookson(name)
+    elseif haskey(EXCLUDED_COOKSON_MAP, name)
+        excluded_cookson(name)
     elseif haskey(JOHNSON_SOLID_MAP, name)
         johnson(name)
     else
-        error("Unknown solid symbol: :$name. Available across Platonic, Archimedean, Kepler-Poinsot, Catalan, Cookson, and Johnson families.")
+        error("Unknown solid symbol: :$name. Available across Platonic, Archimedean, Kepler-Poinsot, Catalan, Cookson (H1-H8), and Johnson families.")
     end
     return display_polyhedron(P; title=titlecase(replace(string(name), "_" => " ")), kwargs...)
 end

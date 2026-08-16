@@ -1,14 +1,15 @@
 # The Cookson Solids (Topological Regimes)
-# Discovered by Arthur J Cookson in 2026.
+# Formalized and discovered by Arthur J. Cookson and Joel T. Harter in 2026.
 #
-# A Cookson Solid is a Topological Regime—a continuous sliding family of spherical polyhedra
-# satisfying the Core Axioms (The Sieve):
-# 1. The Spherical Anchor: Every vertex lies exactly on the surface of a single sphere.
-# 2. The Two-Polygon Limit: Faces consist of at most two distinct geometric types (chiral enantiomorphs count as one).
-# 3. Strict Topological Graph: The vertex-edge-face connectivity remains constant.
-# 4. Forced Simplification: Coplanar faces merge; coincident vertices merge.
-# 5. No Self-Intersection: Faces and edges may not cross through one another.
-# 6. Taxonomic Exclusion (The Claim Rule): Excludes regimes claimed by classical sets or infinite series.
+# Sequence Prefix: H (Harter) — H1, H2, H3... to avoid namespace collisions with Catalan solids (C).
+# Suffix Rule: -sphere is applied because vertices are mathematically normalized to the unit sphere.
+#
+# Taxonomic Exclusion Rules:
+# - Rule A (Disqualification Gate): Disqualifies regimes sharing both the topological graph AND strict convexity
+#   with established classical solids.
+# - Rule B (Exclusion Roster): Disqualified solids are logged in an unnumbered Excluded list (-sphere suffix).
+# - Rule C (Concavity Exception): Regimes with classical graphs but different convexity (concave valley folds)
+#   bypass Rule A and are inducted as official Cookson solids (The Concave Shadows).
 
 using StaticArrays
 using LinearAlgebra
@@ -37,101 +38,15 @@ end
 """
     cookson(P::Polyhedron; radius::Real=1.0)
 
-Constructs the canonical convex Cookson solid corresponding to a polyhedron `P` by projecting its
-vertices onto a sphere of the given `radius`, and subdividing any resulting non-planar faces along
-internal creases (convex hull) to restore strict three-dimensional planarity.
+Constructs the canonical convex Cookson projection corresponding to a polyhedron `P` by projecting its
+vertices onto a sphere of the given `radius`, and restoring 3D planarity via convex hull.
 """
 function cookson(P::Polyhedron; radius::Real=1.0)
     v_sph = Pt3{Float64}[radius * (v / norm(v)) for v in P.v]
     return convex_hull(v_sph; merge_coplanar=true)
 end
 
-# ============================================================================
-# The 6 Convex Cookson Regimes (C1 - C6) - Art's Discoveries
-# ============================================================================
-
-"""
-    trigonal_octasphere(; radius::Real=1.0)
-    cooksonian_rhombic_dodecahedron(; radius::Real=1.0)
-
-Constructs Cookson solid C1: Trigonal Octasphere (V=14, F=24).
-- Polygon Root: Trigonal | Symmetry: Octasphere | Parent Catalan: Rhombic Dodecahedron
-- Derivation: Convex projection of the Rhombic Dodecahedron.
-"""
-function trigonal_octasphere(; radius::Real=1.0)
-    return cookson(rhombic_dodecahedron(); radius=radius)
-end
-const cooksonian_rhombic_dodecahedron = trigonal_octasphere
-
-"""
-    trigonal_icosasphere(; radius::Real=1.0)
-    cooksonian_rhombic_triacontahedron(; radius::Real=1.0)
-
-Constructs Cookson solid C2: Trigonal Icosasphere (V=32, F=60).
-- Polygon Root: Trigonal | Symmetry: Icosasphere | Parent Catalan: Rhombic Triacontahedron
-- Derivation: Convex projection of the Rhombic Triacontahedron.
-"""
-function trigonal_icosasphere(; radius::Real=1.0)
-    return cookson(rhombic_triacontahedron(); radius=radius)
-end
-const cooksonian_rhombic_triacontahedron = trigonal_icosasphere
-
-"""
-    bitrigonal_octasphere(; radius::Real=1.0)
-    cooksonian_deltoidal_icositetrahedron(; radius::Real=1.0)
-
-Constructs Cookson solid C3: Bitrigonal Octasphere (V=26, F=48).
-- Polygon Root: Bitrigonal | Symmetry: Octasphere | Parent Catalan: Deltoidal Icositetrahedron
-- Derivation: Convex projection of the Deltoidal Icositetrahedron.
-"""
-function bitrigonal_octasphere(; radius::Real=1.0)
-    return cookson(deltoidal_icositetrahedron(); radius=radius)
-end
-const cooksonian_deltoidal_icositetrahedron = bitrigonal_octasphere
-
-"""
-    bitrigonal_icosasphere(; radius::Real=1.0)
-    cooksonian_deltoidal_hexecontahedron(; radius::Real=1.0)
-
-Constructs Cookson solid C4: Bitrigonal Icosasphere (V=62, F=120).
-- Polygon Root: Bitrigonal | Symmetry: Icosasphere | Parent Catalan: Deltoidal Hexecontahedron
-- Derivation: Convex projection of the Deltoidal Hexecontahedron.
-"""
-function bitrigonal_icosasphere(; radius::Real=1.0)
-    return cookson(deltoidal_hexecontahedron(); radius=radius)
-end
-const cooksonian_deltoidal_hexecontahedron = bitrigonal_icosasphere
-
-"""
-    gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
-    cooksonian_pentagonal_icositetrahedron(; radius::Real=1.0)
-
-Constructs Cookson solid C5: Gyrotrapezotrigonal Octasphere (V=38, F=48).
-- Polygon Root: Gyrotrapezotrigonal | Symmetry: Octasphere | Parent Catalan: Pentagonal Icositetrahedron
-- Derivation: Convex projection of the Pentagonal Icositetrahedron (24 trapezoids, 24 triangles).
-"""
-function gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
-    return cookson(pentagonal_icositetrahedron(); radius=radius)
-end
-const cooksonian_pentagonal_icositetrahedron = gyrotrapezotrigonal_octasphere
-
-"""
-    gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
-    cooksonian_pentagonal_hexecontahedron(; radius::Real=1.0)
-
-Constructs Cookson solid C6: Gyrotrapezotrigonal Icosasphere (V=92, F=120).
-- Polygon Root: Gyrotrapezotrigonal | Symmetry: Icosasphere | Parent Catalan: Pentagonal Hexecontahedron
-- Derivation: Convex projection of the Pentagonal Hexecontahedron (60 trapezoids, 60 triangles).
-"""
-function gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
-    return cookson(pentagonal_hexecontahedron(); radius=radius)
-end
-const cooksonian_pentagonal_hexecontahedron = gyrotrapezotrigonal_icosasphere
-
-# ============================================================================
-# The 6 Concave Cookson Regimes (C7 - C12) - The Hidden Shadows
-# ============================================================================
-
+# Internal helpers for valley creasing
 function _valley_crease_quads(parent_solid::Polyhedron, radius::Real)
     P = _clean_face_order(parent_solid)
     r = Float64(radius)
@@ -179,175 +94,247 @@ function _valley_crease_pentakites(parent_solid::Polyhedron, radius::Real)
     return Polyhedron(v_sph, faces)
 end
 
-"""
-    concave_trigonal_octasphere(; radius::Real=1.0)
+# ============================================================================
+# The Official Cookson Sequence (H1 - H8)
+# ============================================================================
 
-Constructs Cookson solid C7 (V=14, F=24).
-- Polygon Root: Trigonal | Symmetry: Octasphere | Parent Catalan: Rhombic Dodecahedron
-- Derivation: The valley-creased (concave) shadow of C1.
+# --- The Convex Irregulars (Unique Graphs) ---
+
 """
-function concave_trigonal_octasphere(; radius::Real=1.0)
+    gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
+    cookson(:H1; radius::Real=1.0)
+
+Constructs Cookson solid H1: Gyrotrapezotrigonal Octasphere (V=38, F=48).
+- Classification: Convex Irregular (Unique Graph)
+- Derivation: Art's original convex Pentagonal Icositetrahedron derivative (24 trapezoids, 24 triangles).
+"""
+function gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
+    return cookson(pentagonal_icositetrahedron(); radius=radius)
+end
+
+"""
+    gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
+    cookson(:H2; radius::Real=1.0)
+
+Constructs Cookson solid H2: Gyrotrapezotrigonal Icosasphere (V=92, F=120).
+- Classification: Convex Irregular (Unique Graph)
+- Derivation: Art's original convex Pentagonal Hexecontahedron derivative (60 trapezoids, 60 triangles).
+"""
+function gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
+    return cookson(pentagonal_hexecontahedron(); radius=radius)
+end
+
+# --- The Concave Shadows (Classical Graphs, Different Convexity) ---
+
+"""
+    triakis_octasphere(; radius::Real=1.0)
+    cookson(:H3; radius::Real=1.0)
+
+Constructs Cookson solid H3: Triakis Octasphere (V=14, F=24).
+- Classification: Concave Shadow (Rule C Concavity Exception)
+- Derivation: Concave valley-fold derivative of the Rhombic Dodecahedron (24 congruent triangles).
+"""
+function triakis_octasphere(; radius::Real=1.0)
     return _valley_crease_quads(rhombic_dodecahedron(), radius)
 end
 
 """
-    concave_trigonal_icosasphere(; radius::Real=1.0)
+    triakis_icosasphere(; radius::Real=1.0)
+    cookson(:H4; radius::Real=1.0)
 
-Constructs Cookson solid C8 (V=32, F=60).
-- Polygon Root: Trigonal | Symmetry: Icosasphere | Parent Catalan: Rhombic Triacontahedron
-- Derivation: The valley-creased (concave) shadow of C2.
+Constructs Cookson solid H4: Triakis Icosasphere (V=32, F=60).
+- Classification: Concave Shadow (Rule C Concavity Exception)
+- Derivation: Concave valley-fold derivative of the Rhombic Triacontahedron (60 congruent triangles).
 """
-function concave_trigonal_icosasphere(; radius::Real=1.0)
+function triakis_icosasphere(; radius::Real=1.0)
     return _valley_crease_quads(rhombic_triacontahedron(), radius)
 end
 
 """
-    concave_bitrigonal_octasphere(; radius::Real=1.0)
+    disdyakis_cuboctasphere(; radius::Real=1.0)
+    cookson(:H5; radius::Real=1.0)
 
-Constructs Cookson solid C9 (V=26, F=48).
-- Polygon Root: Bitrigonal | Symmetry: Octasphere | Parent Catalan: Deltoidal Icositetrahedron
-- Derivation: The valley-creased (concave) shadow of C3.
+Constructs Cookson solid H5: Disdyakis Cuboctasphere (V=26, F=48).
+- Classification: Concave Shadow (Rule C Concavity Exception)
+- Derivation: Concave valley-fold derivative of the Deltoidal Icositetrahedron (48 triangles in chiral pairs).
 """
-function concave_bitrigonal_octasphere(; radius::Real=1.0)
+function disdyakis_cuboctasphere(; radius::Real=1.0)
     return _valley_crease_quads(deltoidal_icositetrahedron(), radius)
 end
 
 """
-    concave_bitrigonal_icosasphere(; radius::Real=1.0)
+    disdyakis_rhombic_triacontasphere(; radius::Real=1.0)
+    cookson(:H6; radius::Real=1.0)
 
-Constructs Cookson solid C10 (V=62, F=120).
-- Polygon Root: Bitrigonal | Symmetry: Icosasphere | Parent Catalan: Deltoidal Hexecontahedron
-- Derivation: The valley-creased (concave) shadow of C4.
+Constructs Cookson solid H6: Disdyakis Rhombic Triacontasphere (V=62, F=120).
+- Classification: Concave Shadow (Rule C Concavity Exception)
+- Derivation: Concave valley-fold derivative of the Deltoidal Hexecontahedron (120 triangles in chiral pairs).
 """
-function concave_bitrigonal_icosasphere(; radius::Real=1.0)
+function disdyakis_rhombic_triacontasphere(; radius::Real=1.0)
     return _valley_crease_quads(deltoidal_hexecontahedron(), radius)
 end
 
-"""
-    concave_gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
+# --- The Concave Irregulars (Unique Graphs, Unique Convexity) ---
 
-Constructs Cookson solid C11 (V=38, F=72).
-- Polygon Root: Gyrotrapezotrigonal | Symmetry: Octasphere | Parent Catalan: Pentagonal Icositetrahedron
-- Derivation: The valley-creased shadow of C5. Fractures each skew pentakite from the tip to the lower vertices,
-  producing 24 central isosceles triangles and 48 mirrored flanking scalene triangles (2 geometric types).
 """
-function concave_gyrotrapezotrigonal_octasphere(; radius::Real=1.0)
+    gyrobitrigonal_octasphere(; radius::Real=1.0)
+    cookson(:H7; radius::Real=1.0)
+
+Constructs Cookson solid H7: Gyrobitrigonal Octasphere (V=38, F=72).
+- Classification: Concave Irregular (Unique Graph & Convexity)
+- Derivation: Concave valley-fold derivative of the Pentagonal Icositetrahedron (24 central isosceles + 48 flanking scalene triangles).
+"""
+function gyrobitrigonal_octasphere(; radius::Real=1.0)
     return _valley_crease_pentakites(pentagonal_icositetrahedron(), radius)
 end
 
 """
-    concave_gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
+    gyrobitrigonal_icosasphere(; radius::Real=1.0)
+    cookson(:H8; radius::Real=1.0)
 
-Constructs Cookson solid C12 (V=92, F=180).
-- Polygon Root: Gyrotrapezotrigonal | Symmetry: Icosasphere | Parent Catalan: Pentagonal Hexecontahedron
-- Derivation: The valley-creased shadow of C6 (60 central isosceles triangles and 120 mirrored flanking scalene triangles).
+Constructs Cookson solid H8: Gyrobitrigonal Icosasphere (V=92, F=180).
+- Classification: Concave Irregular (Unique Graph & Convexity)
+- Derivation: Concave valley-fold derivative of the Pentagonal Hexecontahedron (60 central isosceles + 120 flanking scalene triangles).
 """
-function concave_gyrotrapezotrigonal_icosasphere(; radius::Real=1.0)
+function gyrobitrigonal_icosasphere(; radius::Real=1.0)
     return _valley_crease_pentakites(pentagonal_hexecontahedron(), radius)
 end
+
+# ============================================================================
+# The Excluded Solids List (Unnumbered under Rule A)
+# ============================================================================
+
+"""
+    tetrakis_hexasphere(; radius::Real=1.0)
+
+Excluded solid: Derived from convex projection of Rhombic Dodecahedron (V=14, F=24).
+Disqualified under Rule A (shares topological graph and convexity with Catalan Tetrakis Hexahedron).
+"""
+tetrakis_hexasphere(; radius::Real=1.0) = cookson(rhombic_dodecahedron(); radius=radius)
+
+"""
+    pentakis_dodecasphere(; radius::Real=1.0)
+
+Excluded solid: Derived from convex projection of Rhombic Triacontahedron (V=32, F=60).
+Disqualified under Rule A (shares topological graph and convexity with Catalan Pentakis Dodecahedron).
+"""
+pentakis_dodecasphere(; radius::Real=1.0) = cookson(rhombic_triacontahedron(); radius=radius)
+
+"""
+    disdyakis_dodecasphere(; radius::Real=1.0)
+
+Excluded solid: Derived from convex projection of Deltoidal Icositetrahedron (V=26, F=48).
+Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Dodecahedron).
+"""
+disdyakis_dodecasphere(; radius::Real=1.0) = cookson(deltoidal_icositetrahedron(); radius=radius)
+
+"""
+    disdyakis_triacontasphere(; radius::Real=1.0)
+
+Excluded solid: Derived from convex projection of Deltoidal Hexecontahedron (V=62, F=120).
+Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Triacontahedron).
+"""
+disdyakis_triacontasphere(; radius::Real=1.0) = cookson(deltoidal_hexecontahedron(); radius=radius)
 
 # ============================================================================
 # Metadata, Classification & Dispatchers
 # ============================================================================
 
 struct CooksonMeta
-    index::Int
+    h_index::Int
     name::String
+    group::String
     polygon_root::String
     symmetry::String
     parent_catalan::String
-    regime_type::String
 end
 
 const COOKSON_SOLIDS_TABLE = [
-    # Convex Regimes (C1 - C6)
-    CooksonMeta(1, "Trigonal Octasphere", "Trigonal", "Octasphere", "Rhombic Dodecahedron", "Convex"),
-    CooksonMeta(2, "Trigonal Icosasphere", "Trigonal", "Icosasphere", "Rhombic Triacontahedron", "Convex"),
-    CooksonMeta(3, "Bitrigonal Octasphere", "Bitrigonal", "Octasphere", "Deltoidal Icositetrahedron", "Convex"),
-    CooksonMeta(4, "Bitrigonal Icosasphere", "Bitrigonal", "Icosasphere", "Deltoidal Hexecontahedron", "Convex"),
-    CooksonMeta(5, "Gyrotrapezotrigonal Octasphere", "Gyrotrapezotrigonal", "Octasphere", "Pentagonal Icositetrahedron", "Convex"),
-    CooksonMeta(6, "Gyrotrapezotrigonal Icosasphere", "Gyrotrapezotrigonal", "Icosasphere", "Pentagonal Hexecontahedron", "Convex"),
+    # Convex Irregulars (H1 - H2)
+    CooksonMeta(1, "Gyrotrapezotrigonal Octasphere", "Convex Irregular", "Gyrotrapezotrigonal", "Octasphere", "Pentagonal Icositetrahedron"),
+    CooksonMeta(2, "Gyrotrapezotrigonal Icosasphere", "Convex Irregular", "Gyrotrapezotrigonal", "Icosasphere", "Pentagonal Hexecontahedron"),
 
-    # Concave Regimes (C7 - C12) - The Hidden Shadows
-    CooksonMeta(7, "Concave Trigonal Octasphere", "Trigonal", "Octasphere", "Rhombic Dodecahedron", "Concave (Valley Shadow)"),
-    CooksonMeta(8, "Concave Trigonal Icosasphere", "Trigonal", "Icosasphere", "Rhombic Triacontahedron", "Concave (Valley Shadow)"),
-    CooksonMeta(9, "Concave Bitrigonal Octasphere", "Bitrigonal", "Octasphere", "Deltoidal Icositetrahedron", "Concave (Valley Shadow)"),
-    CooksonMeta(10, "Concave Bitrigonal Icosasphere", "Bitrigonal", "Icosasphere", "Deltoidal Hexecontahedron", "Concave (Valley Shadow)"),
-    CooksonMeta(11, "Concave Gyrotrapezotrigonal Octasphere", "Gyrotrapezotrigonal", "Octasphere", "Pentagonal Icositetrahedron", "Concave (Valley Shadow)"),
-    CooksonMeta(12, "Concave Gyrotrapezotrigonal Icosasphere", "Gyrotrapezotrigonal", "Icosasphere", "Pentagonal Hexecontahedron", "Concave (Valley Shadow)")
+    # Concave Shadows (H3 - H6)
+    CooksonMeta(3, "Triakis Octasphere", "Concave Shadow", "Trigonal", "Octasphere", "Rhombic Dodecahedron"),
+    CooksonMeta(4, "Triakis Icosasphere", "Concave Shadow", "Trigonal", "Icosasphere", "Rhombic Triacontahedron"),
+    CooksonMeta(5, "Disdyakis Cuboctasphere", "Concave Shadow", "Bitrigonal", "Octasphere", "Deltoidal Icositetrahedron"),
+    CooksonMeta(6, "Disdyakis Rhombic Triacontasphere", "Concave Shadow", "Bitrigonal", "Icosasphere", "Deltoidal Hexecontahedron"),
+
+    # Concave Irregulars (H7 - H8)
+    CooksonMeta(7, "Gyrobitrigonal Octasphere", "Concave Irregular", "Gyrobitrigonal", "Octasphere", "Pentagonal Icositetrahedron"),
+    CooksonMeta(8, "Gyrobitrigonal Icosasphere", "Concave Irregular", "Gyrobitrigonal", "Icosasphere", "Pentagonal Hexecontahedron")
 ]
 
 const COOKSON_SOLID_NAMES = [m.name for m in COOKSON_SOLIDS_TABLE]
 
 const COOKSON_SOLID_ORDER = [
-    :trigonal_octasphere,
-    :trigonal_icosasphere,
-    :bitrigonal_octasphere,
-    :bitrigonal_icosasphere,
     :gyrotrapezotrigonal_octasphere,
     :gyrotrapezotrigonal_icosasphere,
-    :concave_trigonal_octasphere,
-    :concave_trigonal_icosasphere,
-    :concave_bitrigonal_octasphere,
-    :concave_bitrigonal_icosasphere,
-    :concave_gyrotrapezotrigonal_octasphere,
-    :concave_gyrotrapezotrigonal_icosasphere
+    :triakis_octasphere,
+    :triakis_icosasphere,
+    :disdyakis_cuboctasphere,
+    :disdyakis_rhombic_triacontasphere,
+    :gyrobitrigonal_octasphere,
+    :gyrobitrigonal_icosasphere
+]
+
+const EXCLUDED_COOKSON_MAP = Dict{Symbol, Function}(
+    :tetrakis_hexasphere => tetrakis_hexasphere,
+    :pentakis_dodecasphere => pentakis_dodecasphere,
+    :disdyakis_dodecasphere => disdyakis_dodecasphere,
+    :disdyakis_triacontasphere => disdyakis_triacontasphere
+)
+
+const EXCLUDED_COOKSON_NAMES = [
+    "Tetrakis Hexasphere",
+    "Pentakis Dodecasphere",
+    "Disdyakis Dodecasphere",
+    "Disdyakis Triacontasphere"
 ]
 
 const COOKSON_SOLID_MAP = Dict{Symbol, Function}(
-    # Official names (Convex)
-    :trigonal_octasphere => trigonal_octasphere,
-    :trigonal_icosasphere => trigonal_icosasphere,
-    :bitrigonal_octasphere => bitrigonal_octasphere,
-    :bitrigonal_icosasphere => bitrigonal_icosasphere,
+    # Official names H1-H8
     :gyrotrapezotrigonal_octasphere => gyrotrapezotrigonal_octasphere,
     :gyrotrapezotrigonal_icosasphere => gyrotrapezotrigonal_icosasphere,
+    :triakis_octasphere => triakis_octasphere,
+    :triakis_icosasphere => triakis_icosasphere,
+    :disdyakis_cuboctasphere => disdyakis_cuboctasphere,
+    :disdyakis_rhombic_triacontasphere => disdyakis_rhombic_triacontasphere,
+    :gyrobitrigonal_octasphere => gyrobitrigonal_octasphere,
+    :gyrobitrigonal_icosasphere => gyrobitrigonal_icosasphere,
 
-    # Official names (Concave)
-    :concave_trigonal_octasphere => concave_trigonal_octasphere,
-    :concave_trigonal_icosasphere => concave_trigonal_icosasphere,
-    :concave_bitrigonal_octasphere => concave_bitrigonal_octasphere,
-    :concave_bitrigonal_icosasphere => concave_bitrigonal_icosasphere,
-    :concave_gyrotrapezotrigonal_octasphere => concave_gyrotrapezotrigonal_octasphere,
-    :concave_gyrotrapezotrigonal_icosasphere => concave_gyrotrapezotrigonal_icosasphere,
-
-    # Shorthand symbols :C1 to :C12
-    :C1 => trigonal_octasphere, :c1 => trigonal_octasphere,
-    :C2 => trigonal_icosasphere, :c2 => trigonal_icosasphere,
-    :C3 => bitrigonal_octasphere, :c3 => bitrigonal_octasphere,
-    :C4 => bitrigonal_icosasphere, :c4 => bitrigonal_icosasphere,
-    :C5 => gyrotrapezotrigonal_octasphere, :c5 => gyrotrapezotrigonal_octasphere,
-    :C6 => gyrotrapezotrigonal_icosasphere, :c6 => gyrotrapezotrigonal_icosasphere,
-    :C7 => concave_trigonal_octasphere, :c7 => concave_trigonal_octasphere,
-    :C8 => concave_trigonal_icosasphere, :c8 => concave_trigonal_icosasphere,
-    :C9 => concave_bitrigonal_octasphere, :c9 => concave_bitrigonal_octasphere,
-    :C10 => concave_bitrigonal_icosasphere, :c10 => concave_bitrigonal_icosasphere,
-    :C11 => concave_gyrotrapezotrigonal_octasphere, :c11 => concave_gyrotrapezotrigonal_octasphere,
-    :C12 => concave_gyrotrapezotrigonal_icosasphere, :c12 => concave_gyrotrapezotrigonal_icosasphere,
-
-    # Catalan parent aliases
-    :cooksonian_rhombic_dodecahedron => trigonal_octasphere,
-    :cooksonian_rhombic_triacontahedron => trigonal_icosasphere,
-    :cooksonian_deltoidal_icositetrahedron => bitrigonal_octasphere,
-    :cooksonian_deltoidal_hexecontahedron => bitrigonal_icosasphere,
-    :cooksonian_pentagonal_icositetrahedron => gyrotrapezotrigonal_octasphere,
-    :cooksonian_pentagonal_hexecontahedron => gyrotrapezotrigonal_icosasphere
+    # H-prefix shorthands :H1 to :H8
+    :H1 => gyrotrapezotrigonal_octasphere, :h1 => gyrotrapezotrigonal_octasphere,
+    :H2 => gyrotrapezotrigonal_icosasphere, :h2 => gyrotrapezotrigonal_icosasphere,
+    :H3 => triakis_octasphere, :h3 => triakis_octasphere,
+    :H4 => triakis_icosasphere, :h4 => triakis_icosasphere,
+    :H5 => disdyakis_cuboctasphere, :h5 => disdyakis_cuboctasphere,
+    :H6 => disdyakis_rhombic_triacontasphere, :h6 => disdyakis_rhombic_triacontasphere,
+    :H7 => gyrobitrigonal_octasphere, :h7 => gyrobitrigonal_octasphere,
+    :H8 => gyrobitrigonal_icosasphere, :h8 => gyrobitrigonal_icosasphere
 )
 
 """
     cookson_names()
 
-Returns the list of official names for the 12 Cookson solids (C1 to C12).
+Returns the list of official names for the 8 Cookson solids (H1 to H8).
 """
 cookson_names() = copy(COOKSON_SOLID_NAMES)
 
 """
+    excluded_cookson_names()
+
+Returns the list of names for the 4 disqualified spherical solids logged in the Exclusion Roster.
+"""
+excluded_cookson_names() = copy(EXCLUDED_COOKSON_NAMES)
+
+"""
     cookson_name(index::Integer)
 
-Returns the official name string for the Cookson solid at index 1 to 12.
+Returns the official name string for the Cookson solid at index 1 to 8 (H1 to H8).
 """
 function cookson_name(index::Integer)
-    1 <= index <= 12 || error("Cookson solid index must be between 1 and 12 (got index=$index).")
+    1 <= index <= 8 || error("Cookson solid index must be between 1 and 8 (H1 to H8, got index=$index).")
     return COOKSON_SOLID_NAMES[index]
 end
 
@@ -355,18 +342,18 @@ end
     cookson_info(index::Integer)
     cookson_info(name::Symbol)
 
-Returns structural metadata (name, polygon root, symmetry, parent Catalan solid, regime type) for a Cookson solid.
+Returns structural metadata (h_index, name, group, polygon_root, symmetry, parent_catalan) for a Cookson solid.
 """
 function cookson_info(index::Integer)
-    1 <= index <= 12 || error("Cookson solid index must be between 1 and 12 (got index=$index).")
+    1 <= index <= 8 || error("Cookson solid index must be between 1 and 8 (H1 to H8, got index=$index).")
     return COOKSON_SOLIDS_TABLE[index]
 end
 
 function cookson_info(name::Symbol)
     s_str = uppercase(string(name))
-    if startswith(s_str, "C") && length(s_str) in (2, 3) && all(isdigit, s_str[2:end])
+    if startswith(s_str, "H") && length(s_str) in (2, 3) && all(isdigit, s_str[2:end])
         idx = parse(Int, s_str[2:end])
-        if 1 <= idx <= 12
+        if 1 <= idx <= 8
             return cookson_info(idx)
         end
     end
@@ -374,21 +361,31 @@ function cookson_info(name::Symbol)
     if idx !== nothing
         return COOKSON_SOLIDS_TABLE[idx]
     end
-    error("Unknown Cookson solid: $name")
+    error("Unknown Cookson solid: $name. Available: H1 to H8.")
 end
 
 """
     cookson(name::Symbol; radius::Real=1.0)
     cookson(index::Integer; radius::Real=1.0)
 
-Access any of the 12 Cookson solid regimes by official name symbol, index (1-12), or shorthand (`:C1` - `:C12`).
+Access any of the 8 Cookson solid regimes by official name symbol, index (1-8), or shorthand (`:H1` - `:H8`).
 """
 function cookson(name::Symbol; radius::Real=1.0)
-    haskey(COOKSON_SOLID_MAP, name) || error("Unknown Cookson solid: $name. Available: $(keys(COOKSON_SOLID_MAP))")
+    haskey(COOKSON_SOLID_MAP, name) || error("Unknown Cookson solid: $name. Available: :H1 through :H8 or official names.")
     return COOKSON_SOLID_MAP[name](; radius=radius)
 end
 
 function cookson(index::Integer; radius::Real=1.0)
-    1 <= index <= 12 || error("Cookson solid index must be between 1 and 12 (got index=$index).")
+    1 <= index <= 8 || error("Cookson solid index must be between 1 and 8 (H1 to H8, got index=$index).")
     return cookson(COOKSON_SOLID_ORDER[index]; radius=radius)
+end
+
+"""
+    excluded_cookson(name::Symbol; radius::Real=1.0)
+
+Accesses any of the 4 disqualified spherical regimes from the Exclusion Roster.
+"""
+function excluded_cookson(name::Symbol; radius::Real=1.0)
+    haskey(EXCLUDED_COOKSON_MAP, name) || error("Unknown excluded solid: $name. Available: $(keys(EXCLUDED_COOKSON_MAP))")
+    return EXCLUDED_COOKSON_MAP[name](; radius=radius)
 end

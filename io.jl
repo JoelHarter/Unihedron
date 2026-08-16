@@ -578,11 +578,11 @@ function export_database_hdf5(filepath::AbstractString="unihedron_solids.h5")
             save_hdf5(P, target; group="catalan/$(name)", name=string(name))
         end
         
-        # 5. Cooksons (C1 to C12)
-        for i in 1:12
+        # 5. Cooksons (H1 to H8)
+        for i in 1:8
             name_sym = COOKSON_SOLID_ORDER[i]
             P = cookson(name_sym)
-            save_hdf5(P, target; group="cookson/C$(i)", name=cookson_name(i))
+            save_hdf5(P, target; group="cookson/H$(i)", name="H$(i): $(cookson_name(i))")
         end
         
         # 6. Johnson Solids (J1 to J92)
