@@ -80,7 +80,7 @@ print_polyhedron(bucky, "buckyball.png"; color_by_face_size=true)
 
 ---
 
-## The Cookson Solids (Formalized by Arthur J. Cookson & Joel T. Harter, 2026)
+## The Cookson Solids (Formalized by Arthur J Cookson & Joel T Harter, 2026)
 
 The **Cookson solids** ($H_1, H_2, \dots, H_8$) are topological regimes of spherical polyhedra satisfying the Core Axioms (The Sieve) with at most two distinct polygon types. Regimes sharing both the topological graph and convexity of classical polyhedra are disqualified to the unnumbered Exclusion Roster (Rule A & B), while concave valley-fold derivatives are inducted (Rule C).
 

@@ -516,6 +516,41 @@ const congruent_face_types = classify_faces
 const face_types = classify_faces
 
 """
+    classify_faces_with_handedness(P::Polyhedron; atol::Real=1e-6) -> (Vector{Int}, Vector{Bool})
+
+Classifies all faces of `P` into congruent polygon types (1..K) and detects mirror handedness.
+Returns `(types, is_mirror)` where:
+- `types[i]` is the integer index (1..K) of the polygon type.
+- `is_mirror[i]` is `false` for normal orientation and `true` for a chiral mirror reflection.
+"""
+function classify_faces_with_handedness(P::Polyhedron; atol::Real=1e-6)
+    F = length(P.f)
+    types = zeros(Int, F)
+    is_mirror = zeros(Bool, F)
+    representatives = Vector{Pt3{Float64}}[]
+    
+    for (i, face) in enumerate(P.f)
+        face_pts = [P.v[k] for k in face]
+        matched = false
+        for (type_idx, rep_pts) in enumerate(representatives)
+            res = isCongruent(face_pts, rep_pts; allow_flipped=true)
+            if res[1]
+                types[i] = type_idx
+                is_mirror[i] = res[3]
+                matched = true
+                break
+            end
+        end
+        if !matched
+            push!(representatives, face_pts)
+            types[i] = length(representatives)
+            is_mirror[i] = false
+        end
+    end
+    return types, is_mirror
+end
+
+"""
     unique_face_polygons(P::Polyhedron; allow_flipped::Bool=true, flatten_to_2d::Bool=true)
 
 Returns a list of the K unique canonical representative face polygons of `P`.

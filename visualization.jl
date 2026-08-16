@@ -1,7 +1,43 @@
-# Visualization & Display Functions for 2D Polygons, 3D Polygons, and Polyhedra using Makie
-
 using GLMakie
 using GLMakie.GeometryBasics
+using GLMakie.Colors
+using Random
+
+# --- 6-Color Polygon Type Palette & Handed Mirror Shading ---
+# 1. Vermilion dye, 2. Celtic blue, 3. Lincoln green, 4. Saffron, 5. Tyrian purple, 6. Brownish gray
+const POLYGON_TYPE_PALETTE = [
+    RGB{Float32}(0.890f0, 0.259f0, 0.204f0),  # 1. Vermilion dye (#E34234)
+    RGB{Float32}(0.141f0, 0.420f0, 0.808f0),  # 2. Celtic blue (#246BCE)
+    RGB{Float32}(0.098f0, 0.349f0, 0.020f0),  # 3. Lincoln green (#195905)
+    RGB{Float32}(0.957f0, 0.769f0, 0.188f0),  # 4. Saffron (#F4C430)
+    RGB{Float32}(0.400f0, 0.008f0, 0.235f0),  # 5. Tyrian purple (#66023C)
+    RGB{Float32}(0.478f0, 0.431f0, 0.392f0)   # 6. Brownish gray (#7A6E64)
+]
+
+function _darken_color(c::RGB{Float32}, factor::Float32=0.65f0)
+    return RGB{Float32}(c.r * factor, c.g * factor, c.b * factor)
+end
+
+function _darken_color(c::Colorant, factor::Real=0.65)
+    rgb = RGB{Float32}(c)
+    return _darken_color(rgb, Float32(factor))
+end
+
+"""
+    get_polygon_colors(num_types::Int) -> Vector{RGB{Float32}}
+
+Returns a palette of colors for `num_types` distinct polygon types.
+Uses the 6 official colors up to type 6. For 7 or more types, randomizes all needed colors.
+"""
+function get_polygon_colors(num_types::Int)
+    if num_types <= 6
+        return copy(POLYGON_TYPE_PALETTE[1:max(1, num_types)])
+    else
+        # For > 6 types (7 or more), randomize all colors
+        rng = Random.MersenneTwister(1337)
+        return [RGB{Float32}(rand(rng, Float32), rand(rng, Float32), rand(rng, Float32)) for _ in 1:num_types]
+    end
+end
 
 # --- 2D Polygon Display ---
 
@@ -152,7 +188,7 @@ end
 
 """
     display_polyhedron!(ax::Axis3, P::Polyhedron; 
-                        color=:dodgerblue, 
+                        color=:auto, 
                         edgecolor=:black, 
                         linewidth=2.0, 
                         show_faces=true, 
@@ -168,11 +204,12 @@ end
                         label_size=12)
 
 Renders a 3D `Polyhedron` onto an existing Makie `Axis3`.
-Supports arbitrary n-gons (triangulated dynamically for shaded rendering), sharp wireframe outlines,
-vertex scatter markers, and face/vertex index annotations.
+By default (`color=:auto`), automatically classifies polygon types and colors each face type according to the
+official 6-color palette (1. Vermilion dye, 2. Celtic blue, 3. Lincoln green, 4. Saffron, 5. Tyrian purple, 6. Brownish gray,
+or randomized for >=7 types). Chiral handed mirror faces receive a darker version of the same color.
 """
 function display_polyhedron!(ax::Axis3, P::Polyhedron; 
-                            color=:dodgerblue, 
+                            color=:auto, 
                             edgecolor=:black, 
                             linewidth=2.0, 
                             show_faces=true, 
@@ -210,7 +247,37 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             
             m = normal_mesh(mesh_pts, mesh_tris)
             mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false)
+        elseif color === :auto || color === nothing
+            # Color by polygon type with darker shade for handed mirror reflections
+            types, is_mirror = classify_faces_with_handedness(P)
+            num_types = isempty(types) ? 1 : maximum(types)
+            base_colors = get_polygon_colors(num_types)
+            
+            mesh_pts = Point3f[]
+            mesh_tris = TriangleFace{Int}[]
+            mesh_colors = RGB{Float32}[]
+            
+            for (face_idx, face) in enumerate(P.f)
+                n = length(face)
+                base_idx = length(mesh_pts)
+                t = types[face_idx]
+                base_c = base_colors[t]
+                face_col = is_mirror[face_idx] ? _darken_color(base_c, 0.65f0) : base_c
+                
+                for idx in face
+                    p = P.v[idx]
+                    push!(mesh_pts, Point3f(p[1], p[2], p[3]))
+                    push!(mesh_colors, face_col)
+                end
+                for i in 2:(n-1)
+                    push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
+                end
+            end
+            
+            m = normal_mesh(mesh_pts, mesh_tris)
+            mesh!(ax, m; color=mesh_colors, transparency=false)
         else
+            # Explicit user single color override
             tris = TriangleFace{Int}[]
             for face in P.f
                 n = length(face)

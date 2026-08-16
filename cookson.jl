@@ -1,5 +1,5 @@
 # The Cookson Solids (Topological Regimes)
-# Formalized and discovered by Arthur J. Cookson and Joel T. Harter in 2026.
+# Formalized and discovered by Arthur J Cookson and Joel T Harter in 2026.
 #
 # Sequence Prefix: H (Harter) — H1, H2, H3... to avoid namespace collisions with Catalan solids (C).
 #

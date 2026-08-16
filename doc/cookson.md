@@ -1,6 +1,6 @@
 # The Cookson Solids (Topological Regimes)
 
-**Mathematical framework formalized and concave shadows discovered by Arthur J. Cookson and Joel T. Harter in 2026.**
+**Mathematical framework formalized and concave shadows discovered by Arthur J Cookson and Joel T Harter in 2026.**
 
 ---
 

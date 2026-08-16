@@ -28,7 +28,7 @@ Renders a `Polyhedron` in 3D using Makie and writes a high-resolution image to `
 function print_polyhedron(P::Polyhedron, filepath::AbstractString; 
                           size::Tuple{Int, Int}=(800, 800), 
                           px_per_unit::Real=2.0, 
-                          color=:dodgerblue, 
+                          color=:auto, 
                           edgecolor=:black, 
                           linewidth=2.0, 
                           show_faces::Bool=true, 
