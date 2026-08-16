@@ -12,7 +12,7 @@
 
 ---
 
-## 2. Part 1: The Regime Philosophy
+## 2. The Regime Philosophy
 
 A Cookson Solid is not a single, rigid set of coordinates. It is a **Topological Regime**—a continuous, sliding family of shapes.
 
@@ -22,7 +22,7 @@ A Cookson Solid is not a single, rigid set of coordinates. It is a **Topological
 
 ---
 
-## 3. Part 2: The Core Axioms (The Sieve)
+## 3. The Core Axioms (The Sieve)
 
 To qualify as a Cookson Solid regime, the continuous family must satisfy all of the following rules at every state of its morphing path:
 
@@ -40,7 +40,7 @@ To qualify as a Cookson Solid regime, the continuous family must satisfy all of 
 
 ---
 
-## 4. Part 3: Emergent Consequences
+## 4. Emergent Consequences
 
 If you rigorously apply the axioms above, the following boundaries naturally police the regime without needing to be stated as rules:
 
