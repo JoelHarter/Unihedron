@@ -10,7 +10,7 @@ using LinearAlgebra
     print_polyhedron(P::Polyhedron, filepath::AbstractString; 
                      size=(800, 800), 
                      px_per_unit=2.0, 
-                     color=(:dodgerblue, 0.8), 
+                     color=:dodgerblue, 
                      edgecolor=:black, 
                      linewidth=2.0, 
                      show_faces=true, 
@@ -28,7 +28,7 @@ Renders a `Polyhedron` in 3D using Makie and writes a high-resolution image to `
 function print_polyhedron(P::Polyhedron, filepath::AbstractString; 
                           size::Tuple{Int, Int}=(800, 800), 
                           px_per_unit::Real=2.0, 
-                          color=(:dodgerblue, 0.8), 
+                          color=:dodgerblue, 
                           edgecolor=:black, 
                           linewidth=2.0, 
                           show_faces::Bool=true, 
@@ -64,7 +64,7 @@ const save_polyhedron_image = print_polyhedron
     print_polygon(poly::AbstractVector{<:Union{Pt2, Pt3}}, filepath::AbstractString; 
                   size=(600, 600), 
                   px_per_unit=2.0, 
-                  color=(:dodgerblue, 0.6), 
+                  color=:dodgerblue, 
                   edgecolor=:black, 
                   linewidth=2.0, 
                   title="Polygon", 
@@ -75,7 +75,7 @@ Renders a 2D or 3D polygon and writes an image file to `filepath`.
 function print_polygon(poly::AbstractVector{<:Pt2}, filepath::AbstractString; 
                        size::Tuple{Int, Int}=(600, 600), 
                        px_per_unit::Real=2.0, 
-                       color=(:dodgerblue, 0.6), 
+                       color=:dodgerblue, 
                        edgecolor=:black, 
                        linewidth=2.0, 
                        title::AbstractString="2D Polygon", 
@@ -88,7 +88,7 @@ end
 function print_polygon(poly::AbstractVector{<:Pt3}, filepath::AbstractString; 
                        size::Tuple{Int, Int}=(700, 700), 
                        px_per_unit::Real=2.0, 
-                       color=(:dodgerblue, 0.7), 
+                       color=:dodgerblue, 
                        edgecolor=:black, 
                        linewidth=2.0, 
                        title::AbstractString="3D Polygon", 

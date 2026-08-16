@@ -7,7 +7,7 @@ using GLMakie.GeometryBasics
 
 """
     display_polygon!(ax::Axis, poly::AbstractVector{<:Pt2}; 
-                     color=(:dodgerblue, 0.6), 
+                     color=:dodgerblue, 
                      edgecolor=:black, 
                      linewidth=2.0, 
                      show_vertices=true, 
@@ -20,7 +20,7 @@ using GLMakie.GeometryBasics
 Plots a 2D polygon onto an existing Makie `Axis`.
 """
 function display_polygon!(ax::Axis, poly::AbstractVector{<:Pt2}; 
-                          color=(:dodgerblue, 0.6), 
+                          color=:dodgerblue, 
                           edgecolor=:black, 
                           linewidth=2.0, 
                           show_vertices=true, 
@@ -31,7 +31,7 @@ function display_polygon!(ax::Axis, poly::AbstractVector{<:Pt2};
                           label_size=14)
     pts = [Point2f(p[1], p[2]) for p in poly]
     
-    # 1. Fill polygon
+    # 1. Fill polygon (solid)
     poly!(ax, pts; color=color, strokewidth=linewidth, strokecolor=edgecolor)
     
     # 2. Vertices
@@ -77,7 +77,7 @@ const plot_polygon! = display_polygon!
 
 """
     display_polygon!(ax::Axis3, poly::AbstractVector{<:Pt3}; 
-                     color=(:dodgerblue, 0.7), 
+                     color=:dodgerblue, 
                      edgecolor=:black, 
                      linewidth=2.0, 
                      show_vertices=true, 
@@ -90,7 +90,7 @@ const plot_polygon! = display_polygon!
 Plots a 3D polygon onto an existing Makie `Axis3`.
 """
 function display_polygon!(ax::Axis3, poly::AbstractVector{<:Pt3}; 
-                          color=(:dodgerblue, 0.7), 
+                          color=:dodgerblue, 
                           edgecolor=:black, 
                           linewidth=2.0, 
                           show_vertices=true, 
@@ -102,10 +102,10 @@ function display_polygon!(ax::Axis3, poly::AbstractVector{<:Pt3};
     pts = [Point3f(p[1], p[2], p[3]) for p in poly]
     n = length(pts)
     
-    # 1. Triangulate planar/skew 3D polygon
+    # 1. Triangulate planar/skew 3D polygon (solid with no transparency)
     tris = [TriangleFace(1, i, i+1) for i in 2:(n-1)]
     m = normal_mesh(pts, tris)
-    mesh!(ax, m; color=color)
+    mesh!(ax, m; color=color, transparency=false)
     
     # 2. Outline boundary edges
     edge_pts = Point3f[]
@@ -152,7 +152,7 @@ end
 
 """
     display_polyhedron!(ax::Axis3, P::Polyhedron; 
-                        color=(:dodgerblue, 0.8), 
+                        color=:dodgerblue, 
                         edgecolor=:black, 
                         linewidth=2.0, 
                         show_faces=true, 
@@ -172,7 +172,7 @@ Supports arbitrary n-gons (triangulated dynamically for shaded rendering), sharp
 vertex scatter markers, and face/vertex index annotations.
 """
 function display_polyhedron!(ax::Axis3, P::Polyhedron; 
-                            color=(:dodgerblue, 0.8), 
+                            color=:dodgerblue, 
                             edgecolor=:black, 
                             linewidth=2.0, 
                             show_faces=true, 
@@ -188,7 +188,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                             label_size=12)
     pts = [Point3f(p[1], p[2], p[3]) for p in P.v]
     
-    # 1. Shaded faces via dynamic triangulation of n-gons
+    # 1. Shaded solid faces via dynamic triangulation of n-gons (no transparency)
     if show_faces && !isempty(P.f)
         if color_by_face_size
             mesh_pts = Point3f[]
@@ -209,7 +209,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             end
             
             m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=vert_colors, colormap=colormap)
+            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false)
         else
             tris = TriangleFace{Int}[]
             for face in P.f
@@ -219,7 +219,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 end
             end
             m = normal_mesh(pts, tris)
-            mesh!(ax, m; color=color)
+            mesh!(ax, m; color=color, transparency=false)
         end
     end
     
