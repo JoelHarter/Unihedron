@@ -86,14 +86,20 @@ The Cookson solids are spherical polyhedra constructed by radially projecting th
 
 For comprehensive documentation, taxonomy, geometric breakdown, and API usage, see **[doc/cookson.md](doc/cookson.md)**.
 
-| Index | Official Name | Polygon Root | Symmetry | Parent Catalan Solid | $V$ | $F$ |
-| :---: | :--- | :--- | :--- | :--- | :---: | :---: |
-| **C1** | **Trigonal Octasphere** | Trigonal | Octasphere | Rhombic Dodecahedron | 14 | 24 |
-| **C2** | **Trigonal Icosasphere** | Trigonal | Icosasphere | Rhombic Triacontahedron | 32 | 60 |
-| **C3** | **Bitrigonal Octasphere** | Bitrigonal | Octasphere | Deltoidal Icositetrahedron | 26 | 48 |
-| **C4** | **Bitrigonal Icosasphere** | Bitrigonal | Icosasphere | Deltoidal Hexecontahedron | 62 | 120 |
-| **C5** | **Gyrotrapezotrigonal Octasphere** | Gyrotrapezotrigonal | Octasphere | Pentagonal Icositetrahedron | 38 | 48 |
-| **C6** | **Gyrotrapezotrigonal Icosasphere** | Gyrotrapezotrigonal | Icosasphere | Pentagonal Hexecontahedron | 92 | 120 |
+| Index | Official Name | Polygon Root | Symmetry | Parent Catalan Solid | Regime Type | $V$ | $F$ |
+| :---: | :--- | :--- | :--- | :--- | :--- | :---: | :---: |
+| **C1** | **Trigonal Octasphere** | Trigonal | Octasphere | Rhombic Dodecahedron | Convex | 14 | 24 |
+| **C2** | **Trigonal Icosasphere** | Trigonal | Icosasphere | Rhombic Triacontahedron | Convex | 32 | 60 |
+| **C3** | **Bitrigonal Octasphere** | Bitrigonal | Octasphere | Deltoidal Icositetrahedron | Convex | 26 | 48 |
+| **C4** | **Bitrigonal Icosasphere** | Bitrigonal | Icosasphere | Deltoidal Hexecontahedron | Convex | 62 | 120 |
+| **C5** | **Gyrotrapezotrigonal Octasphere** | Gyrotrapezotrigonal | Octasphere | Pentagonal Icositetrahedron | Convex | 38 | 48 |
+| **C6** | **Gyrotrapezotrigonal Icosasphere** | Gyrotrapezotrigonal | Icosasphere | Pentagonal Hexecontahedron | Convex | 92 | 120 |
+| **C7** | **Concave Trigonal Octasphere** | Trigonal | Octasphere | Rhombic Dodecahedron | Concave Shadow | 14 | 24 |
+| **C8** | **Concave Trigonal Icosasphere** | Trigonal | Icosasphere | Rhombic Triacontahedron | Concave Shadow | 32 | 60 |
+| **C9** | **Concave Bitrigonal Octasphere** | Bitrigonal | Octasphere | Deltoidal Icositetrahedron | Concave Shadow | 26 | 48 |
+| **C10** | **Concave Bitrigonal Icosasphere** | Bitrigonal | Icosasphere | Deltoidal Hexecontahedron | Concave Shadow | 62 | 120 |
+| **C11** | **Concave Gyrotrapezotrigonal Octasphere** | Gyrotrapezotrigonal | Octasphere | Pentagonal Icositetrahedron | Concave Shadow | 38 | 72 |
+| **C12** | **Concave Gyrotrapezotrigonal Icosasphere** | Gyrotrapezotrigonal | Icosasphere | Pentagonal Hexecontahedron | Concave Shadow | 92 | 180 |
 
 ---
 

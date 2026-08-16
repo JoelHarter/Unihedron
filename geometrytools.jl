@@ -217,6 +217,10 @@ function isSimilar(P₁::AbstractVector{SVector{N₁, T₁}},
             if all(isapprox.(norm_c₁, norm_c₂; atol=1e-8))
                 return (true, scale, false, p₁_2d, circshift(p₂_2d, 1 - i))
             end
+            if allow_flipped && all(isapprox.(norm_c₁, conj.(norm_c₂); atol=1e-8))
+                aligned_p₂_2d = [Pt2{Float64}(p[1], -p[2]) for p in circshift(p₂_2d, 1 - i)]
+                return (true, scale, true, p₁_2d, aligned_p₂_2d)
+            end
         end
         
         if allow_flipped
@@ -230,6 +234,10 @@ function isSimilar(P₁::AbstractVector{SVector{N₁, T₁}},
                 
                 if all(isapprox.(norm_c₁, norm_c₂_rev; atol=1e-8))
                     aligned_p₂_2d = [p₂_2d[mod1(i - k + 1, n)] for k in 1:n]
+                    return (true, scale_rev, true, p₁_2d, aligned_p₂_2d)
+                end
+                if all(isapprox.(norm_c₁, conj.(norm_c₂_rev); atol=1e-8))
+                    aligned_p₂_2d = [Pt2{Float64}(p[1], -p[2]) for p in [p₂_2d[mod1(i - k + 1, n)] for k in 1:n]]
                     return (true, scale_rev, true, p₁_2d, aligned_p₂_2d)
                 end
             end

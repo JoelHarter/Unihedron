@@ -366,7 +366,7 @@ using .Unihedron
         cph_r2 = gyrotrapezotrigonal_icosasphere(radius=2.5)
         @test all(isapprox.(norm.(cph_r2.v), 2.5, atol=1e-10))
 
-        # Official function names
+        # Official function names (Convex C1-C6)
         @test trigonal_octasphere() isa Polyhedron
         @test trigonal_icosasphere() isa Polyhedron
         @test bitrigonal_octasphere() isa Polyhedron
@@ -374,20 +374,39 @@ using .Unihedron
         @test gyrotrapezotrigonal_octasphere() isa Polyhedron
         @test gyrotrapezotrigonal_icosasphere() isa Polyhedron
 
+        # Official function names (Concave C7-C12)
+        @test concave_trigonal_octasphere() isa Polyhedron
+        @test concave_trigonal_icosasphere() isa Polyhedron
+        @test concave_bitrigonal_octasphere() isa Polyhedron
+        @test concave_bitrigonal_icosasphere() isa Polyhedron
+        @test concave_gyrotrapezotrigonal_octasphere() isa Polyhedron
+        @test concave_gyrotrapezotrigonal_icosasphere() isa Polyhedron
+
         # Shorthand symbols and names
         @test cookson(:C1) isa Polyhedron
         @test cookson(:C6) isa Polyhedron
-        @test cookson(:trigonal_octasphere) isa Polyhedron
-        @test cookson(1) isa Polyhedron
-        @test length(cookson_names()) == 6
+        @test cookson(:C7) isa Polyhedron
+        @test cookson(:C12) isa Polyhedron
+        @test length(cookson_names()) == 12
         @test cookson_name(1) == "Trigonal Octasphere"
-        @test cookson_name(6) == "Gyrotrapezotrigonal Icosasphere"
+        @test cookson_name(7) == "Concave Trigonal Octasphere"
+        @test cookson_name(12) == "Concave Gyrotrapezotrigonal Icosasphere"
 
         # Structural metadata verification
         info1 = cookson_info(1)
         @test info1.polygon_root == "Trigonal" && info1.symmetry == "Octasphere" && info1.parent_catalan == "Rhombic Dodecahedron"
-        info6 = cookson_info(:C6)
-        @test info6.polygon_root == "Gyrotrapezotrigonal" && info6.symmetry == "Icosasphere" && info6.parent_catalan == "Pentagonal Hexecontahedron"
+        info11 = cookson_info(:C11)
+        @test info11.polygon_root == "Gyrotrapezotrigonal" && info11.symmetry == "Octasphere" && info11.parent_catalan == "Pentagonal Icositetrahedron"
+
+        # Axiom 1 (Spherical Anchor) and Axiom 2 (Two-Polygon Limit) for all 12 Cookson solids
+        for i in 1:12
+            solid = cookson(i)
+            # Axiom 1: All vertices on sphere
+            @test all(isapprox.(norm.(solid.v), 1.0, atol=1e-10))
+            # Axiom 2: <= 2 distinct polygon types (with chiral enantiomorphs counted as 1)
+            types = classify_faces(solid; allow_flipped=true)
+            @test length(unique(types)) <= 2
+        end
 
         # Arbitrary polyhedron projection operator
         @test length(cookson(cube()).v) == 8
