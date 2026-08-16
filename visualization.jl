@@ -248,28 +248,53 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                             label_size=12)
     pts = [Point3f(p[1], p[2], p[3]) for p in P.v]
     
+    # Configure infinite Directional Light (light from infinity) + balanced Ambient Light
+    try
+        Makie.set_ambient_light!(ax.scene, RGBf(0.82, 0.82, 0.82))
+        Makie.set_lights!(ax.scene, [DirectionalLight(RGBf(0.35, 0.35, 0.35), Vec3f(-0.3, -0.3, -1.0))])
+    catch
+    end
+
     # 1. Shaded solid faces via dynamic triangulation of n-gons (no transparency)
     if show_faces && !isempty(P.f)
         if color_by_face_size
             mesh_pts = Point3f[]
             mesh_tris = TriangleFace{Int}[]
+            mesh_normals = Vec3f[]
             vert_colors = Float64[]
             
             for face in P.f
-                n = length(face)
+                pts_f = [P.v[idx] for idx in face]
+                n_pts = length(face)
+                center = sum(pts_f) / n_pts
+                
+                n_geom = zeros(Float64, 3)
+                for i in 1:n_pts
+                    p1 = pts_f[i]
+                    p2 = pts_f[i == n_pts ? 1 : i + 1]
+                    n_geom[1] += (p1[2] - p2[2]) * (p1[3] + p2[3])
+                    n_geom[2] += (p1[3] - p2[3]) * (p1[1] + p2[1])
+                    n_geom[3] += (p1[1] - p2[1]) * (p1[2] + p2[2])
+                end
+                
+                ordered_face = dot(n_geom, center) < 0 ? reverse(face) : copy(face)
+                n_unit = normalize(dot(n_geom, center) < 0 ? -n_geom : n_geom)
+                
                 base_idx = length(mesh_pts)
-                for idx in face
+                for idx in ordered_face
                     p = P.v[idx]
                     push!(mesh_pts, Point3f(p[1], p[2], p[3]))
-                    push!(vert_colors, Float64(n))
+                    push!(mesh_normals, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
+                    push!(vert_colors, Float64(n_pts))
                 end
-                for i in 2:(n-1)
+                for i in 2:(n_pts-1)
                     push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
                 end
             end
             
-            m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false, shading=true)
+            m = GeometryBasics.Mesh(mesh_pts, mesh_tris; normal=mesh_normals)
+            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false, shading=true,
+                  diffuse=Vec3f(0.5, 0.5, 0.5), specular=Vec3f(0.12, 0.12, 0.12), shininess=16.0f0)
         elseif color === :auto || color === nothing
             # Color by polygon type with distinct paired mirror color for opposite handed reflections
             types, is_mirror = classify_faces_with_handedness(P)
@@ -278,38 +303,82 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             
             mesh_pts = Point3f[]
             mesh_tris = TriangleFace{Int}[]
+            mesh_normals = Vec3f[]
             mesh_colors = RGB{Float32}[]
             
             for (face_idx, face) in enumerate(P.f)
-                n = length(face)
+                pts_f = [P.v[idx] for idx in face]
+                n_pts = length(face)
+                center = sum(pts_f) / n_pts
+                
+                n_geom = zeros(Float64, 3)
+                for i in 1:n_pts
+                    p1 = pts_f[i]
+                    p2 = pts_f[i == n_pts ? 1 : i + 1]
+                    n_geom[1] += (p1[2] - p2[2]) * (p1[3] + p2[3])
+                    n_geom[2] += (p1[3] - p2[3]) * (p1[1] + p2[1])
+                    n_geom[3] += (p1[1] - p2[1]) * (p1[2] + p2[2])
+                end
+                
+                ordered_face = dot(n_geom, center) < 0 ? reverse(face) : copy(face)
+                n_unit = normalize(dot(n_geom, center) < 0 ? -n_geom : n_geom)
+                
                 base_idx = length(mesh_pts)
                 t = types[face_idx]
                 base_c = base_colors[t]
                 face_col = is_mirror[face_idx] ? get_polygon_mirror_color(t, base_c) : base_c
                 
-                for idx in face
+                for idx in ordered_face
                     p = P.v[idx]
                     push!(mesh_pts, Point3f(p[1], p[2], p[3]))
+                    push!(mesh_normals, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
                     push!(mesh_colors, face_col)
                 end
-                for i in 2:(n-1)
+                for i in 2:(n_pts-1)
                     push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
                 end
             end
             
-            m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=mesh_colors, transparency=false, shading=true)
+            m = GeometryBasics.Mesh(mesh_pts, mesh_tris; normal=mesh_normals)
+            mesh!(ax, m; color=mesh_colors, transparency=false, shading=true,
+                  diffuse=Vec3f(0.5, 0.5, 0.5), specular=Vec3f(0.12, 0.12, 0.12), shininess=16.0f0)
         else
             # Explicit user single color override
-            tris = TriangleFace{Int}[]
+            mesh_pts = Point3f[]
+            mesh_tris = TriangleFace{Int}[]
+            mesh_normals = Vec3f[]
+            
             for face in P.f
-                n = length(face)
-                for i in 2:(n-1)
-                    push!(tris, TriangleFace(face[1], face[i], face[i+1]))
+                pts_f = [P.v[idx] for idx in face]
+                n_pts = length(face)
+                center = sum(pts_f) / n_pts
+                
+                n_geom = zeros(Float64, 3)
+                for i in 1:n_pts
+                    p1 = pts_f[i]
+                    p2 = pts_f[i == n_pts ? 1 : i + 1]
+                    n_geom[1] += (p1[2] - p2[2]) * (p1[3] + p2[3])
+                    n_geom[2] += (p1[3] - p2[3]) * (p1[1] + p2[1])
+                    n_geom[3] += (p1[1] - p2[1]) * (p1[2] + p2[2])
+                end
+                
+                ordered_face = dot(n_geom, center) < 0 ? reverse(face) : copy(face)
+                n_unit = normalize(dot(n_geom, center) < 0 ? -n_geom : n_geom)
+                
+                base_idx = length(mesh_pts)
+                for idx in ordered_face
+                    p = P.v[idx]
+                    push!(mesh_pts, Point3f(p[1], p[2], p[3]))
+                    push!(mesh_normals, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
+                end
+                for i in 2:(n_pts-1)
+                    push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
                 end
             end
-            m = normal_mesh(pts, tris)
-            mesh!(ax, m; color=color, transparency=false, shading=true)
+            
+            m = GeometryBasics.Mesh(mesh_pts, mesh_tris; normal=mesh_normals)
+            mesh!(ax, m; color=color, transparency=false, shading=true,
+                  diffuse=Vec3f(0.5, 0.5, 0.5), specular=Vec3f(0.12, 0.12, 0.12), shininess=16.0f0)
         end
     end
     
