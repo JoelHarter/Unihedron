@@ -14,10 +14,10 @@ const POLYGON_TYPE_PALETTE = [
     RGB{Float32}(0.478f0, 0.431f0, 0.392f0)   # 6. Brownish gray (#7A6E64)
 ]
 
-function _desaturate_color(c::Colorant, factor::Real=0.55)
-    hsv = HSV(c)
-    hsv_desat = HSV(hsv.h, Float32(clamp(hsv.s * factor, 0.0, 1.0)), hsv.v)
-    return RGB{Float32}(hsv_desat)
+function _desaturate_color(c::Colorant, factor::Real=0.45)
+    ok = Oklch(c)
+    ok_muted = Oklch(ok.l, Float32(clamp(ok.c * factor, 0.0, 1.0)), ok.h)
+    return RGB{Float32}(ok_muted)
 end
 
 """

@@ -255,17 +255,19 @@ Disqualified under Rule A (shares topological graph and convexity with Catalan P
 studded_dodecasphere(; radius::Real=1.0) = cookson(rhombic_triacontahedron(); radius=radius)
 
 """
-    studded_cuboctasphere(; radius::Real=1.0)
+    studded_rhombic_dodecasphere(; radius::Real=1.0)
     bistudded_dodecasphere(; radius::Real=1.0)
 
 Excluded solid: Derived from convex projection of Deltoidal Icositetrahedron (V=26, F=48).
 Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Dodecahedron).
 """
-studded_cuboctasphere(; radius::Real=1.0) = cookson(deltoidal_icositetrahedron(); radius=radius)
-const bistudded_dodecasphere = studded_cuboctasphere
-const bi_studded_dodecasphere = studded_cuboctasphere
+studded_rhombic_dodecasphere(; radius::Real=1.0) = cookson(deltoidal_icositetrahedron(); radius=radius)
+const bistudded_dodecasphere = studded_rhombic_dodecasphere
+const bi_studded_dodecasphere = studded_rhombic_dodecasphere
+const studded_dodecasphere_ii = studded_rhombic_dodecasphere
 
 """
+    studded_rhombic_triacontasphere_excluded(; radius::Real=1.0)
     studded_triacontasphere(; radius::Real=1.0)
     bistudded_triacontasphere(; radius::Real=1.0)
 
@@ -273,6 +275,7 @@ Excluded solid: Derived from convex projection of Deltoidal Hexecontahedron (V=6
 Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Triacontahedron).
 """
 studded_triacontasphere(; radius::Real=1.0) = cookson(deltoidal_hexecontahedron(); radius=radius)
+const studded_rhombic_triacontasphere_excluded = studded_triacontasphere
 const bistudded_triacontasphere = studded_triacontasphere
 const bi_studded_triacontasphere = studded_triacontasphere
 
@@ -322,9 +325,12 @@ const COOKSON_SOLID_ORDER = [
 const EXCLUDED_COOKSON_MAP = Dict{Symbol, Function}(
     :studded_hexasphere => studded_hexasphere,
     :studded_dodecasphere => studded_dodecasphere,
-    :studded_cuboctasphere => studded_cuboctasphere,
-    :bistudded_dodecasphere => studded_cuboctasphere,
-    :bi_studded_dodecasphere => studded_cuboctasphere,
+    :studded_rhombic_dodecasphere => studded_rhombic_dodecasphere,
+    :studded_cuboctasphere => studded_rhombic_dodecasphere,
+    :bistudded_dodecasphere => studded_rhombic_dodecasphere,
+    :bi_studded_dodecasphere => studded_rhombic_dodecasphere,
+    :studded_dodecasphere_ii => studded_rhombic_dodecasphere,
+    :studded_rhombic_triacontasphere_excluded => studded_triacontasphere,
     :studded_triacontasphere => studded_triacontasphere,
     :bistudded_triacontasphere => studded_triacontasphere,
     :bi_studded_triacontasphere => studded_triacontasphere
@@ -333,8 +339,8 @@ const EXCLUDED_COOKSON_MAP = Dict{Symbol, Function}(
 const EXCLUDED_COOKSON_NAMES = [
     "Studded Hexasphere",
     "Studded Dodecasphere",
-    "Studded Cuboctasphere",
-    "Studded Triacontasphere"
+    "Studded Rhombic Dodecasphere",
+    "Studded Rhombic Triacontasphere"
 ]
 
 const COOKSON_SOLID_MAP = Dict{Symbol, Function}(

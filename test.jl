@@ -392,9 +392,11 @@ using .Unihedron
 
         # Excluded solids list (Rule A & B)
         @test length(excluded_cookson_names()) == 4
+        @test "Studded Rhombic Dodecasphere" in excluded_cookson_names()
+        @test "Studded Rhombic Triacontasphere" in excluded_cookson_names()
         @test excluded_cookson(:studded_hexasphere) isa Polyhedron
         @test length(studded_dodecasphere().v) == 32
-        @test length(studded_cuboctasphere().v) == 26
+        @test length(studded_rhombic_dodecasphere().v) == 26
         @test length(bistudded_dodecasphere().v) == 26
         @test length(studded_triacontasphere().v) == 62
         @test length(bistudded_triacontasphere().v) == 62
