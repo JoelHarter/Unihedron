@@ -341,26 +341,30 @@ using .Unihedron
         @test count(length.(h2.f) .== 4) == 60
         @test count(length.(h2.f) .== 3) == 60
 
-        # 3. H3: Studded Octasphere (V=14, F=24 triangles)
-        h3 = studded_octasphere()
+        # 3. H3: Studded Octahedron (V=14, F=24 triangles)
+        h3 = studded_octahedron()
         @test length(h3.v) == 14 && length(h3) == 24
         @test all(length.(h3.f) .== 3)
+        @test studded_octasphere() isa Polyhedron
 
-        # 4. H4: Studded Icosasphere (V=32, F=60 triangles)
-        h4 = studded_icosasphere()
+        # 4. H4: Studded Icosahedron (V=32, F=60 triangles)
+        h4 = studded_icosahedron()
         @test length(h4.v) == 32 && length(h4) == 60
         @test all(length.(h4.f) .== 3)
+        @test studded_icosasphere() isa Polyhedron
 
-        # 5. H5: Bi-studded Cuboctasphere (V=26, F=48 triangles)
-        h5 = bistudded_cuboctasphere()
+        # 5. H5: Studded Cuboctahedron (V=26, F=48 triangles)
+        h5 = studded_cuboctahedron()
         @test length(h5.v) == 26 && length(h5) == 48
         @test all(length.(h5.f) .== 3)
+        @test bistudded_cuboctasphere() isa Polyhedron
         @test bi_studded_cuboctasphere() isa Polyhedron
 
-        # 6. H6: Bi-studded Rhombic Triacontasphere (V=62, F=120 triangles)
-        h6 = bistudded_rhombic_triacontasphere()
+        # 6. H6: Studded Rhombic Triacontasphere (V=62, F=120 triangles)
+        h6 = studded_rhombic_triacontasphere()
         @test length(h6.v) == 62 && length(h6) == 120
         @test all(length.(h6.f) .== 3)
+        @test bistudded_rhombic_triacontasphere() isa Polyhedron
         @test bi_studded_rhombic_triacontasphere() isa Polyhedron
 
         # 7. H7: Gyrobitrigonal Octasphere (V=38, F=72 triangles)
@@ -380,8 +384,10 @@ using .Unihedron
         @test cookson(8) isa Polyhedron
         @test length(cookson_names()) == 8
         @test cookson_name(1) == "Gyrotrapezotrigonal Octasphere"
-        @test cookson_name(3) == "Studded Octasphere"
-        @test cookson_name(5) == "Bi-studded Cuboctasphere"
+        @test cookson_name(3) == "Studded Octahedron"
+        @test cookson_name(4) == "Studded Icosahedron"
+        @test cookson_name(5) == "Studded Cuboctahedron"
+        @test cookson_name(6) == "Studded Rhombic Triacontasphere"
         @test cookson_name(7) == "Gyrobitrigonal Octasphere"
 
         # Excluded solids list (Rule A & B)
@@ -397,6 +403,10 @@ using .Unihedron
         info3 = cookson_info(:H3)
         @test info3.h_index == 3 && info3.group == "Concave Shadow" && info3.parent_catalan == "Rhombic Dodecahedron"
         @test info3.classical_graph == "Triakis Octahedron"
+        info5 = cookson_info(:H5)
+        @test info5.h_index == 5 && info5.name == "Studded Cuboctahedron" && info5.classical_graph == "Disdyakis Cuboctahedron"
+        info6 = cookson_info(:H6)
+        @test info6.h_index == 6 && info6.name == "Studded Rhombic Triacontasphere" && info6.classical_graph == "Disdyakis Rhombic Triacontahedron"
         info7 = cookson_info(:H7)
         @test info7.h_index == 7 && info7.group == "Concave Irregular" && info7.parent_catalan == "Pentagonal Icositetrahedron"
 

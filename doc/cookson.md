@@ -7,7 +7,7 @@
 ## 1. Naming & Namespace Updates
 
 * **Prefix Shift ($H$)**: The official prefix for Cookson solids is **$H$** (standing for *Harter*) to strictly avoid namespace collisions with the existing $C$ prefix used for Catalan solids. The sequence is defined as $H_1, H_2, H_3, \dots, H_8$.
-* **The `-sphere` Suffix Rule**: The suffix `-sphere` is applied only if the polyhedron requires its vertices to be mathematically normalized to the unit sphere to exist in this form (e.g., transforming a classical planar `-hedron` into a spherical framework).
+* **The `-sphere` vs `-hedron` Suffix Rule**: The suffix `-sphere` is applied only if the polyhedron requires its vertices to be mathematically normalized to the unit sphere from its eponymous base solid (e.g., transforming the Rhombic Triacontahedron into the *Studded Rhombic Triacontasphere*). Polyhedra that were not forcibly normalized from those eponymous solids take the classical **`-hedron`** suffix (e.g., *Studded Octahedron*, *Studded Icosahedron*, *Studded Cuboctahedron*).
 * **The "Studded" Nomenclature**: Traditional Greek prefixes (e.g., *triakis*, *tetrakis*, *pentakis*, *disdyakis*) are **strictly banned** in this namespace. The authors are fully aware of this classical Catalan taxonomy, but deliberately reject it. Archaic prefixes are replaced with the intuitive modifier **"Studded"** (or **"Bi-studded"** for dual-triangulation). This modernizes the geometry and immediately communicates the structural operation (raising/indenting pyramids on base faces) without relying on confusing legacy translations.
 
 ---
@@ -67,16 +67,16 @@ These solids pass the baseline regime rules but are disqualified under **Rule A*
 
 These are the 8 true Cookson solids, passing all regime rules and possessing either an entirely unique topological graph or a concave profile that distinguishes them from classical planar geometry.
 
-| Index | Official Name | Classification | Polygon Root | Symmetry | Parent Catalan Solid | Vertices ($V$) | Faces ($F$) | Face Breakdown |
+| Index | Official Name | Classification | Suffix Form | Parent Catalan Solid | Classical Graph | Vertices ($V$) | Faces ($F$) | Face Breakdown |
 | :---: | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-| **$H_1$** | **Gyrotrapezotrigonal Octasphere** | Convex Irregular (Unique Graph) | Gyrotrapezotrigonal | Octasphere | Pentagonal Icositetrahedron | 38 | 48 | 24 Trapezoids, 24 Triangles |
-| **$H_2$** | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular (Unique Graph) | Gyrotrapezotrigonal | Icosasphere | Pentagonal Hexecontahedron | 92 | 120 | 60 Trapezoids, 60 Triangles |
-| **$H_3$** | **Studded Octasphere** | Concave Shadow (Rule C Exception) | Studded | Octasphere | Rhombic Dodecahedron | 14 | 24 | 24 Triangles |
-| **$H_4$** | **Studded Icosasphere** | Concave Shadow (Rule C Exception) | Studded | Icosasphere | Rhombic Triacontahedron | 32 | 60 | 60 Triangles |
-| **$H_5$** | **Bi-studded Cuboctasphere** | Concave Shadow (Rule C Exception) | Bi-studded | Octasphere | Deltoidal Icositetrahedron | 26 | 48 | 48 Triangles (Chiral pairs) |
-| **$H_6$** | **Bi-studded Rhombic Triacontasphere** | Concave Shadow (Rule C Exception) | Bi-studded | Icosasphere | Deltoidal Hexecontahedron | 62 | 120 | 120 Triangles (Chiral pairs) |
-| **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular (Unique Graph & Convexity) | Gyrobitrigonal | Octasphere | Pentagonal Icositetrahedron | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
-| **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular (Unique Graph & Convexity) | Gyrobitrigonal | Icosasphere | Pentagonal Hexecontahedron | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
+| **$H_1$** | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | `-sphere` | Pentagonal Icositetrahedron | *Unique* | 38 | 48 | 24 Trapezoids, 24 Triangles |
+| **$H_2$** | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | `-sphere` | Pentagonal Hexecontahedron | *Unique* | 92 | 120 | 60 Trapezoids, 60 Triangles |
+| **$H_3$** | **Studded Octahedron** | Concave Shadow | `-hedron` | Rhombic Dodecahedron | *Triakis Octahedron* | 14 | 24 | 24 Triangles |
+| **$H_4$** | **Studded Icosahedron** | Concave Shadow | `-hedron` | Rhombic Triacontahedron | *Triakis Icosahedron* | 32 | 60 | 60 Triangles |
+| **$H_5$** | **Studded Cuboctahedron** | Concave Shadow | `-hedron` | Deltoidal Icositetrahedron | *Disdyakis Cuboctahedron* | 26 | 48 | 48 Triangles (Chiral pairs) |
+| **$H_6$** | **Studded Rhombic Triacontasphere** | Concave Shadow | `-sphere` | Deltoidal Hexecontahedron | *Disdyakis Rhombic Triacontahedron* | 62 | 120 | 120 Triangles (Chiral pairs) |
+| **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular | `-sphere` | Pentagonal Icositetrahedron | *Unique* | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
+| **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular | `-sphere` | Pentagonal Hexecontahedron | *Unique* | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
 
 ---
 
@@ -87,10 +87,10 @@ These are the 8 true Cookson solids, passing all regime rules and possessing eit
 * **$H_2$: Gyrotrapezotrigonal Icosasphere**: Art's original convex Pentagonal Hexecontahedron derivative ($V=92, F=120$).
 
 ### The Concave Shadows (Classical Graphs, Different Convexity)
-* **$H_3$: Studded Octasphere**: Concave valley-fold derivative of the Rhombic Dodecahedron ($V=14, F=24$; classical graph: *Triakis Octahedron*).
-* **$H_4$: Studded Icosasphere**: Concave valley-fold derivative of the Rhombic Triacontahedron ($V=32, F=60$; classical graph: *Triakis Icosahedron*).
-* **$H_5$: Bi-studded Cuboctasphere**: Concave valley-fold derivative of the Deltoidal Icositetrahedron ($V=26, F=48$; classical graph: *Disdyakis Cuboctahedron*).
-* **$H_6$: Bi-studded Rhombic Triacontasphere**: Concave valley-fold derivative of the Deltoidal Hexecontahedron ($V=62, F=120$; classical graph: *Disdyakis Rhombic Triacontahedron*).
+* **$H_3$: Studded Octahedron**: Concave valley-fold derivative of the Rhombic Dodecahedron ($V=14, F=24$; classical graph: *Triakis Octahedron*). Suffix `-hedron` because it was not forcibly normalized from an octahedron.
+* **$H_4$: Studded Icosahedron**: Concave valley-fold derivative of the Rhombic Triacontahedron ($V=32, F=60$; classical graph: *Triakis Icosahedron*). Suffix `-hedron` because it was not forcibly normalized from an icosahedron.
+* **$H_5$: Studded Cuboctahedron**: Concave valley-fold derivative of the Deltoidal Icositetrahedron ($V=26, F=48$; classical graph: *Disdyakis Cuboctahedron*). Suffix `-hedron` because it was not forcibly normalized from a cuboctahedron.
+* **$H_6$: Studded Rhombic Triacontasphere**: Concave valley-fold derivative of the Deltoidal Hexecontahedron ($V=62, F=120$; classical graph: *Disdyakis Rhombic Triacontahedron*). Suffix `-sphere` because it is normalized from the Rhombic Triacontahedron.
 
 ### The Concave Irregulars (Unique Graphs, Unique Convexity)
 * **$H_7$: Gyrobitrigonal Octasphere**: Concave valley-fold derivative of the Pentagonal Icositetrahedron ($V=38, F=72$). Created by cutting each skew pentakite from the tip to the lower pair of vertices, fracturing it into 1 central isosceles triangle and 2 mirrored flanking scalene triangles.
@@ -106,16 +106,19 @@ using Unihedron
 
 # By H-index symbol (:H1 to :H8) or integer (1 to 8)
 h1 = cookson(:H1)   # H1: Gyrotrapezotrigonal Octasphere (Convex Irregular)
-h3 = cookson(:H3)   # H3: Studded Octasphere (Concave Shadow)
-h5 = cookson(:H5)   # H5: Bi-studded Cuboctasphere (Concave Shadow)
+h3 = cookson(:H3)   # H3: Studded Octahedron (Concave Shadow)
+h4 = cookson(:H4)   # H4: Studded Icosahedron (Concave Shadow)
+h5 = cookson(:H5)   # H5: Studded Cuboctahedron (Concave Shadow)
+h6 = cookson(:H6)   # H6: Studded Rhombic Triacontasphere (Concave Shadow)
 h7 = cookson(:H7)   # H7: Gyrobitrigonal Octasphere (Concave Irregular)
 h8 = cookson(:H8)   # H8: Gyrobitrigonal Icosasphere (Concave Irregular)
 
 # By official constructor names
 P1 = gyrotrapezotrigonal_octasphere()
-P3 = studded_octasphere()
-P5 = bistudded_cuboctasphere()       # or bi_studded_cuboctasphere()
-P6 = bistudded_rhombic_triacontasphere()
+P3 = studded_octahedron()
+P4 = studded_icosahedron()
+P5 = studded_cuboctahedron()
+P6 = studded_rhombic_triacontasphere()
 P7 = gyrobitrigonal_octasphere()
 
 # Accessing the Excluded list
@@ -124,18 +127,8 @@ ex_names = excluded_cookson_names()
 
 # Structural metadata query
 info = cookson_info(:H3)
-println(info.name)             # "Studded Octasphere"
+println(info.name)             # "Studded Octahedron"
 println(info.group)            # "Concave Shadow"
 println(info.classical_graph)  # "Triakis Octahedron"
 println(info.parent_catalan)   # "Rhombic Dodecahedron"
-```
-
-### Interactive Visualization
-```julia
-using GLMakie
-
-# Visualize with face-size coloring
-viz(:H1; color_by_face_size=true)
-viz(:H3; color_by_face_size=true)
-viz(:H7; color_by_face_size=true)
 ```
