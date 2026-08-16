@@ -14,10 +14,28 @@ const POLYGON_TYPE_PALETTE = [
     RGB{Float32}(0.478f0, 0.431f0, 0.392f0)   # 6. Brownish gray (#7A6E64)
 ]
 
-function _desaturate_color(c::Colorant, factor::Real=0.45)
-    ok = Oklch(c)
-    ok_muted = Oklch(ok.l, Float32(clamp(ok.c * factor, 0.0, 1.0)), ok.h)
-    return RGB{Float32}(ok_muted)
+const POLYGON_MIRROR_PALETTE = [
+    RGB{Float32}(0.941f0, 0.471f0, 0.063f0),  # 1. Orange (#F07810) for Vermilion
+    RGB{Float32}(0.000f0, 0.647f0, 0.710f0),  # 2. Turquoise (#00A5B5) for Celtic blue
+    RGB{Float32}(0.357f0, 0.494f0, 0.063f0),  # 3. Meadow / Olive (#5B7E10) for Lincoln green
+    RGB{Float32}(0.898f0, 0.584f0, 0.000f0),  # 4. Amber / Marigold (#E59500) for Saffron
+    RGB{Float32}(0.361f0, 0.094f0, 0.376f0),  # 5. Mulberry / Plum (#5C1860) for Tyrian purple
+    RGB{Float32}(0.392f0, 0.455f0, 0.490f0)   # 6. Slate / Cool taupe (#64747D) for Brownish gray
+]
+
+"""
+    get_polygon_mirror_color(type_idx::Int, base_c::RGB{Float32}) -> RGB{Float32}
+
+Returns the distinct handed mirror color for polygon type `type_idx`.
+Uses curated nearby hues with matched saturation and brightness (e.g. Orange for Vermilion, Turquoise for Celtic Blue).
+"""
+function get_polygon_mirror_color(type_idx::Int, base_c::RGB{Float32})
+    if 1 <= type_idx <= length(POLYGON_MIRROR_PALETTE)
+        return POLYGON_MIRROR_PALETTE[type_idx]
+    else
+        ok = Oklch(base_c)
+        return RGB{Float32}(Oklch(ok.l, ok.c, Float32(mod(ok.h + 25.0f0, 360.0f0))))
+    end
 end
 
 """
@@ -267,7 +285,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 base_idx = length(mesh_pts)
                 t = types[face_idx]
                 base_c = base_colors[t]
-                face_col = is_mirror[face_idx] ? _desaturate_color(base_c, 0.55f0) : base_c
+                face_col = is_mirror[face_idx] ? get_polygon_mirror_color(t, base_c) : base_c
                 
                 for idx in face
                     p = P.v[idx]

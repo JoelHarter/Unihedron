@@ -7,10 +7,70 @@ using StaticArrays
 using LinearAlgebra
 
 """
+    _make_image_transparent!(filepath::AbstractString; bg_color=RGB{Float32}(1,1,1), tol=0.02)
+
+Converts the pure background color of a saved raster image file to transparent RGBA.
+Uses border flood-filling to preserve interior white details.
+"""
+function _make_image_transparent!(filepath::AbstractString; bg_color=RGB{Float32}(1,1,1), tol=0.02)
+    img = GLMakie.FileIO.load(filepath)
+    H, W = size(img)
+    rgba = Matrix{RGBA{Float32}}(undef, H, W)
+    for y in 1:H, x in 1:W
+        c = RGB{Float32}(img[y, x])
+        rgba[y, x] = RGBA{Float32}(c.r, c.g, c.b, 1.0f0)
+    end
+    
+    visited = falses(H, W)
+    queue = Tuple{Int, Int}[]
+    
+    for x in 1:W
+        for y in [1, H]
+            c = RGB{Float32}(img[y, x])
+            if norm([c.r - bg_color.r, c.g - bg_color.g, c.b - bg_color.b]) < tol
+                visited[y, x] = true
+                push!(queue, (y, x))
+            end
+        end
+    end
+    for y in 1:H
+        for x in [1, W]
+            if !visited[y, x]
+                c = RGB{Float32}(img[y, x])
+                if norm([c.r - bg_color.r, c.g - bg_color.g, c.b - bg_color.b]) < tol
+                    visited[y, x] = true
+                    push!(queue, (y, x))
+                end
+            end
+        end
+    end
+    
+    while !isempty(queue)
+        cy, cx = popfirst!(queue)
+        rgba[cy, cx] = RGBA{Float32}(bg_color.r, bg_color.g, bg_color.b, 0.0f0)
+        
+        for (dy, dx) in [(-1, 0), (1, 0), (0, -1), (0, 1)]
+            ny, nx = cy + dy, cx + dx
+            if 1 <= ny <= H && 1 <= nx <= W && !visited[ny, nx]
+                c = RGB{Float32}(img[ny, nx])
+                dist = norm([c.r - bg_color.r, c.g - bg_color.g, c.b - bg_color.b])
+                if dist < tol
+                    visited[ny, nx] = true
+                    push!(queue, (ny, nx))
+                end
+            end
+        end
+    end
+    
+    GLMakie.FileIO.save(filepath, rgba)
+    return filepath
+end
+
+"""
     print_polyhedron(P::Polyhedron, filepath::AbstractString; 
                      size=(800, 800), 
                      px_per_unit=2.0, 
-                     color=:dodgerblue, 
+                     color=:auto, 
                      edgecolor=:black, 
                      linewidth=2.0, 
                      show_faces=true, 
@@ -21,9 +81,11 @@ using LinearAlgebra
                      color_by_face_size=false, 
                      colormap=:viridis, 
                      title=nothing, 
+                     transparent=false,
                      kwargs...)
 
 Renders a `Polyhedron` in 3D using Makie and writes a high-resolution image to `filepath` (.png, .jpg, .svg, .pdf).
+If `transparent=true`, saves PNG images with a fully transparent background.
 """
 function print_polyhedron(P::Polyhedron, filepath::AbstractString; 
                           size::Tuple{Int, Int}=(800, 800), 
@@ -39,6 +101,7 @@ function print_polyhedron(P::Polyhedron, filepath::AbstractString;
                           color_by_face_size::Bool=false, 
                           colormap=:viridis, 
                           title::Union{AbstractString, Nothing}=nothing, 
+                          transparent::Bool=false,
                           kwargs...)
     fig = display_polyhedron(P; 
                              size=size, 
@@ -55,6 +118,9 @@ function print_polyhedron(P::Polyhedron, filepath::AbstractString;
                              title=title, 
                              kwargs...)
     GLMakie.save(filepath, fig; px_per_unit=Float32(px_per_unit))
+    if transparent && endswith(lowercase(filepath), ".png")
+        _make_image_transparent!(filepath)
+    end
     return filepath
 end
 
