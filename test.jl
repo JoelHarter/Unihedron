@@ -394,7 +394,9 @@ using .Unihedron
         @test length(excluded_cookson_names()) == 4
         @test excluded_cookson(:studded_hexasphere) isa Polyhedron
         @test length(studded_dodecasphere().v) == 32
+        @test length(studded_cuboctasphere().v) == 26
         @test length(bistudded_dodecasphere().v) == 26
+        @test length(studded_triacontasphere().v) == 62
         @test length(bistudded_triacontasphere().v) == 62
 
         # Structural metadata verification

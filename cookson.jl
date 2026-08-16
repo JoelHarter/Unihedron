@@ -11,7 +11,7 @@
 #
 # The "Studded" Nomenclature:
 # Traditional Greek prefixes (e.g. triakis, tetrakis, pentakis, disdyakis) are strictly banned in this namespace.
-# Archaic prefixes are replaced with the intuitive modifier "Studded" (or "Bi-studded" for dual-triangulation).
+# Archaic prefixes are replaced with the intuitive modifier "Studded".
 #
 # Taxonomic Exclusion Rules:
 # - Rule A (Disqualification Gate): Disqualifies regimes sharing both the topological graph AND strict convexity
@@ -255,24 +255,26 @@ Disqualified under Rule A (shares topological graph and convexity with Catalan P
 studded_dodecasphere(; radius::Real=1.0) = cookson(rhombic_triacontahedron(); radius=radius)
 
 """
+    studded_cuboctasphere(; radius::Real=1.0)
     bistudded_dodecasphere(; radius::Real=1.0)
-    bi_studded_dodecasphere(; radius::Real=1.0)
 
 Excluded solid: Derived from convex projection of Deltoidal Icositetrahedron (V=26, F=48).
 Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Dodecahedron).
 """
-bistudded_dodecasphere(; radius::Real=1.0) = cookson(deltoidal_icositetrahedron(); radius=radius)
-const bi_studded_dodecasphere = bistudded_dodecasphere
+studded_cuboctasphere(; radius::Real=1.0) = cookson(deltoidal_icositetrahedron(); radius=radius)
+const bistudded_dodecasphere = studded_cuboctasphere
+const bi_studded_dodecasphere = studded_cuboctasphere
 
 """
+    studded_triacontasphere(; radius::Real=1.0)
     bistudded_triacontasphere(; radius::Real=1.0)
-    bi_studded_triacontasphere(; radius::Real=1.0)
 
 Excluded solid: Derived from convex projection of Deltoidal Hexecontahedron (V=62, F=120).
 Disqualified under Rule A (shares topological graph and convexity with Catalan Disdyakis Triacontahedron).
 """
-bistudded_triacontasphere(; radius::Real=1.0) = cookson(deltoidal_hexecontahedron(); radius=radius)
-const bi_studded_triacontasphere = bistudded_triacontasphere
+studded_triacontasphere(; radius::Real=1.0) = cookson(deltoidal_hexecontahedron(); radius=radius)
+const bistudded_triacontasphere = studded_triacontasphere
+const bi_studded_triacontasphere = studded_triacontasphere
 
 # ============================================================================
 # Metadata, Classification & Dispatchers
@@ -320,17 +322,19 @@ const COOKSON_SOLID_ORDER = [
 const EXCLUDED_COOKSON_MAP = Dict{Symbol, Function}(
     :studded_hexasphere => studded_hexasphere,
     :studded_dodecasphere => studded_dodecasphere,
-    :bistudded_dodecasphere => bistudded_dodecasphere,
-    :bi_studded_dodecasphere => bistudded_dodecasphere,
-    :bistudded_triacontasphere => bistudded_triacontasphere,
-    :bi_studded_triacontasphere => bistudded_triacontasphere
+    :studded_cuboctasphere => studded_cuboctasphere,
+    :bistudded_dodecasphere => studded_cuboctasphere,
+    :bi_studded_dodecasphere => studded_cuboctasphere,
+    :studded_triacontasphere => studded_triacontasphere,
+    :bistudded_triacontasphere => studded_triacontasphere,
+    :bi_studded_triacontasphere => studded_triacontasphere
 )
 
 const EXCLUDED_COOKSON_NAMES = [
     "Studded Hexasphere",
     "Studded Dodecasphere",
-    "Bi-studded Dodecasphere",
-    "Bi-studded Triacontasphere"
+    "Studded Cuboctasphere",
+    "Studded Triacontasphere"
 ]
 
 const COOKSON_SOLID_MAP = Dict{Symbol, Function}(

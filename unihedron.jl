@@ -108,7 +108,7 @@ export studded_icosahedron, studded_icosasphere
 export studded_cuboctahedron, studded_cuboctasphere, bistudded_cuboctasphere, bi_studded_cuboctasphere
 export studded_rhombic_triacontasphere, bistudded_rhombic_triacontasphere, bi_studded_rhombic_triacontasphere
 export gyrobitrigonal_octasphere, gyrobitrigonal_icosasphere
-export studded_hexasphere, studded_dodecasphere
+export studded_hexasphere, studded_dodecasphere, studded_triacontasphere
 export bistudded_dodecasphere, bi_studded_dodecasphere
 export bistudded_triacontasphere, bi_studded_triacontasphere
 
