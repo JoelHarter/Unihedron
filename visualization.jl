@@ -138,10 +138,10 @@ function display_polygon!(ax::Axis3, poly::AbstractVector{<:Pt3};
     pts = [Point3f(p[1], p[2], p[3]) for p in poly]
     n = length(pts)
     
-    # 1. Triangulate planar/skew 3D polygon (solid with no transparency)
+    # 1. Triangulate planar/skew 3D polygon (solid with no transparency, unshaded flat colors)
     tris = [TriangleFace(1, i, i+1) for i in 2:(n-1)]
     m = normal_mesh(pts, tris)
-    mesh!(ax, m; color=color, transparency=false)
+    mesh!(ax, m; color=color, transparency=false, shading=NoShading)
     
     # 2. Outline boundary edges
     edge_pts = Point3f[]
@@ -168,19 +168,27 @@ end
 
 """
     display_polygon(poly::AbstractVector{<:Pt3}; 
-                    title="3D Polygon", 
+                    title=nothing, 
                     size=(700, 700), 
+                    show_axis::Bool=false,
+                    backgroundcolor=:white,
                     kwargs...)
 
-Opens a Makie window displaying a 3D polygon in an interactive 3D viewport. Returns `Figure`.
+Opens a Makie window displaying a 3D polygon on a plain background with no axes. Returns `Figure`.
 """
 function display_polygon(poly::AbstractVector{<:Pt3}; 
-                         title::AbstractString="3D Polygon", 
+                         title::Union{AbstractString, Nothing}=nothing, 
                          size::Tuple{Int, Int}=(700, 700), 
+                         show_axis::Bool=false,
+                         backgroundcolor=:white,
                          kwargs...)
-    fig = Figure(size=size)
-    ax = Axis3(fig[1, 1], aspect=:data, title=title)
-    display_polygon!(ax, poly; kwargs...)
+    fig = Figure(size=size, backgroundcolor=backgroundcolor)
+    ax = Axis3(fig[1, 1], aspect=:data, title=(title !== nothing ? title : ""))
+    if !show_axis
+        hidedecorations!(ax)
+        hidespines!(ax)
+    end
+    display_polygon!(ax, poly; show_vertices=false, kwargs...)
     return fig
 end
 
@@ -246,9 +254,9 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             end
             
             m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false)
+            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false, shading=NoShading)
         elseif color === :auto || color === nothing
-            # Color by polygon type with darker shade for handed mirror reflections
+            # Color by polygon type with darker shade for handed mirror reflections (unshaded flat)
             types, is_mirror = classify_faces_with_handedness(P)
             num_types = isempty(types) ? 1 : maximum(types)
             base_colors = get_polygon_colors(num_types)
@@ -275,9 +283,9 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             end
             
             m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=mesh_colors, transparency=false)
+            mesh!(ax, m; color=mesh_colors, transparency=false, shading=NoShading)
         else
-            # Explicit user single color override
+            # Explicit user single color override (unshaded flat)
             tris = TriangleFace{Int}[]
             for face in P.f
                 n = length(face)
@@ -286,7 +294,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 end
             end
             m = normal_mesh(pts, tris)
-            mesh!(ax, m; color=color, transparency=false)
+            mesh!(ax, m; color=color, transparency=false, shading=NoShading)
         end
     end
     
@@ -335,22 +343,30 @@ end
 
 """
     display_polyhedron(P::Polyhedron; 
-                       title="Polyhedron", 
+                       title=nothing, 
                        size=(800, 800), 
+                       show_axis::Bool=false,
+                       backgroundcolor=:white,
                        kwargs...)
     plot_polyhedron(P::Polyhedron; kwargs...)
 
-Opens an interactive 3D Makie window displaying the given `Polyhedron`.
+Opens an interactive 3D Makie window displaying the given `Polyhedron` on a clean, plain background
+with no axes, grids, or vertex markers by default.
 Returns the created `Figure`.
 """
 function display_polyhedron(P::Polyhedron; 
                             title::Union{AbstractString, Nothing}=nothing, 
                             size::Tuple{Int, Int}=(800, 800), 
+                            show_axis::Bool=false,
+                            backgroundcolor=:white,
                             kwargs...)
-    header = title !== nothing ? title : "Polyhedron (V=$(length(P.v)), F=$(length(P)))"
-    fig = Figure(size=size)
-    ax = Axis3(fig[1, 1], aspect=:data, title=header)
-    display_polyhedron!(ax, P; kwargs...)
+    fig = Figure(size=size, backgroundcolor=backgroundcolor)
+    ax = Axis3(fig[1, 1], aspect=:data, title=(title !== nothing ? title : ""))
+    if !show_axis
+        hidedecorations!(ax)
+        hidespines!(ax)
+    end
+    display_polyhedron!(ax, P; show_vertices=false, kwargs...)
     return fig
 end
 

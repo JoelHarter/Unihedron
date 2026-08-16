@@ -61,6 +61,8 @@ These solids pass the baseline regime rules but are disqualified under **Rule A*
 | **Studded Cuboctasphere** | Convex Deltoidal Icositetrahedron | Disdyakis Dodecahedron | 26 | 48 |
 | **Studded Triacontasphere** | Convex Deltoidal Hexecontahedron | Disdyakis Triacontahedron | 62 | 120 |
 
+![The Excluded Solids Roster](excluded_cooksons_gallery.png)
+
 ---
 
 ## 6. The Official Cookson Sequence ($H_1 - H_8$)
@@ -80,6 +82,8 @@ These are the 8 currently known Cookson solids, passing all regime rules and pos
 | **$H_6$** | **Studded Rhombic Triacontasphere** | Concave Shadow | `-sphere` | Deltoidal Hexecontahedron | *Disdyakis Rhombic Triacontahedron* | 62 | 120 | 120 Triangles (Chiral pairs) |
 | **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular | `-sphere` | Pentagonal Icositetrahedron | *Unique* | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
 | **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular | `-sphere` | Pentagonal Hexecontahedron | *Unique* | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
+
+![The Official Cookson Solids Sequence (H1 - H8)](cookson_solids_gallery.png)
 
 ---
 

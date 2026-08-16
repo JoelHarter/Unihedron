@@ -135,32 +135,42 @@ const save_image = print_image
 """
     print_gallery(solids::AbstractVector{<:Polyhedron}, filepath::AbstractString; 
                   titles=nothing, 
-                  cols::Int=3, 
+                  cols::Int=4, 
                   size=nothing, 
                   px_per_unit=2.0, 
-                  color_by_face_size=true, 
+                  color=:auto,
+                  color_by_face_size=false, 
+                  backgroundcolor=:white,
+                  show_axis::Bool=false,
                   kwargs...)
 
-Generates and saves a multi-solid grid gallery image (e.g. all Platonic solids or Cookson solids).
+Generates and saves a multi-solid grid gallery image on a clean, plain background with no axes or markers.
 """
 function print_gallery(solids::AbstractVector{<:Polyhedron}, filepath::AbstractString; 
                        titles::Union{AbstractVector{<:AbstractString}, Nothing}=nothing, 
-                       cols::Int=3, 
+                       cols::Int=4, 
                        size::Union{Tuple{Int, Int}, Nothing}=nothing, 
                        px_per_unit::Real=2.0, 
-                       color_by_face_size::Bool=true, 
+                       color=:auto,
+                       color_by_face_size::Bool=false, 
+                       backgroundcolor=:white,
+                       show_axis::Bool=false,
                        kwargs...)
     N = length(solids)
     rows = cld(N, cols)
     fig_size = size !== nothing ? size : (cols * 350, rows * 350)
-    fig = Figure(size=fig_size)
+    fig = Figure(size=fig_size, backgroundcolor=backgroundcolor)
     
     for (idx, P) in enumerate(solids)
         r = div(idx - 1, cols) + 1
         c = mod(idx - 1, cols) + 1
         hdr = (titles !== nothing && idx <= length(titles)) ? titles[idx] : "Solid $idx"
         ax = Axis3(fig[r, c], aspect=:data, title=hdr)
-        display_polyhedron!(ax, P; color_by_face_size=color_by_face_size, kwargs...)
+        if !show_axis
+            hidedecorations!(ax)
+            hidespines!(ax)
+        end
+        display_polyhedron!(ax, P; color=color, color_by_face_size=color_by_face_size, show_vertices=false, kwargs...)
     end
     
     GLMakie.save(filepath, fig; px_per_unit=Float32(px_per_unit))
