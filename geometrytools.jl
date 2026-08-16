@@ -538,6 +538,8 @@ const is_achiral = is_2d_polygon_achiral
 
 Projects a 3D face into a 2D coordinate system with the outward-pointing surface normal
 facing the viewer (+Z exterior direction).
+Enforces counter-clockwise vertex traversal when viewed from the solid's exterior so that
+direct 2D rotations represent true 3D rigid symmetries without orientation flips.
 """
 function project_face_outward_2d(face_pts::AbstractVector{<:Pt3}, c_solid::Pt3)
     n = length(face_pts)
@@ -547,25 +549,28 @@ function project_face_outward_2d(face_pts::AbstractVector{<:Pt3}, c_solid::Pt3)
         r = face_pts[1] - c_solid
     end
     
+    # Newell normal from raw vertex ordering
     n_geom = Pt3{Float64}(0, 0, 0)
     for i in 1:n
         p1 = face_pts[i]
         p2 = face_pts[i == n ? 1 : i+1]
         n_geom = n_geom + (p1 × p2)
     end
-    w = norm(n_geom) > 1e-9 ? n_geom / norm(n_geom) : Pt3{Float64}(0, 0, 1)
     
-    # Ensure w points outward from solid center towards exterior
-    if (w ⋅ r) < 0
-        w = -w
-    end
+    # If clockwise when looking from outside, reverse the vertex cycle so it is always counter-clockwise
+    pts_ccw = (n_geom ⋅ r < 0) ? [face_pts[mod1(2 - i, n)] for i in 1:n] : copy(face_pts)
     
-    u_raw = face_pts[2] - face_pts[1]
+    # Outward unit normal
+    w = (n_geom ⋅ r < 0) ? -n_geom : n_geom
+    w = norm(w) > 1e-9 ? w / norm(w) : Pt3{Float64}(0, 0, 1)
+    
+    # Orthonormal in-plane basis (u, v) such that u × v = w
+    u_raw = pts_ccw[2] - pts_ccw[1]
     u = norm(u_raw) > 1e-9 ? u_raw / norm(u_raw) : (abs(w[1]) < 0.9 ? Pt3{Float64}(1, 0, 0) × w : Pt3{Float64}(0, 1, 0) × w)
     u = u / norm(u)
     v = w × u
     
-    return [Pt2{Float64}((p - face_pts[1]) ⋅ u, (p - face_pts[1]) ⋅ v) for p in face_pts]
+    return [Pt2{Float64}((p - pts_ccw[1]) ⋅ u, (p - pts_ccw[1]) ⋅ v) for p in pts_ccw]
 end
 
 """
