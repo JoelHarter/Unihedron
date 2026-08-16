@@ -19,6 +19,10 @@
 # - Rule B (Exclusion Roster): Disqualified solids are logged in an unnumbered Excluded list (-sphere suffix).
 # - Rule C (Concavity Exception): Regimes with classical graphs but different convexity (concave valley folds)
 #   bypass Rule A and are inducted as official Cookson solids (The Concave Shadows).
+#
+# Completeness Note:
+# The current roster of 8 regimes (H1 to H8) has not been proven to be complete. Additional valid topological
+# regimes satisfying the Core Axioms and passing the Taxonomic Sieve may exist.
 
 using StaticArrays
 using LinearAlgebra

@@ -65,7 +65,10 @@ These solids pass the baseline regime rules but are disqualified under **Rule A*
 
 ## 6. The Official Cookson Sequence ($H_1 - H_8$)
 
-These are the 8 true Cookson solids, passing all regime rules and possessing either an entirely unique topological graph or a concave profile that distinguishes them from classical planar geometry.
+> [!NOTE]
+> **Completeness Note**: This roster of 8 known Cookson Solid regimes ($H_1 \dots H_8$) **has not been proven to be complete**. Additional valid topological regimes that satisfy the Core Axioms (The Sieve) and pass the Taxonomic Exclusion rules may yet be discovered.
+
+These are the 8 currently known Cookson solids, passing all regime rules and possessing either an entirely unique topological graph or a concave profile that distinguishes them from classical planar geometry:
 
 | Index | Official Name | Classification | Suffix Form | Parent Catalan Solid | Classical Graph | Vertices ($V$) | Faces ($F$) | Face Breakdown |
 | :---: | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |

@@ -84,6 +84,8 @@ print_polyhedron(bucky, "buckyball.png"; color_by_face_size=true)
 
 The **Cookson solids** ($H_1, H_2, \dots, H_8$) are topological regimes of spherical polyhedra satisfying the Core Axioms (The Sieve) with at most two distinct polygon types. Regimes sharing both the topological graph and convexity of classical polyhedra are disqualified to the unnumbered Exclusion Roster (Rule A & B), while concave valley-fold derivatives are inducted (Rule C).
 
+*(Note: This list of 8 known regimes has not been proven to be complete; other valid topological regimes may exist).*
+
 For complete documentation, axioms, taxonomy, and geometry breakdowns, see **[doc/cookson.md](doc/cookson.md)**.
 
 | Index | Official Name | Classification | Polygon Root | Parent Catalan Solid | $V$ | $F$ | Face Breakdown |
