@@ -14,13 +14,10 @@ const POLYGON_TYPE_PALETTE = [
     RGB{Float32}(0.478f0, 0.431f0, 0.392f0)   # 6. Brownish gray (#7A6E64)
 ]
 
-function _darken_color(c::RGB{Float32}, factor::Float32=0.65f0)
-    return RGB{Float32}(c.r * factor, c.g * factor, c.b * factor)
-end
-
-function _darken_color(c::Colorant, factor::Real=0.65)
-    rgb = RGB{Float32}(c)
-    return _darken_color(rgb, Float32(factor))
+function _desaturate_color(c::Colorant, factor::Real=0.55)
+    hsv = HSV(c)
+    hsv_desat = HSV(hsv.h, Float32(clamp(hsv.s * factor, 0.0, 1.0)), hsv.v)
+    return RGB{Float32}(hsv_desat)
 end
 
 """
@@ -138,10 +135,10 @@ function display_polygon!(ax::Axis3, poly::AbstractVector{<:Pt3};
     pts = [Point3f(p[1], p[2], p[3]) for p in poly]
     n = length(pts)
     
-    # 1. Triangulate planar/skew 3D polygon (solid with no transparency, unshaded flat colors)
+    # 1. Triangulate planar/skew 3D polygon (solid with no transparency, with smooth shading)
     tris = [TriangleFace(1, i, i+1) for i in 2:(n-1)]
     m = normal_mesh(pts, tris)
-    mesh!(ax, m; color=color, transparency=false, shading=NoShading)
+    mesh!(ax, m; color=color, transparency=false, shading=true)
     
     # 2. Outline boundary edges
     edge_pts = Point3f[]
@@ -254,9 +251,9 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             end
             
             m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false, shading=NoShading)
+            mesh!(ax, m; color=vert_colors, colormap=colormap, transparency=false, shading=true)
         elseif color === :auto || color === nothing
-            # Color by polygon type with darker shade for handed mirror reflections (unshaded flat)
+            # Color by polygon type with less saturated shade for opposite handed mirror reflections
             types, is_mirror = classify_faces_with_handedness(P)
             num_types = isempty(types) ? 1 : maximum(types)
             base_colors = get_polygon_colors(num_types)
@@ -270,7 +267,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 base_idx = length(mesh_pts)
                 t = types[face_idx]
                 base_c = base_colors[t]
-                face_col = is_mirror[face_idx] ? _darken_color(base_c, 0.65f0) : base_c
+                face_col = is_mirror[face_idx] ? _desaturate_color(base_c, 0.55f0) : base_c
                 
                 for idx in face
                     p = P.v[idx]
@@ -283,9 +280,9 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
             end
             
             m = normal_mesh(mesh_pts, mesh_tris)
-            mesh!(ax, m; color=mesh_colors, transparency=false, shading=NoShading)
+            mesh!(ax, m; color=mesh_colors, transparency=false, shading=true)
         else
-            # Explicit user single color override (unshaded flat)
+            # Explicit user single color override
             tris = TriangleFace{Int}[]
             for face in P.f
                 n = length(face)
@@ -294,7 +291,7 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 end
             end
             m = normal_mesh(pts, tris)
-            mesh!(ax, m; color=color, transparency=false, shading=NoShading)
+            mesh!(ax, m; color=color, transparency=false, shading=true)
         end
     end
     

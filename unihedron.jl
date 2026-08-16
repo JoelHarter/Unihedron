@@ -34,7 +34,7 @@ export isBordering, isCoplanar, isSimilar, isCongruent
 export backwards, increment
 export sew_coplanar_faces, merge_coplanar_faces, sew_faces
 export classify_faces, congruent_face_types, face_types, unique_face_polygons, face_type_counts
-export classify_faces_with_handedness
+export classify_faces_with_handedness, is_2d_polygon_achiral, is_achiral_polygon, is_achiral, project_face_outward_2d
 
 # 2D Polygons, Polygrams, Stars & Parametric Shapes
 export regular_polygon, polygon

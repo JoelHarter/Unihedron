@@ -516,37 +516,115 @@ const congruent_face_types = classify_faces
 const face_types = classify_faces
 
 """
-    classify_faces_with_handedness(P::Polyhedron; atol::Real=1e-6) -> (Vector{Int}, Vector{Bool})
+    is_2d_polygon_achiral(p2d::AbstractVector{<:Pt2}; atol::Real=1e-5) -> Bool
 
-Classifies all faces of `P` into congruent polygon types (1..K) and detects mirror handedness.
+Determines if a 2D polygon possesses reflectional symmetry (i.e. is achiral).
+An achiral polygon is directly congruent under 2D rotation to its reflection (reversed vertex sequence).
+"""
+function is_2d_polygon_achiral(p2d::AbstractVector{<:Pt2}; atol::Real=1e-5)
+    n = length(p2d)
+    n < 3 && return true
+    # Reverse vertex order and negate Y (reflection)
+    p_refl_rev = [Pt2{Float64}(p2d[mod1(2 - i, n)][1], -p2d[mod1(2 - i, n)][2]) for i in 1:n]
+    res = isSimilar(p2d, p_refl_rev; allow_scaling=false, allow_flipped=false)
+    return res[1]
+end
+
+const is_achiral_polygon = is_2d_polygon_achiral
+const is_achiral = is_2d_polygon_achiral
+
+"""
+    project_face_outward_2d(face_pts::AbstractVector{<:Pt3}, c_solid::Pt3) -> Vector{Pt2{Float64}}
+
+Projects a 3D face into a 2D coordinate system with the outward-pointing surface normal
+facing the viewer (+Z exterior direction).
+"""
+function project_face_outward_2d(face_pts::AbstractVector{<:Pt3}, c_solid::Pt3)
+    n = length(face_pts)
+    c_face = centroid(face_pts)
+    r = c_face - c_solid
+    if norm(r) < 1e-9
+        r = face_pts[1] - c_solid
+    end
+    
+    n_geom = Pt3{Float64}(0, 0, 0)
+    for i in 1:n
+        p1 = face_pts[i]
+        p2 = face_pts[i == n ? 1 : i+1]
+        n_geom = n_geom + (p1 × p2)
+    end
+    w = norm(n_geom) > 1e-9 ? n_geom / norm(n_geom) : Pt3{Float64}(0, 0, 1)
+    
+    # Ensure w points outward from solid center towards exterior
+    if (w ⋅ r) < 0
+        w = -w
+    end
+    
+    u_raw = face_pts[2] - face_pts[1]
+    u = norm(u_raw) > 1e-9 ? u_raw / norm(u_raw) : (abs(w[1]) < 0.9 ? Pt3{Float64}(1, 0, 0) × w : Pt3{Float64}(0, 1, 0) × w)
+    u = u / norm(u)
+    v = w × u
+    
+    return [Pt2{Float64}((p - face_pts[1]) ⋅ u, (p - face_pts[1]) ⋅ v) for p in face_pts]
+end
+
+"""
+    classify_faces_with_handedness(P::Polyhedron; atol::Real=1e-5) -> (Vector{Int}, Vector{Bool})
+
+Classifies all faces of `P` into congruent polygon types (1..K) and detects chiral mirror handedness.
+Orientation is checked relative to the **outward-facing surface normal** (exterior view).
+Symmetric achiral polygons (e.g. equilateral/isosceles triangles, regular polygons, symmetric trapezoids)
+are never marked as mirror handed versions (`is_mirror = false`).
+Only truly asymmetric/chiral faces receive `is_mirror = true` for opposite chiral enantiomorphs.
+
 Returns `(types, is_mirror)` where:
 - `types[i]` is the integer index (1..K) of the polygon type.
-- `is_mirror[i]` is `false` for normal orientation and `true` for a chiral mirror reflection.
+- `is_mirror[i]` is `false` for normal orientation / achiral faces, and `true` for chiral mirror reflections.
 """
-function classify_faces_with_handedness(P::Polyhedron; atol::Real=1e-6)
+function classify_faces_with_handedness(P::Polyhedron; atol::Real=1e-5)
     F = length(P.f)
     types = zeros(Int, F)
     is_mirror = zeros(Bool, F)
-    representatives = Vector{Pt3{Float64}}[]
+    
+    c_solid = isempty(P.v) ? Pt3{Float64}(0,0,0) : centroid(P.v)
+    
+    rep_2d = Vector{Pt2{Float64}}[]
+    rep_achiral = Bool[]
     
     for (i, face) in enumerate(P.f)
         face_pts = [P.v[k] for k in face]
+        f_2d = project_face_outward_2d(face_pts, c_solid)
+        
         matched = false
-        for (type_idx, rep_pts) in enumerate(representatives)
-            res = isCongruent(face_pts, rep_pts; allow_flipped=true)
-            if res[1]
-                types[i] = type_idx
-                is_mirror[i] = res[3]
+        for (t_idx, r_2d) in enumerate(rep_2d)
+            # 1. Direct rotation check without flip
+            res_direct = isSimilar(r_2d, f_2d; allow_scaling=false, allow_flipped=false)
+            if res_direct[1]
+                types[i] = t_idx
+                is_mirror[i] = false
+                matched = true
+                break
+            end
+            
+            # 2. Reflected check
+            res_flipped = isSimilar(r_2d, f_2d; allow_scaling=false, allow_flipped=true)
+            if res_flipped[1]
+                types[i] = t_idx
+                is_mirror[i] = rep_achiral[t_idx] ? false : true
                 matched = true
                 break
             end
         end
+        
         if !matched
-            push!(representatives, face_pts)
-            types[i] = length(representatives)
+            push!(rep_2d, f_2d)
+            achiral = is_2d_polygon_achiral(f_2d; atol=atol)
+            push!(rep_achiral, achiral)
+            types[i] = length(rep_2d)
             is_mirror[i] = false
         end
     end
+    
     return types, is_mirror
 end
 
