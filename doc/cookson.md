@@ -68,10 +68,15 @@ These four spherical regimes pass the baseline regime rules but are disqualified
 
 ### 5.1 The Infinite Phyla (Excluded Generative Families)
 
-Beyond isolated, exceptional polyhedra, there exist five **infinite phyla** of geometric regimes that follow uniform generative rules from one iteration ($n$) to the next. Every member of these infinite phyla satisfies the Core Axioms (spherical vertex anchor, $\le 2$ polygon limit, strict connectivity, non-self-intersection). However, because they form unbounded infinite progressions rather than isolated, finite exceptional polyhedra, they are taxonomically disqualified from receiving individual numbers in the official Cookson sequence.
+Beyond isolated, exceptional polyhedra, there exist **infinite phyla** of geometric regimes that follow uniform generative rules from one iteration to the next. Every member of these infinite phyla satisfies the Core Axioms (spherical vertex anchor, $\le 2$ polygon limit, strict connectivity, non-self-intersection). However, because they form unbounded infinite progressions rather than isolated, finite exceptional polyhedra, they are taxonomically disqualified from receiving individual numbers in the official Cookson sequence.
 
-To illustrate each phylum, its **heptagonal ($n=7$) regime** is rendered below:
+These infinite families fall into two broad structural classes:
+1. **1-Variable Infinite Families (Rotational Base Order $n$)**: Classical and studded prismatic, antiprismatic, bipyramidal, and trapezohedral series.
+2. **2-Variable Infinite Groups (Dual Breakdown Indices $(m, n)$)**: Geodesic Spheres and Goldberg Solids.
 
+To illustrate the 1-variable families, their **heptagonal ($n=7$) regimes** are rendered below:
+
+#### 1-Variable Classical Phyla
 | Phylum | Heptagonal ($n=7$) Exemplar | Generative Rule & Structure | Polygon Count & Breakdown | Spherical Anchor Status | Classical Exclusion Rationale |
 | :--- | :---: | :--- | :--- | :--- | :--- |
 | **The Prismatic Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_prism.png" width="90" alt="Heptagonal Prism"> | Two congruent parallel regular $n$-gons joined by a lateral ring of $n$ quadrilaterals / squares. | Exactly 2 types:<br>• 2 $n$-gons<br>• $n$ squares | When inscribed on a cylinder within a bounding sphere, all $2n$ vertices lie precisely on the unit sphere. | Classical infinite uniform series (Archimedean / prismatic). |
@@ -79,6 +84,24 @@ To illustrate each phylum, its **heptagonal ($n=7$) regime** is rendered below:
 | **The Pyramidal Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_pyramid.png" width="90" alt="Heptagonal Pyramid"> | One regular $n$-gon base joined to a polar apex by $n$ congruent isosceles triangles. | Exactly 2 types:<br>• 1 $n$-gon<br>• $n$ triangles | When the apex and base vertices are inscribed on a spherical cap, all $n+1$ vertices lie on the sphere. | Elementary infinite family ($n=3$ is the tetrahedron; $n=4, 5$ are Johnson solids $J_1, J_2$). |
 | **The Bipyramidal Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_bipyramid.png" width="90" alt="Heptagonal Bipyramid"> | Two $n$-gonal pyramids joined base-to-base along an equatorial regular $n$-gon, consisting of $2n$ congruent isosceles triangles. | Exactly 1 type:<br>• $2n$ triangles | Catalan duals of prisms; all $n+2$ vertices lie symmetrically on the unit sphere. | Classical infinite dual series ($n=4$ specializes to the regular octahedron). |
 | **The Trapezohedral Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_trapezohedron.png" width="90" alt="Heptagonal Trapezohedron"> | Catalan duals of $n$-gonal antiprisms, consisting of $2n$ congruent kites (deltoids) arranged in an offset staggered equatorial belt. | Exactly 1 type:<br>• $2n$ kites (deltoids) | All $2n+2$ vertices lie symmetrically on the circumscribed unit sphere. | Classical infinite dual series ($n=3$ specializes to the trigonal trapezohedron / rhombohedron). |
+
+#### 1-Variable Studded / Augmented Phyla
+| Phylum | Heptagonal ($n=7$) Exemplar | Generative Rule & Structure | Polygon Count & Breakdown | Spherical Anchor Status | Exclusion Rationale |
+| :--- | :---: | :--- | :--- | :--- | :--- |
+| **Equatorially Studded Prisms** | <img src="img/cookson/excluded/phyla/heptagonal_equatorially_studded_prism.png" width="90" alt="Equatorially Studded Prism"> | An $n$-gonal prism whose lateral $n$ quadrilateral faces are studded with pyramids or creased into 4 triangles. | Exactly 2 types:<br>• 2 $n$-gons<br>• $4n$ triangles | All $2n + n$ vertices normalize onto the circumscribed sphere. | Infinite family of augmented prisms. |
+| **Equatorially Studded Antiprisms** | <img src="img/cookson/excluded/phyla/heptagonal_equatorially_studded_antiprism.png" width="90" alt="Equatorially Studded Antiprism"> | An $n$-gonal antiprism whose $2n$ lateral triangular faces are studded with pyramids or creased into 3 triangles. | Exactly 2 types:<br>• 2 $n$-gons<br>• $6n$ triangles | All $2n + 2n$ vertices normalize onto the circumscribed sphere. | Infinite family of augmented antiprisms. |
+| **Equatorially Studded Elongated Bipyramids** | <img src="img/cookson/excluded/phyla/heptagonal_equatorially_studded_elongated_bipyramid.png" width="90" alt="Equatorially Studded Elongated Bipyramid"> | An $n$-gonal bipyramid with an inserted prismatic band whose lateral square faces are studded with pyramids. | Exactly 1 or 2 types:<br>• $2n$ polar triangles<br>• $4n$ equatorial triangles | All $2n + 2 + n$ vertices normalize symmetrically onto the unit sphere. | Infinite family of elongated bipyramid derivatives. |
+| **Studded Gyroelongated Bipyramids** | <img src="img/cookson/excluded/phyla/heptagonal_studded_gyroelongated_bipyramid.png" width="90" alt="Studded Gyroelongated Bipyramid"> | An $n$-gonal bipyramid with an inserted antiprismatic belt whose $2n$ lateral triangles and/or polar caps are studded with pyramids. | Exactly 1 or 2 types:<br>• $2n$ polar triangles<br>• $6n$ equatorial triangles | All $2n + 2 + 2n$ vertices normalize onto the sphere. | Infinite family of gyroelongated bipyramid derivatives. |
+| **Polar Studded Bipyramids** | <img src="img/cookson/excluded/phyla/heptagonal_polar_studded_bipyramid.png" width="90" alt="Polar Studded Bipyramid"> | An $n$-gonal bipyramid whose $2n$ triangular faces are all studded with pyramids (triakis bipyramids). | Exactly 1 type:<br>• $6n$ triangles | All $n + 2 + 2n$ vertices lie symmetrically on the unit sphere. | Infinite family of studded Catalan duals. |
+| **Studded Trapezohedra** | <img src="img/cookson/excluded/phyla/heptagonal_studded_trapezohedron.png" width="90" alt="Studded Trapezohedron"> | An $n$-gonal trapezohedron whose $2n$ kite faces are each studded with a pyramid (creased into 4 triangles). | Exactly 1 or 2 types:<br>• $8n$ triangles | All $2n + 2 + 2n$ vertices lie on the sphere. | Infinite family of studded dual trapezohedra. |
+
+#### 2-Variable Infinite Phyla: Geodesic Spheres & Goldberg Solids
+Beyond 1-variable families parameterized only by $n$, there exist **2-variable infinite groups** parameterized independently by two integer variables $(m, n)$:
+
+| Phylum | Exemplar | Generative Rule & Structure | Polygon Count & Breakdown | Spherical Anchor Status | Exclusion Rationale |
+| :--- | :---: | :--- | :--- | :--- | :--- |
+| **Geodesic Spheres $\{3, 5+\}_{m, n}$** | <img src="img/geodesic/geodesic_2_0.png" width="90" alt="2v Geodesic Sphere"> | Higher-order spherical triangulations of the icosahedron parameterized by $(m, n)$ with $T = m^2 + mn + n^2$. | Exactly 1 type:<br>• $20T$ triangles (100% triangular faces) | By definition, all $10T + 2$ vertices are projected radially onto the unit sphere. | Infinite 2-variable family of spherical triangulations. |
+| **Goldberg Solids $GP(m, n)$** | <img src="img/geodesic/goldberg_1_1.png" width="90" alt="GP(1, 1) Goldberg Solid"> | Exact polar duals of geodesic spheres parameterized by $(m, n)$ with $T = m^2 + mn + n^2$. | Exactly 2 types:<br>• 12 pentagons<br>• $10(T-1)$ hexagons | All $20T$ vertices lie symmetrically on the unit sphere. | Infinite 2-variable family of dual polyhedra. |
 
 ---
 
