@@ -101,20 +101,26 @@ For complete documentation, axioms, taxonomy, and geometry breakdowns, see **[do
 
 ---
 
-## Geodesic Spheres & Goldberg Solids
+## Geodesic Spheres & Goldberg Solids (2-Variable Infinite Groups)
 
-Unihedron implements generalized degree-$\nu$ Geodesic Spheres (all triangular faces) and their dual Goldberg Solids (12 pentagons and remaining hexagons):
+Unlike 1-variable infinite phyla (such as prisms and bipyramids parameterized only by $n$), Geodesic Spheres $\{3, 5+\}_{m, n}$ and Goldberg Solids $GP(m, n)$ form a **2-variable infinite family** parameterized by $(m, n)$ with triangulation number $T = m^2 + mn + n^2$:
 
-| Degree ($\nu$) | Geodesic Sphere (Triangles) | Dual Goldberg Solid | Goldberg Vertices ($V=20\nu^2$) | Goldberg Faces ($F=10\nu^2+2$) |
-| :---: | :--- | :--- | :---: | :---: |
-| **$\nu = 1$** | **$1\nu$ Geodesic Sphere** ($V=12, F=20$) | **Regular Dodecahedron** | 20 | 12 (12 pentagons, 0 hexagons) |
-| **$\nu = 2$** | **$2\nu$ Geodesic Sphere** ($V=42, F=80$) | **$GP(2,0)$ Goldberg Solid** | 80 | 42 (12 pentagons, 30 hexagons) |
-| **$\nu = 3$** | **$3\nu$ Geodesic Sphere** ($V=92, F=180$) | **$GP(3,0)$ Goldberg Solid** | 180 | 92 (12 pentagons, 80 hexagons) |
-| **$\nu = 4$** | **$4\nu$ Geodesic Sphere** ($V=162, F=320$) | **$GP(4,0)$ Goldberg Solid** | 320 | 162 (12 pentagons, 150 hexagons) |
+| Class | Parameters $(m, n)$ | $T$ | Geodesic Sphere ($100\%$ Triangles) | Dual Goldberg Solid ($12$ Pentagons + Hexagons) |
+| :---: | :---: | :---: | :--- | :--- |
+| **Class I** | **$(1, 0)$** | $1$ | **$\{3, 5+\}_{1, 0}$** ($V=12, F=20$) | **$GP(1, 0)$ Regular Dodecahedron** ($V=20, F=12$) |
+| **Class I** | **$(2, 0)$** | $4$ | **$\{3, 5+\}_{2, 0}$** ($V=42, F=80$) | **$GP(2, 0)$ Goldberg Solid** ($V=80, F=42$: 12 pentagons, 30 hexagons) |
+| **Class II** | **$(1, 1)$** | $3$ | **$\{3, 5+\}_{1, 1}$** ($V=32, F=60$) | **$GP(1, 1)$ Truncated Icosahedron ($C_{60}$)** ($V=60, F=32$: 12 pentagons, 20 hexagons) |
+| **Class II** | **$(2, 2)$** | $12$ | **$\{3, 5+\}_{2, 2}$** ($V=122, F=240$) | **$GP(2, 2)$ Goldberg Solid** ($V=240, F=122$: 12 pentagons, 110 hexagons) |
+| **Class III** | **$(2, 1)$** | $7$ | **$\{3, 5+\}_{2, 1}$** ($V=72, F=140$, Chiral) | **$GP(2, 1)$ Chiral Goldberg Solid** ($V=140, F=72$: 12 pentagons, 60 hexagons) |
 
 ```julia
-g2 = geodesic_sphere(2)   # 2V Geodesic Sphere (80 triangles)
-gb2 = goldberg_solid(2)   # Dual GP(2,0) Goldberg Solid (12 pentagons, 30 hexagons)
+# Class I: along edge
+g20  = geodesic_sphere(2, 0)   # 2v Geodesic Sphere (80 triangles)
+gb20 = goldberg_solid(2, 0)    # Dual GP(2,0) Goldberg Solid (12 pentagons, 30 hexagons)
+
+# Class II: along median (30° twist)
+g11  = geodesic_sphere(1, 1)   # V=32, F=60
+gb11 = goldberg_solid(1, 1)    # C60 Truncated Icosahedron (12 pentagons, 20 hexagons)
 ```
 
 ---

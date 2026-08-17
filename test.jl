@@ -810,42 +810,47 @@ using .Unihedron
     end
 
     @testset "Geodesic Spheres and Goldberg Solids" begin
-        # 1. Geodesic spheres: V = 10ν² + 2, F = 20ν² (All faces are triangles)
-        # Frequency 1 (Regular icosahedron)
-        g1 = geodesic_sphere(1)
+        # 1. Class I Geodesic Spheres: {3, 5+}_{m, 0} where T = m² (V = 10m² + 2, F = 20m²)
+        g1 = geodesic_sphere(1, 0)
         @test length(g1.v) == 12 && length(g1) == 20
         @test all(length.(g1.f) .== 3)
 
-        # Frequency 2 (2V Geodesic sphere)
-        g2 = geodesic_sphere(2)
+        g2 = geodesic_sphere(2, 0)
         @test length(g2.v) == 42 && length(g2) == 80
         @test all(length.(g2.f) .== 3)
 
-        # Frequency 3 (3V Geodesic sphere)
-        g3 = geodesic_sphere(3)
+        g3 = geodesic_sphere(3, 0)
         @test length(g3.v) == 92 && length(g3) == 180
         @test all(length.(g3.f) .== 3)
 
-        # Frequency 4 (4V Geodesic sphere)
         g4 = geodesic_sphere(4)
         @test length(g4.v) == 162 && length(g4) == 320
         @test all(length.(g4.f) .== 3)
         @test geodesic_polyhedron(2) isa Polyhedron
 
-        # 2. Goldberg Solids (Duals of Geodesic Spheres): V = 20ν², F = 10ν² + 2 (12 pentagons, 10(ν² - 1) hexagons)
+        # 2. Class II Geodesic Spheres: {3, 5+}_{m, m} where T = 3m² (V = 30m² + 2, F = 60m²)
+        g11 = geodesic_sphere(1, 1)
+        @test length(g11.v) == 32 && length(g11) == 60
+        @test all(length.(g11.f) .== 3)
+
+        g22 = geodesic_sphere(2, 2)
+        @test length(g22.v) == 122 && length(g22) == 240
+        @test all(length.(g22.f) .== 3)
+
+        # 3. Class I Goldberg Solids: GP(m, 0) (V = 20m², F = 10m² + 2)
         # Degree 1 Goldberg Solid: Regular Dodecahedron (12 pentagons, 0 hexagons)
-        b1 = goldberg_solid(1)
+        b1 = goldberg_solid(1, 0)
         @test length(b1.v) == 20 && length(b1) == 12
         @test all(length.(b1.f) .== 5)
 
         # Degree 2 Goldberg Solid: GP(2, 0) (12 pentagons, 30 hexagons)
-        b2 = goldberg_solid(2)
+        b2 = goldberg_solid(2, 0)
         @test length(b2.v) == 80 && length(b2) == 42
         @test count(length.(b2.f) .== 5) == 12
         @test count(length.(b2.f) .== 6) == 30
 
         # Degree 3 Goldberg Solid: GP(3, 0) (12 pentagons, 80 hexagons)
-        b3 = goldberg_solid(3)
+        b3 = goldberg_solid(3, 0)
         @test length(b3.v) == 180 && length(b3) == 92
         @test count(length.(b3.f) .== 5) == 12
         @test count(length.(b3.f) .== 6) == 80
@@ -856,8 +861,15 @@ using .Unihedron
         @test count(length.(b4.f) .== 5) == 12
         @test count(length.(b4.f) .== 6) == 150
 
-        # Check Euler characteristic V - E + F = 2 for all buckyballs
-        for b in [b1, b2, b3, b4]
+        # 4. Class II Goldberg Solids: GP(m, m) (V = 60m², F = 30m² + 2)
+        # GP(1, 1) Truncated Icosahedron / C60 (12 pentagons, 20 hexagons)
+        b11 = goldberg_solid(1, 1)
+        @test length(b11.v) == 60 && length(b11) == 32
+        @test count(length.(b11.f) .== 5) == 12
+        @test count(length.(b11.f) .== 6) == 20
+
+        # Check Euler characteristic V - E + F = 2 for Goldberg solids
+        for b in [b1, b2, b3, b4, b11]
             edges = Set{Tuple{Int, Int}}()
             for face in b.f
                 n_pts = length(face)
