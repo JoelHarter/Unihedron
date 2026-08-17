@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="doc/img/banner.jpeg" alt="Unihedron Banner" width="100%">
+</p>
+
 # Unihedron
 
 **Universal Polyhedral & Polytopic Geometry Engine for Julia**
@@ -12,12 +16,12 @@ All solids are constructed using **pure constructive geometry and exact algebrai
 
 - **Complete Polyhedral Families**:
   - **Platonic Solids (5)**: Tetrahedron, Cube, Octahedron, Dodecahedron, Icosahedron.
-  - **Archimedean Solids (13)**: Truncated tetrahedron, Cuboctahedron, Rhombicosidodecahedron, Truncated icosahedron (Buckyball), Snub dodecahedron, etc.
-  - **Kepler-Poinsot Star Polyhedra (4)**: Great dodecahedron, Small stellated dodecahedron, Great stellated dodecahedron, Great icosahedron.
+  - **Archimedean Solids (13)**: Truncated tetrahedron, Cuboctahedron, Rhombicosidodecahedron, Truncated icosahedron, Snub dodecahedron, etc.
+  - **Kepler-Poinsot Polyhedra (4)**: Great dodecahedron, Small stellated dodecahedron, Great stellated dodecahedron, Great icosahedron.
   - **Catalan Solids (13)**: Exact Archimedean duals (Rhombic dodecahedron, Deltoidal hexecontahedron, Disdyakis triacontahedron, etc.).
-  - **Cookson Solids (6)**: Spherical Catalan projections with planar crease restoration discovered by **Arthur J Cookson in 2026** ($C_1$ to $C_6$).
+  - **Cookson Solids (8)**: Topological regimes of spherical polyhedra satisfying the Sieve formalized by **Arthur J Cookson & Joel T Harter in 2026** ($H_1$ to $H_8$).
   - **Johnson Solids (92 Complete)**: All 92 convex regular-faced polyhedra ($J_1$ to $J_{92}$) constructed via constructive augmentation/diminution/gyration and exact radical/polynomial roots for elementary solids ($J_{84} \dots J_{92}$).
-  - **Geodesic Spheres & Goldberg Solids**: Generalized triangulated geodesic spheres and their dual Goldberg solids ($GP(m, n)$ with 12 pentagons and remaining hexagons).
+  - **Geodesic Spheres & Goldberg Solids**: Generalized 2-variable infinite groups $\{3, 5+\}_{m, n}$ (Class I, II, III) and dual Goldberg solids $GP(m, n)$.
   - **Prisms, Antiprisms, Pyramids, Bipyramids & Trapezohedra**: Parametric $n$-gonal families.
 - **2D Polygons, Polygrams & Star Outlines**:
   - Regular $n$-gons, Schläfli $\{p/q\}$ star polygrams (e.g. pentagram, hexagram Star of David), $2n$-gon star boundaries, and parametric shapes (rectangles, rhombi, trapezoids, parallelograms, kites, Reuleaux polygons).
