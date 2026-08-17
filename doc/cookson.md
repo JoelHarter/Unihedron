@@ -66,39 +66,19 @@ These four spherical regimes pass the baseline regime rules but are disqualified
 
 ---
 
-### 5.1 The Infinite Series & Kingdoms (Excluded Generative Families)
+### 5.1 The Infinite Phyla (Excluded Generative Families)
 
-Beyond isolated polyhedra, there exist several **infinite series (kingdoms)** of geometric regimes that follow uniform generative rules from one iteration ($n$) to the next. Every member of these infinite families satisfies the Core Axioms (spherical vertex anchor, $\le 2$ polygon limit, strict connectivity, non-self-intersection). However, because they form unbounded infinite progressions rather than isolated, finite exceptional polyhedra, they are taxonomically disqualified from receiving individual numbers in the official Cookson sequence:
+Beyond isolated, exceptional polyhedra, there exist five **infinite phyla** of geometric regimes that follow uniform generative rules from one iteration ($n$) to the next. Every member of these infinite phyla satisfies the Core Axioms (spherical vertex anchor, $\le 2$ polygon limit, strict connectivity, non-self-intersection). However, because they form unbounded infinite progressions rather than isolated, finite exceptional polyhedra, they are taxonomically disqualified from receiving individual numbers in the official Cookson sequence.
 
-1. **The Prismatic Kingdom ($n$-gonal Prisms)**:
-   - *Rule*: Two congruent parallel regular $n$-gons joined by a ring of $n$ squares / rectangles.
-   - *Polygon Count*: Exactly 2 types ($n$-gons and quadrilaterals).
-   - *Spherical Status*: When inscribed on a cylinder within a bounding sphere, all $2n$ vertices lie precisely on the unit sphere.
-   - *Exclusion*: Classical infinite uniform series (Archimedean / prismatic).
+To illustrate each phylum, its **heptagonal ($n=7$) regime** is rendered below:
 
-2. **The Antiprismatic Kingdom ($n$-gonal Antiprisms)**:
-   - *Rule*: Two congruent parallel regular $n$-gons, twisted by $\pi/n$, joined by an alternating band of $2n$ equilateral or isosceles triangles.
-   - *Polygon Count*: Exactly 2 types ($n$-gons and triangles; for $n=3$, it specializes to the regular octahedron).
-   - *Spherical Status*: All $2n$ vertices lie symmetrically on the unit sphere.
-   - *Exclusion*: Classical infinite uniform series.
-
-3. **The Pyramidal Kingdom ($n$-gonal Pyramids)**:
-   - *Rule*: One regular $n$-gon base joined to an apex by $n$ congruent isosceles triangles.
-   - *Polygon Count*: Exactly 2 types ($n$-gon and triangles).
-   - *Spherical Status*: When the apex and base vertices are inscribed on a spherical cap, all $n+1$ vertices lie on the sphere.
-   - *Exclusion*: Elementary infinite family ($n=3$ is the tetrahedron; $n=4, 5$ are Johnson solids $J_1, J_2$).
-
-4. **The Bipyramidal / Dipyramidal Kingdom ($n$-gonal Bipyramids)**:
-   - *Rule*: Two $n$-gonal pyramids joined base-to-base, consisting of $2n$ congruent isosceles triangles.
-   - *Polygon Count*: Exactly 1 polygon type ($F=2n$).
-   - *Spherical Status*: Catalan duals of prisms; all $n+2$ vertices lie symmetrically on the sphere.
-   - *Exclusion*: Infinite dual series ($n=4$ is the regular octahedron).
-
-5. **The Trapezohedral / Deltohedral Kingdom ($n$-gonal Trapezohedra)**:
-   - *Rule*: Catalan duals of $n$-gonal antiprisms, consisting of $2n$ congruent kites (deltoids) arranged in an offset staggered ring.
-   - *Polygon Count*: Exactly 1 polygon type ($F=2n$ kites).
-   - *Spherical Status*: All $2n+2$ vertices lie symmetrically on the sphere.
-   - *Exclusion*: Infinite dual series ($n=3$ is the trigonal trapezohedron / rhombohedron).
+| Phylum | Heptagonal ($n=7$) Exemplar | Generative Rule & Structure | Polygon Count & Breakdown | Spherical Anchor Status | Classical Exclusion Rationale |
+| :--- | :---: | :--- | :--- | :--- | :--- |
+| **The Prismatic Phylum** | <img src="img/phyla/heptagonal_prism.png" width="90" alt="Heptagonal Prism"> | Two congruent parallel regular $n$-gons joined by a lateral ring of $n$ quadrilaterals / squares. | Exactly 2 types:<br>• 2 $n$-gons<br>• $n$ squares | When inscribed on a cylinder within a bounding sphere, all $2n$ vertices lie precisely on the unit sphere. | Classical infinite uniform series (Archimedean / prismatic). |
+| **The Antiprismatic Phylum** | <img src="img/phyla/heptagonal_antiprism.png" width="90" alt="Heptagonal Antiprism"> | Two congruent parallel regular $n$-gons, twisted by $\pi/n$, joined by an alternating band of $2n$ equilateral or isosceles triangles. | Exactly 2 types:<br>• 2 $n$-gons<br>• $2n$ triangles | All $2n$ vertices lie symmetrically on the circumscribed unit sphere. | Classical infinite uniform series ($n=3$ specializes to the regular octahedron). |
+| **The Pyramidal Phylum** | <img src="img/phyla/heptagonal_pyramid.png" width="90" alt="Heptagonal Pyramid"> | One regular $n$-gon base joined to a polar apex by $n$ congruent isosceles triangles. | Exactly 2 types:<br>• 1 $n$-gon<br>• $n$ triangles | When the apex and base vertices are inscribed on a spherical cap, all $n+1$ vertices lie on the sphere. | Elementary infinite family ($n=3$ is the tetrahedron; $n=4, 5$ are Johnson solids $J_1, J_2$). |
+| **The Bipyramidal Phylum** | <img src="img/phyla/heptagonal_bipyramid.png" width="90" alt="Heptagonal Bipyramid"> | Two $n$-gonal pyramids joined base-to-base along an equatorial regular $n$-gon, consisting of $2n$ congruent isosceles triangles. | Exactly 1 type:<br>• $2n$ triangles | Catalan duals of prisms; all $n+2$ vertices lie symmetrically on the unit sphere. | Classical infinite dual series ($n=4$ specializes to the regular octahedron). |
+| **The Trapezohedral Phylum** | <img src="img/phyla/heptagonal_trapezohedron.png" width="90" alt="Heptagonal Trapezohedron"> | Catalan duals of $n$-gonal antiprisms, consisting of $2n$ congruent kites (deltoids) arranged in an offset staggered equatorial belt. | Exactly 1 type:<br>• $2n$ kites (deltoids) | All $2n+2$ vertices lie symmetrically on the circumscribed unit sphere. | Classical infinite dual series ($n=3$ specializes to the trigonal trapezohedron / rhombohedron). |
 
 ---
 
