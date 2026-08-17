@@ -207,6 +207,53 @@ function display_polygon(poly::AbstractVector{<:Pt3};
     return fig
 end
 
+function _triangulate_poly_face(pts_f::Vector{<:Pt3}, n_unit::Vec3f)
+    n_pts = length(pts_f)
+    if n_pts == 5
+        # Check if star pentagram
+        c = sum(pts_f) / 5
+        ref = pts_f[1] - c
+        if norm(ref) > 1e-6
+            ref_unit = normalize(ref)
+            n_geom_f = Vec3f(n_unit[1], n_unit[2], n_unit[3])
+            perp = normalize(cross(n_geom_f, ref_unit))
+            angles = [atan(dot(p - c, perp), dot(p - c, ref_unit)) for p in pts_f]
+            dθ = mod(angles[2] - angles[1] + π, 2π) - π
+            if abs(dθ) > 2.0 # star pentagram {5/2}
+                ϕ = Float32((1 + sqrt(5)) / 2)
+                p_perm = sortperm(angles)
+                p_circ = [Point3f(pts_f[p_perm[k]]) for k in 1:5]
+                q = Point3f[]
+                for k in 1:5
+                    k_next = (k % 5) + 1
+                    mid = (p_circ[k] + p_circ[k_next]) / 2 - Point3f(c)
+                    r_inner = norm(p_circ[1] - Point3f(c)) / ϕ^2
+                    push!(q, Point3f(c) + normalize(mid) * r_inner)
+                end
+                
+                f_pts = Point3f[]
+                append!(f_pts, p_circ)
+                append!(f_pts, q)
+                
+                f_tris = TriangleFace{Int}[]
+                for k in 1:5
+                    k_prev = k == 1 ? 5 : k - 1
+                    push!(f_tris, TriangleFace(k, 5 + k, 5 + k_prev))
+                end
+                push!(f_tris, TriangleFace(6, 7, 8))
+                push!(f_tris, TriangleFace(6, 8, 9))
+                push!(f_tris, TriangleFace(6, 9, 10))
+                return f_pts, f_tris
+            end
+        end
+    end
+    
+    # Standard convex/simple polygon
+    f_pts = [Point3f(p[1], p[2], p[3]) for p in pts_f]
+    f_tris = [TriangleFace(1, i, i + 1) for i in 2:(n_pts-1)]
+    return f_pts, f_tris
+end
+
 # --- 3D Polyhedron Display ---
 
 """
@@ -280,15 +327,16 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 ordered_face = dot(n_geom, center) < 0 ? reverse(face) : copy(face)
                 n_unit = normalize(dot(n_geom, center) < 0 ? -n_geom : n_geom)
                 
+                f_pts_ordered = [P.v[idx] for idx in ordered_face]
+                sub_pts, sub_tris = _triangulate_poly_face(f_pts_ordered, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
                 base_idx = length(mesh_pts)
-                for idx in ordered_face
-                    p = P.v[idx]
-                    push!(mesh_pts, Point3f(p[1], p[2], p[3]))
+                for pt in sub_pts
+                    push!(mesh_pts, pt)
                     push!(mesh_normals, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
                     push!(vert_colors, Float64(n_pts))
                 end
-                for i in 2:(n_pts-1)
-                    push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
+                for tri in sub_tris
+                    push!(mesh_tris, TriangleFace(base_idx + tri[1], base_idx + tri[2], base_idx + tri[3]))
                 end
             end
             
@@ -323,19 +371,20 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 ordered_face = dot(n_geom, center) < 0 ? reverse(face) : copy(face)
                 n_unit = normalize(dot(n_geom, center) < 0 ? -n_geom : n_geom)
                 
-                base_idx = length(mesh_pts)
                 t = types[face_idx]
                 base_c = base_colors[t]
                 face_col = is_mirror[face_idx] ? get_polygon_mirror_color(t, base_c) : base_c
                 
-                for idx in ordered_face
-                    p = P.v[idx]
-                    push!(mesh_pts, Point3f(p[1], p[2], p[3]))
+                f_pts_ordered = [P.v[idx] for idx in ordered_face]
+                sub_pts, sub_tris = _triangulate_poly_face(f_pts_ordered, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
+                base_idx = length(mesh_pts)
+                for pt in sub_pts
+                    push!(mesh_pts, pt)
                     push!(mesh_normals, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
                     push!(mesh_colors, face_col)
                 end
-                for i in 2:(n_pts-1)
-                    push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
+                for tri in sub_tris
+                    push!(mesh_tris, TriangleFace(base_idx + tri[1], base_idx + tri[2], base_idx + tri[3]))
                 end
             end
             
@@ -365,14 +414,15 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                 ordered_face = dot(n_geom, center) < 0 ? reverse(face) : copy(face)
                 n_unit = normalize(dot(n_geom, center) < 0 ? -n_geom : n_geom)
                 
+                f_pts_ordered = [P.v[idx] for idx in ordered_face]
+                sub_pts, sub_tris = _triangulate_poly_face(f_pts_ordered, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
                 base_idx = length(mesh_pts)
-                for idx in ordered_face
-                    p = P.v[idx]
-                    push!(mesh_pts, Point3f(p[1], p[2], p[3]))
+                for pt in sub_pts
+                    push!(mesh_pts, pt)
                     push!(mesh_normals, Vec3f(n_unit[1], n_unit[2], n_unit[3]))
                 end
-                for i in 2:(n_pts-1)
-                    push!(mesh_tris, TriangleFace(base_idx + 1, base_idx + i, base_idx + i + 1))
+                for tri in sub_tris
+                    push!(mesh_tris, TriangleFace(base_idx + tri[1], base_idx + tri[2], base_idx + tri[3]))
                 end
             end
             

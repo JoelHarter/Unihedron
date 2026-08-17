@@ -28,48 +28,62 @@ end
     small_stellated_dodecahedron()
 
 Constructs a small stellated dodecahedron ({5/2, 5}, 12 vertices of regular icosahedron, 12 intersecting pentagram star faces).
+For each of the 12 icosahedral vertices, its 5 nearest neighbors form a regular pentagram.
 Dual of the Great Dodecahedron.
 """
 function small_stellated_dodecahedron()
-    gd = great_dodecahedron()
-    # Pentagram star order of the 5 pentagon vertices
-    star_faces = [f[[1, 3, 5, 2, 4]] for f in gd.f]
-    return Polyhedron(gd.v, star_faces)
+    ico = icosahedron()
+    v_ico = ico.v
+    ssd_faces = Vector{Int}[]
+    for i in 1:12
+        nbrs = [j for j in 1:12 if i != j && isapprox(norm(v_ico[i] - v_ico[j]), 2.0; atol=1e-3)]
+        axis = normalize(v_ico[i])
+        ref = v_ico[nbrs[1]] - (v_ico[nbrs[1]] ⋅ axis) * axis
+        ref /= norm(ref)
+        perp = axis × ref
+        angles = [atan(v_ico[j] ⋅ perp, v_ico[j] ⋅ ref) for j in nbrs]
+        ord = nbrs[sortperm(angles)]
+        push!(ssd_faces, ord[[1, 3, 5, 2, 4]])
+    end
+    return Polyhedron(v_ico, ssd_faces)
 end
 
 """
     great_stellated_dodecahedron()
 
 Constructs a great stellated dodecahedron ({5/2, 3}, 20 vertices of regular dodecahedron, 12 intersecting pentagram star faces).
+Along each of the 6 five-fold axes, the 20 vertices form 4 layers of 5 vertices, where the 2 middle layers each form a regular pentagram.
 Dual of the Great Icosahedron.
 """
 function great_stellated_dodecahedron()
     dod = dodecahedron()
-    v = dod.v
-    coplanar_12_internal = Vector{Int}[]
-    for i1 in 1:20, i2 in (i1+1):20, i3 in (i2+1):20, i4 in (i3+1):20, i5 in (i4+1):20
-        idx = [i1, i2, i3, i4, i5]
-        pts = [v[k] for k in idx]
-        c = sum(pts) / 5
-        n = (pts[2] - pts[1]) × (pts[3] - pts[1])
-        if norm(n) > 1e-4
-            n = normalize(n)
-            is_coplanar = all(abs(dot(p - pts[1], n)) < 1e-4 for p in pts)
-            if is_coplanar
-                dists = [norm(p - c) for p in pts]
-                if all(isapprox(d, dists[1]; atol=1e-3) for d in dists) && norm(c) < 0.3
-                    axis = normalize(c)
-                    ref = pts[1] - (pts[1] ⋅ axis) * axis
-                    ref /= norm(ref)
-                    perp = axis × ref
-                    angles = [atan(p ⋅ perp, p ⋅ ref) for p in pts]
-                    ord = idx[sortperm(angles)]
-                    push!(coplanar_12_internal, ord[[1, 3, 5, 2, 4]])
-                end
-            end
+    v_dod = dod.v
+    face_normals = [normalize(sum([v_dod[i] for i in f])) for f in dod.f]
+    unique_axes = Pt3{Float64}[]
+    for n in face_normals
+        if !any(isapprox(abs(dot(n, a)), 1.0; atol=1e-4) for a in unique_axes)
+            push!(unique_axes, n)
         end
     end
-    return Polyhedron(v, coplanar_12_internal)
+
+    gsd_faces = Vector{Int}[]
+    for axis in unique_axes
+        heights = [dot(v_dod[i], axis) for i in 1:20]
+        perm = sortperm(heights)
+        layer2 = perm[6:10]   # lower middle layer
+        layer3 = perm[11:15]  # upper middle layer
+        
+        for layer in [layer2, layer3]
+            pts = [v_dod[k] for k in layer]
+            ref = pts[1] - (pts[1] ⋅ axis) * axis
+            ref /= norm(ref)
+            perp = axis × ref
+            angles = [atan(p ⋅ perp, p ⋅ ref) for p in pts]
+            ord = layer[sortperm(angles)]
+            push!(gsd_faces, ord[[1, 3, 5, 2, 4]])
+        end
+    end
+    return Polyhedron(v_dod, gsd_faces)
 end
 
 """
