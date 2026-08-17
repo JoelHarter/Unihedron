@@ -248,10 +248,10 @@ function display_polyhedron!(ax::Axis3, P::Polyhedron;
                             label_size=12)
     pts = [Point3f(p[1], p[2], p[3]) for p in P.v]
     
-    # Configure infinite Directional Light (light from infinity) + balanced Ambient Light
+    # Configure infinite Directional Light from top-right-front in viewspace + balanced Ambient Light
     try
-        Makie.set_ambient_light!(ax.scene, RGBf(0.82, 0.82, 0.82))
-        Makie.set_lights!(ax.scene, [DirectionalLight(RGBf(0.35, 0.35, 0.35), Vec3f(-0.3, -0.3, -1.0))])
+        Makie.set_ambient_light!(ax.scene, RGBf(0.70, 0.70, 0.70))
+        Makie.set_lights!(ax.scene, [DirectionalLight(RGBf(0.55, 0.55, 0.55), Vec3f(-0.8, -0.8, -1.2), true)])
     catch
     end
 
