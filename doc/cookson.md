@@ -52,7 +52,10 @@ If you rigorously apply the axioms above, the following boundaries naturally pol
 
 ## 5. The Excluded Solids List ($He_1 - He_4$)
 
-These solids pass the baseline regime rules but are disqualified under **Rule A** because they share both the topological graph and the convexity of classical Catalan solids. They are indexed as **$He_1 \dots He_4$** for convenient reference:
+> [!NOTE]
+> **Classical Polyhedral Exclusions**: Under **Rule A**, all 5 Platonic solids, several Archimedean solids (such as the cuboctahedron and icosidodecahedron), various Catalan solids, and a number of Johnson solids (e.g., $J_1$ square pyramid, $J_2$ pentagonal pyramid, $J_84$ snub disphenoid) that meet the spherical anchor and $\le 2$ polygon limit are **excluded solely for belonging to those established classical groups**. Not all classical polyhedra that would otherwise qualify under the sieve are cataloged in this table; the four solids below represent the primary spherical Catalan analogues ($He_1 \dots He_4$) that share the topological graphs of classical Catalan solids under convex spherical projection.
+
+These four spherical regimes pass the baseline regime rules but are disqualified under **Rule A** because they share both the topological graph and the convexity of classical Catalan solids. They are indexed as **$He_1 \dots He_4$** for convenient reference:
 
 | Index | Preview | Excluded Solid Name | Derivation / Parent Catalan | Classical Counterpart Graph | Vertices ($V$) | Faces ($F$) |
 | :---: | :---: | :--- | :--- | :--- | :---: | :---: |
@@ -63,10 +66,48 @@ These solids pass the baseline regime rules but are disqualified under **Rule A*
 
 ---
 
+### 5.1 The Infinite Series & Kingdoms (Excluded Generative Families)
+
+Beyond isolated polyhedra, there exist several **infinite series (kingdoms)** of geometric regimes that follow uniform generative rules from one iteration ($n$) to the next. Every member of these infinite families satisfies the Core Axioms (spherical vertex anchor, $\le 2$ polygon limit, strict connectivity, non-self-intersection). However, because they form unbounded infinite progressions rather than isolated, finite exceptional polyhedra, they are taxonomically disqualified from receiving individual numbers in the official Cookson sequence:
+
+1. **The Prismatic Kingdom ($n$-gonal Prisms)**:
+   - *Rule*: Two congruent parallel regular $n$-gons joined by a ring of $n$ squares / rectangles.
+   - *Polygon Count*: Exactly 2 types ($n$-gons and quadrilaterals).
+   - *Spherical Status*: When inscribed on a cylinder within a bounding sphere, all $2n$ vertices lie precisely on the unit sphere.
+   - *Exclusion*: Classical infinite uniform series (Archimedean / prismatic).
+
+2. **The Antiprismatic Kingdom ($n$-gonal Antiprisms)**:
+   - *Rule*: Two congruent parallel regular $n$-gons, twisted by $\pi/n$, joined by an alternating band of $2n$ equilateral or isosceles triangles.
+   - *Polygon Count*: Exactly 2 types ($n$-gons and triangles; for $n=3$, it specializes to the regular octahedron).
+   - *Spherical Status*: All $2n$ vertices lie symmetrically on the unit sphere.
+   - *Exclusion*: Classical infinite uniform series.
+
+3. **The Pyramidal Kingdom ($n$-gonal Pyramids)**:
+   - *Rule*: One regular $n$-gon base joined to an apex by $n$ congruent isosceles triangles.
+   - *Polygon Count*: Exactly 2 types ($n$-gon and triangles).
+   - *Spherical Status*: When the apex and base vertices are inscribed on a spherical cap, all $n+1$ vertices lie on the sphere.
+   - *Exclusion*: Elementary infinite family ($n=3$ is the tetrahedron; $n=4, 5$ are Johnson solids $J_1, J_2$).
+
+4. **The Bipyramidal / Dipyramidal Kingdom ($n$-gonal Bipyramids)**:
+   - *Rule*: Two $n$-gonal pyramids joined base-to-base, consisting of $2n$ congruent isosceles triangles.
+   - *Polygon Count*: Exactly 1 polygon type ($F=2n$).
+   - *Spherical Status*: Catalan duals of prisms; all $n+2$ vertices lie symmetrically on the sphere.
+   - *Exclusion*: Infinite dual series ($n=4$ is the regular octahedron).
+
+5. **The Trapezohedral / Deltohedral Kingdom ($n$-gonal Trapezohedra)**:
+   - *Rule*: Catalan duals of $n$-gonal antiprisms, consisting of $2n$ congruent kites (deltoids) arranged in an offset staggered ring.
+   - *Polygon Count*: Exactly 1 polygon type ($F=2n$ kites).
+   - *Spherical Status*: All $2n+2$ vertices lie symmetrically on the sphere.
+   - *Exclusion*: Infinite dual series ($n=3$ is the trigonal trapezohedron / rhombohedron).
+
+---
+
 ## 6. The Official Cookson Sequence ($H_1 - H_8$)
 
 > [!NOTE]
-> **Completeness Note**: This roster of 8 known Cookson Solid regimes ($H_1 \dots H_8$) **has not been proven to be complete**. Additional valid topological regimes that satisfy the Core Axioms (The Sieve) and pass the Taxonomic Exclusion rules may yet be discovered.
+> **Provisional Indexing & Completeness Note**: 
+> - **Provisional Numbering**: The current **$H_\#$ designations are working, provisional indices**. The authors are actively in the middle of exploring, classifying, and unravelling the underlying mathematical patterns and overarching taxonomic families of these topological regimes. As structural patterns are formalized, these assignments may be reorganized into a more comprehensive, systematic family hierarchy.
+> - **Completeness**: This roster of 8 known Cookson Solid regimes ($H_1 \dots H_8$) **has not been proven to be complete**. Additional valid topological regimes that satisfy the Core Axioms (The Sieve) and pass the Taxonomic Exclusion rules may yet be discovered.
 
 These are the 8 currently known Cookson solids, passing all regime rules and possessing either an entirely unique topological graph or a concave profile that distinguishes them from classical planar geometry:
 

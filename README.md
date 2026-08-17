@@ -141,6 +141,20 @@ reu  = reuleaux_polygon(3; radius=1.0) # Reuleaux triangle
 
 ---
 
+## Documentation & Polyhedral Treatises
+
+Detailed mathematical formalizations, historical discoveries, rules, and illustrated tables are available in the **[`doc/`](doc/)** directory:
+
+* 🌌 **[Cookson Solids (`doc/cookson.md`)](doc/cookson.md)**: Formalized by Arthur J Cookson and Joel T Harter (2026). The complete topological regime philosophy, the sieve axioms, and excluded kingdoms.
+* 🏛️ **[Platonic Solids (`doc/platonic.md`)](doc/platonic.md)**: Plato (~360 BC). The five regular convex polyhedra and Euclid's Book XIII proof.
+* 📐 **[Archimedean Solids (`doc/archimedean.md`)](doc/archimedean.md)**: Archimedes of Syracuse (~287–212 BC) & Kepler (1619). The 13 semi-regular convex polyhedra.
+* 💎 **[Catalan Solids (`doc/catalan.md`)](doc/catalan.md)**: Eugène Charles Catalan (1865). The 13 face-transitive Archimedean polar duals.
+* ⭐ **[Kepler-Poinsot Solids (`doc/kepler_poinsot.md`)](doc/kepler_poinsot.md)**: Johannes Kepler (1619) & Louis Poinsot (1810). The 4 regular star polyhedra.
+* 🧩 **[Johnson Solids (`doc/johnson.md`)](doc/johnson.md)**: Norman Johnson (1966) & Victor Zalgaller (1969). All 92 strictly convex non-uniform regular-faced polyhedra.
+* 🌐 **[Geodesic Spheres & Fullerenes (`doc/geodesic.md`)](doc/geodesic.md)**: Buckminster Fuller & Michael Goldberg (1937). Higher-order spherical triangulations, $C_{60}$ Buckyballs, and Honeyballs.
+
+---
+
 ## File I/O & Master Database
 
 ```julia
@@ -162,7 +176,7 @@ solid_c6  = load_hdf5("unihedron_database.h5"; group="cookson/C6")
 
 ## Running Tests
 
-To run the complete test suite (401 unit tests):
+To run the complete test suite:
 
 ```bash
 julia test.jl
