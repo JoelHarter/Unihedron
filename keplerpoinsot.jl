@@ -6,80 +6,104 @@ All 4 regular non-convex (star) polyhedra with regular faces and symmetric verti
 """
     great_dodecahedron()
 
-Constructs a great dodecahedron (12 vertices, 12 intersecting pentagonal faces).
-Schläfli symbol: {5, 5/2}.
+Constructs a great dodecahedron ({5, 5/2}, 12 vertices of icosahedron, 60 triangular boundary facets).
 """
 function great_dodecahedron()
     ico = icosahedron()
-    v = ico.v
-    faces = Vector{Int}[]
-    
-    for i in 1:12
-        nbrs = [j for j in 1:12 if i != j && isapprox(norm(v[i] - v[j]), 2.0; atol=1e-4)]
-        axis = v[i] / norm(v[i])
-        ref = v[nbrs[1]] - (v[nbrs[1]] ⋅ axis) * axis
-        ref /= norm(ref)
-        perp = axis × ref
-        angles = [atan((v[j] ⋅ perp), (v[j] ⋅ ref)) for j in nbrs]
-        ordered = nbrs[sortperm(angles)]
-        push!(faces, ordered)
+    v_all = Pt3{Float64}[v for v in ico.v]
+    f_all = Vector{Int}[]
+    for (f_idx, face) in enumerate(ico.f)
+        pts = [ico.v[i] for i in face]
+        c = sum(pts) / 3
+        n = normalize(c)
+        apex_r = norm(c) * (3 - sqrt(5))
+        push!(v_all, Pt3{Float64}(n * apex_r))
+        apex_idx = length(v_all)
+        push!(f_all, [face[1], face[2], apex_idx])
+        push!(f_all, [face[2], face[3], apex_idx])
+        push!(f_all, [face[3], face[1], apex_idx])
     end
-    
-    return Polyhedron(v, faces)
+    return Polyhedron(v_all, f_all)
 end
 
 """
     small_stellated_dodecahedron()
 
-Constructs a small stellated dodecahedron (12 vertices, 12 intersecting pentagram star faces).
-Schläfli symbol: {5/2, 5}. Dual of the Great Dodecahedron.
+Constructs a small stellated dodecahedron ({5/2, 5}, 12 star pyramid points on dodecahedron faces, 60 triangular facets).
+Dual of the Great Dodecahedron.
 """
 function small_stellated_dodecahedron()
-    gd = great_dodecahedron()
-    # Pentagram star order of the 5 pentagon vertices
-    star_faces = [f[[1, 3, 5, 2, 4]] for f in gd.f]
-    return Polyhedron(gd.v, star_faces)
+    ϕ = (1 + sqrt(5)) / 2
+    dod = dodecahedron()
+    v_all = Pt3{Float64}[v for v in dod.v]
+    f_all = Vector{Int}[]
+    for (f_idx, face) in enumerate(dod.f)
+        pts = [dod.v[i] for i in face]
+        c = sum(pts) / 5
+        n = normalize(c)
+        apex_r = norm(c) * ϕ^2
+        push!(v_all, Pt3{Float64}(n * apex_r))
+        apex_idx = length(v_all)
+        n_pts = length(face)
+        for i in 1:n_pts
+            u = face[i]
+            v = face[i == n_pts ? 1 : i + 1]
+            push!(f_all, [u, v, apex_idx])
+        end
+    end
+    return Polyhedron(v_all, f_all)
 end
 
 """
     great_stellated_dodecahedron()
 
-Constructs a great stellated dodecahedron (20 vertices, 12 intersecting pentagram star faces).
-Schläfli symbol: {5/2, 3}. Dual of the Great Icosahedron.
+Constructs a great stellated dodecahedron ({5/2, 3}, 20 star pyramid spikes on icosahedron faces, 60 triangular facets).
+Dual of the Great Icosahedron.
 """
 function great_stellated_dodecahedron()
-    dod = dodecahedron()
-    # Pentagram star order of the 5 pentagon vertices
-    star_faces = [f[[1, 3, 5, 2, 4]] for f in dod.f]
-    return Polyhedron(dod.v, star_faces)
+    ϕ = (1 + sqrt(5)) / 2
+    ico = icosahedron()
+    v_all = Pt3{Float64}[v for v in ico.v]
+    f_all = Vector{Int}[]
+    for (f_idx, face) in enumerate(ico.f)
+        pts = [ico.v[i] for i in face]
+        c = sum(pts) / 3
+        n = normalize(c)
+        apex_r = norm(c) * (2*ϕ - 1)
+        push!(v_all, Pt3{Float64}(n * apex_r))
+        apex_idx = length(v_all)
+        push!(f_all, [face[1], face[2], apex_idx])
+        push!(f_all, [face[2], face[3], apex_idx])
+        push!(f_all, [face[3], face[1], apex_idx])
+    end
+    return Polyhedron(v_all, f_all)
 end
 
 """
     great_icosahedron()
 
-Constructs a great icosahedron (12 vertices, 20 intersecting triangular faces).
-Schläfli symbol: {3, 5/2}. Dual of the Great Stellated Dodecahedron.
+Constructs a great icosahedron ({3, 5/2}, 12 five-pointed star apexes, 60 triangular boundary facets).
+Dual of the Great Stellated Dodecahedron.
 """
 function great_icosahedron()
-    ico = icosahedron()
-    v = ico.v
-    faces = Vector{Int}[]
-    
-    for i in 1:12
-        for j in (i+1):12
-            for k in (j+1):12
-                d1 = norm(v[i] - v[j])
-                d2 = norm(v[j] - v[k])
-                d3 = norm(v[k] - v[i])
-                # Intersecting triangles connect second-nearest neighbors in icosahedron
-                if isapprox(d1, d2; atol=1e-4) && isapprox(d2, d3; atol=1e-4) && !isapprox(d1, 2.0; atol=1e-4) && d1 < 3.5
-                    push!(faces, [i, j, k])
-                end
-            end
+    dod = dodecahedron()
+    v_all = Pt3{Float64}[v for v in dod.v]
+    f_all = Vector{Int}[]
+    for (f_idx, face) in enumerate(dod.f)
+        pts = [dod.v[i] for i in face]
+        c = sum(pts) / 5
+        n = normalize(c)
+        apex_r = norm(c) * (sqrt(5) - 1)
+        push!(v_all, Pt3{Float64}(n * apex_r))
+        apex_idx = length(v_all)
+        n_pts = length(face)
+        for i in 1:n_pts
+            u = face[i]
+            v = face[i == n_pts ? 1 : i + 1]
+            push!(f_all, [u, v, apex_idx])
         end
     end
-    
-    return Polyhedron(v, faces)
+    return Polyhedron(v_all, f_all)
 end
 
 const KEPLER_POINSOT_SOLID_MAP = Dict{Symbol, Function}(

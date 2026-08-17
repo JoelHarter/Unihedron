@@ -247,26 +247,26 @@ using .Unihedron
     end
 
     @testset "Kepler-Poinsot Star Polyhedra (4 solids)" begin
-        # 1. Great Dodecahedron (V=12, F=12)
+        # 1. Great Dodecahedron (V=32, F=60 boundary facets)
         gd = great_dodecahedron()
-        @test length(gd.v) == 12 && length(gd) == 12
+        @test length(gd.v) == 32 && length(gd) == 60
 
-        # 2. Small Stellated Dodecahedron (V=12, F=12)
+        # 2. Small Stellated Dodecahedron (V=32, F=60 boundary facets)
         ssd = small_stellated_dodecahedron()
-        @test length(ssd.v) == 12 && length(ssd) == 12
+        @test length(ssd.v) == 32 && length(ssd) == 60
 
-        # 3. Great Stellated Dodecahedron (V=20, F=12)
+        # 3. Great Stellated Dodecahedron (V=32, F=60 boundary facets)
         gsd = great_stellated_dodecahedron()
-        @test length(gsd.v) == 20 && length(gsd) == 12
+        @test length(gsd.v) == 32 && length(gsd) == 60
 
-        # 4. Great Icosahedron (V=12, F=20)
+        # 4. Great Icosahedron (V=32, F=60 boundary facets)
         gi = great_icosahedron()
-        @test length(gi.v) == 12 && length(gi) == 20
+        @test length(gi.v) == 32 && length(gi) == 60
 
         # Dispatcher tests
         @test kepler_poinsot(:great_dodecahedron) isa Polyhedron
-        @test length(kepler_poinsot(1).v) == 12
-        @test length(kepler_poinsot(3).v) == 20
+        @test length(kepler_poinsot(1).v) == 32
+        @test length(kepler_poinsot(3).v) == 32
     end
 
     @testset "Catalan Solids via dual() (13 solids)" begin
