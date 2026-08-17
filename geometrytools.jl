@@ -414,55 +414,44 @@ function dual(P::Polyhedron{T}; polar::Bool=true) where T
         end
     end
     
-    # 2. Directed half-edge map: (u, v) -> face index
-    edge_to_face = Dict{Tuple{Int, Int}, Int}()
-    for (f_idx, face) in enumerate(P.f)
-        n = length(face)
-        for i in 1:n
-            u = face[i]
-            v = face[i == n ? 1 : i + 1]
-            edge_to_face[(u, v)] = f_idx
-        end
-    end
-    
-    # 3. For each primal vertex, order incident faces cyclically
+    # 2. For each primal vertex, find incident primal faces and order dual vertices cyclically around centroid
     dual_faces = Vector{Int}[]
     for v_idx in 1:n_verts
         incident_faces = [k for k in 1:n_faces if v_idx in P.f[k]]
         isempty(incident_faces) && continue
         
-        f_start = incident_faces[1]
-        ordered_face_indices = Int[f_start]
+        pts = [dual_verts[idx] for idx in incident_faces]
+        c = sum(pts) / length(pts)
+        n_out = normalize(c)
         
-        face_verts = P.f[f_start]
-        pos = findfirst(==(v_idx), face_verts)
-        u = face_verts[pos == length(face_verts) ? 1 : pos + 1]
+        # Orthonormal basis in face plane
+        v_diff = pts[1] - c
+        if norm(v_diff) < 1e-12 && length(pts) > 1
+            v_diff = pts[2] - c
+        end
+        u1 = normalize(v_diff)
+        u2 = cross(n_out, u1)
         
-        curr_f = f_start
-        curr_u = u
+        angles = [atan(dot(p - c, u2), dot(p - c, u1)) for p in pts]
+        p_perm = sortperm(angles)
+        ordered_indices = incident_faces[p_perm]
         
-        while true
-            next_f = get(edge_to_face, (curr_u, v_idx), 0)
-            if next_f == 0 || next_f == f_start
-                break
-            end
-            push!(ordered_face_indices, next_f)
-            
-            next_face_verts = P.f[next_f]
-            pos_next = findfirst(==(v_idx), next_face_verts)
-            curr_u = next_face_verts[pos_next == length(next_face_verts) ? 1 : pos_next + 1]
-            curr_f = next_f
-            
-            if length(ordered_face_indices) > length(incident_faces) + 2
-                break
-            end
+        # Ensure CCW outward winding
+        n_pts = length(ordered_indices)
+        pts_ord = [dual_verts[idx] for idx in ordered_indices]
+        n_geom = zeros(Float64, 3)
+        for i in 1:n_pts
+            p1 = pts_ord[i]
+            p2 = pts_ord[i == n_pts ? 1 : i + 1]
+            n_geom[1] += (p1[2] - p2[2]) * (p1[3] + p2[3])
+            n_geom[2] += (p1[3] - p2[3]) * (p1[1] + p2[1])
+            n_geom[3] += (p1[1] - p2[1]) * (p1[2] + p2[2])
+        end
+        if dot(n_geom, c) < 0
+            ordered_indices = reverse(ordered_indices)
         end
         
-        if length(ordered_face_indices) != length(incident_faces)
-            ordered_face_indices = incident_faces
-        end
-        
-        push!(dual_faces, ordered_face_indices)
+        push!(dual_faces, ordered_indices)
     end
     
     return Polyhedron(dual_verts, dual_faces)
