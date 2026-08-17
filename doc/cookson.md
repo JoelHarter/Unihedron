@@ -82,18 +82,18 @@ To illustrate each phylum, its **heptagonal ($n=7$) regime** is rendered below:
 
 ---
 
-### 5.2 The Kepler-Poinsot Solids & Non-Intersectional Axiom
+### 5.2 Kepler-Poinsot Polyhedra & Non-Intersectional Axiom
 
 A common point of inquiry is whether the 4 regular Kepler-Poinsot star polyhedra ($\{5, 5/2\}$, $\{5/2, 5\}$, $\{5/2, 3\}$, and $\{3, 5/2\}$) claim or belong to any Cookson regimes.
 
-* **Strict Disqualification under Axiom 5 (No Self-Intersection)**: Under Axiom 5 of the Sieve, faces and edges may not cross or pass through one another. By their mathematical definition, all Kepler-Poinsot solids consist of large regular polygons or star pentagrams whose planes intersect and pass through the interior of the solid. Consequently, **no Kepler solid can claim a Cookson regime**.
-* **The "Optical Illusion" of Solidification**: To the naked eye, a star polyhedron can look like a concave outer boundary shell with protruding star pyramids and valley folds. If one were to "solidify" that visual silhouette—chopping away the internal self-intersecting geometry—the resulting non-self-intersecting outer boundary *could* potentially satisfy the Sieve and claim a Cookson regime.
-* **Why Solidification Destroys the Kepler Identity**: This distinction is not mere pedantry. Solidifying a star polyhedron fundamentally alters its topology:
-  1. It creates dozens of entirely new vertices at every point where the chords and planes intersect.
-  2. It generates new interior boundary edges along all intersection lines.
-  3. It fractures each original large regular face (such as the 20 equilateral triangles of the Great Icosahedron or the 12 pentagrams of the Great Stellated Dodecahedron) into multiple smaller disjoint triangular and polygonal sub-facets.
+* **Explicitly Not "Solids"**: Mathematically, the Kepler-Poinsot polyhedra are **polyhedra, not solids**. Because their faces and edges self-intersect and pass through one another, they enclose multiple overlapping interior chambers rather than defining a single solid boundary.
+* **Strict Disqualification under Axiom 5 (No Self-Intersection)**: Under Axiom 5 of the Sieve, faces and edges may not cross or pass through one another. By their fundamental definition, all Kepler-Poinsot polyhedra consist of large regular polygons or star pentagrams whose planes intersect and pass through the interior of the polyhedron. Consequently, **no Kepler-Poinsot polyhedron can claim a Cookson regime**.
+* **The "Optical Illusion" of Solidification**: To the casual eye, a star polyhedron might appear as a concave outer boundary shell with protruding star pyramids and valley folds. If one were to "solidify" that visual silhouette—chopping away the internal self-intersecting geometry—the resulting non-self-intersecting outer boundary *could* potentially satisfy the Sieve and claim a Cookson regime.
+* **Why Solidification Destroys the Kepler-Poinsot Identity**: This distinction is not mere pedantry. Solidification fundamentally replaces the entire mathematical graph:
+  1. **Face Level**: A true regular pentagram $\{5/2\}$ has **exactly 5 vertices and 5 intersecting edges, not 10**. Solidifying a pentagram in 2D converts it into a 10-vertex decagram star boundary (5 outer tips + 5 inner intersection vertices) with 5 separate outer triangles surrounding a central pentagon.
+  2. **Polyhedral Level**: In 3D, solidifying a Kepler-Poinsot polyhedron creates dozens of new intersection vertices where the planes cross, generates new boundary edges along all intersection lines, and fractures each original large face (such as the 20 equilateral triangles of the Great Icosahedron or the 12 pentagrams of the Great Stellated Dodecahedron) into multiple smaller disjoint polygonal pieces.
   
-  Because its vertices, edges, and faces have been completely replaced, the resulting solidified outer mesh is an entirely distinct compound polyhedron and **is NOT a Kepler solid**.
+  Because its vertices, edges, and faces have been completely replaced with an entirely different combinatorial structure, the resulting solidified outer boundary **is NOT a Kepler-Poinsot polyhedron**.
 
 ---
 
