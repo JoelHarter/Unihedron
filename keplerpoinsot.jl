@@ -6,115 +6,75 @@ All 4 regular non-convex (star) polyhedra with regular faces and symmetric verti
 """
     great_dodecahedron()
 
-Constructs a great dodecahedron ({5, 5/2}, 12 vertices of icosahedron, 60 triangular boundary facets).
+Constructs a great dodecahedron ({5, 5/2}, 12 vertices of regular icosahedron, 12 intersecting regular pentagonal faces).
 """
 function great_dodecahedron()
     ico = icosahedron()
-    v_all = Pt3{Float64}[v for v in ico.v]
-    f_all = Vector{Int}[]
-    for (f_idx, face) in enumerate(ico.f)
-        pts = [ico.v[i] for i in face]
-        c = sum(pts) / 3
-        n = normalize(c)
-        apex_r = norm(c) * (3 - sqrt(5))
-        push!(v_all, Pt3{Float64}(n * apex_r))
-        apex_idx = length(v_all)
-        push!(f_all, [face[1], face[2], apex_idx])
-        push!(f_all, [face[2], face[3], apex_idx])
-        push!(f_all, [face[3], face[1], apex_idx])
+    v_ico = ico.v
+    gd_faces = Vector{Int}[]
+    for i in 1:12
+        nbrs = [j for j in 1:12 if i != j && isapprox(norm(v_ico[i] - v_ico[j]), 2.0; atol=1e-3)]
+        axis = normalize(v_ico[i])
+        ref = v_ico[nbrs[1]] - (v_ico[nbrs[1]] ⋅ axis) * axis
+        ref /= norm(ref)
+        perp = axis × ref
+        angles = [atan(v_ico[j] ⋅ perp, v_ico[j] ⋅ ref) for j in nbrs]
+        push!(gd_faces, nbrs[sortperm(angles)])
     end
-    return Polyhedron(v_all, f_all)
+    return Polyhedron(v_ico, gd_faces)
 end
 
 """
     small_stellated_dodecahedron()
 
-Constructs a small stellated dodecahedron ({5/2, 5}, 12 star pyramid points on dodecahedron faces, 60 triangular facets).
+Constructs a small stellated dodecahedron ({5/2, 5}, 12 vertices of regular icosahedron, 12 intersecting pentagram star faces).
 Dual of the Great Dodecahedron.
 """
 function small_stellated_dodecahedron()
-    ϕ = (1 + sqrt(5)) / 2
-    dod = dodecahedron()
-    v_all = Pt3{Float64}[v for v in dod.v]
-    f_all = Vector{Int}[]
-    for (f_idx, face) in enumerate(dod.f)
-        pts = [dod.v[i] for i in face]
-        c = sum(pts) / 5
-        n = normalize(c)
-        apex_r = norm(c) * ϕ^2
-        push!(v_all, Pt3{Float64}(n * apex_r))
-        apex_idx = length(v_all)
-        n_pts = length(face)
-        for i in 1:n_pts
-            u = face[i]
-            v = face[i == n_pts ? 1 : i + 1]
-            push!(f_all, [u, v, apex_idx])
-        end
-    end
-    return Polyhedron(v_all, f_all)
+    gd = great_dodecahedron()
+    # Pentagram star order of the 5 pentagon vertices
+    star_faces = [f[[1, 3, 5, 2, 4]] for f in gd.f]
+    return Polyhedron(gd.v, star_faces)
 end
 
 """
     great_stellated_dodecahedron()
 
-Constructs a great stellated dodecahedron ({5/2, 3}, 20 star pyramid spikes on icosahedron faces, 60 triangular facets).
+Constructs a great stellated dodecahedron ({5/2, 3}, 20 vertices of regular dodecahedron, 12 intersecting pentagram star faces).
 Dual of the Great Icosahedron.
 """
 function great_stellated_dodecahedron()
-    ϕ = (1 + sqrt(5)) / 2
-    ico = icosahedron()
-    v_all = Pt3{Float64}[v for v in ico.v]
-    f_all = Vector{Int}[]
-    for (f_idx, face) in enumerate(ico.f)
-        pts = [ico.v[i] for i in face]
-        c = sum(pts) / 3
-        n = normalize(c)
-        apex_r = norm(c) * (2*ϕ - 1)
-        push!(v_all, Pt3{Float64}(n * apex_r))
-        apex_idx = length(v_all)
-        push!(f_all, [face[1], face[2], apex_idx])
-        push!(f_all, [face[2], face[3], apex_idx])
-        push!(f_all, [face[3], face[1], apex_idx])
-    end
-    return Polyhedron(v_all, f_all)
+    dod = dodecahedron()
+    star_faces = [f[[1, 3, 5, 2, 4]] for f in dod.f]
+    return Polyhedron(dod.v, star_faces)
 end
 
 """
     great_icosahedron()
 
-Constructs a great icosahedron ({3, 5/2}, 12 five-pointed star apexes, 60 triangular boundary facets).
+Constructs a great icosahedron ({3, 5/2}, 12 vertices of regular icosahedron, 20 intersecting equilateral triangular faces).
 Dual of the Great Stellated Dodecahedron.
 """
 function great_icosahedron()
-    ϕ = (1 + sqrt(5)) / 2
     ico = icosahedron()
-    dod = dual(ico)
-    v_gi = Pt3{Float64}[]
-    for v in ico.v
-        push!(v_gi, Pt3{Float64}(normalize(v) * ϕ))
-    end
-    for v in dod.v
-        push!(v_gi, Pt3{Float64}(normalize(v) * (3 - sqrt(5))))
-    end
-
-    f_gi = Vector{Int}[]
-    for v_idx in 1:12
-        incident_ico_faces = [f_idx for (f_idx, f) in enumerate(ico.f) if v_idx in f]
-        pts = [v_gi[12 + f_idx] for f_idx in incident_ico_faces]
-        axis = normalize(v_gi[v_idx])
-        ref = pts[1] - (pts[1] ⋅ axis) * axis
-        ref /= norm(ref)
-        perp = axis × ref
-        angles = [atan(p ⋅ perp, p ⋅ ref) for p in pts]
-        ordered_faces = incident_ico_faces[sortperm(angles)]
-        
-        for k in 1:5
-            in1 = 12 + ordered_faces[k]
-            in2 = 12 + ordered_faces[k == 5 ? 1 : k + 1]
-            push!(f_gi, [v_idx, in1, in2])
+    v_ico = ico.v
+    ϕ = (1.0 + sqrt(5.0)) / 2.0
+    gi_faces = Vector{Int}[]
+    for i in 1:12, j in (i+1):12, k in (j+1):12
+        d1 = norm(v_ico[i] - v_ico[j])
+        d2 = norm(v_ico[j] - v_ico[k])
+        d3 = norm(v_ico[k] - v_ico[i])
+        if isapprox(d1, d2; atol=1e-3) && isapprox(d2, d3; atol=1e-3) && isapprox(d1, 2*ϕ; atol=1e-3)
+            c = (v_ico[i] + v_ico[j] + v_ico[k]) / 3
+            n = (v_ico[j] - v_ico[i]) × (v_ico[k] - v_ico[i])
+            if dot(n, c) < 0
+                push!(gi_faces, [i, k, j])
+            else
+                push!(gi_faces, [i, j, k])
+            end
         end
     end
-    return Polyhedron(v_gi, f_gi)
+    return Polyhedron(v_ico, gi_faces)
 end
 
 const KEPLER_POINSOT_SOLID_MAP = Dict{Symbol, Function}(
