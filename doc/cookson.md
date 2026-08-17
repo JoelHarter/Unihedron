@@ -59,10 +59,10 @@ These four spherical regimes pass the baseline regime rules but are disqualified
 
 | Index | Preview | Excluded Solid Name | Derivation / Parent Catalan | Classical Counterpart Graph | Vertices ($V$) | Faces ($F$) |
 | :---: | :---: | :--- | :--- | :--- | :---: | :---: |
-| **$He_1$** | <img src="img/excluded_hexasphere.png" width="90" alt="He1"> | **Studded Hexasphere** | Convex Rhombic Dodecahedron | Tetrakis Hexahedron | 14 | 24 |
-| **$He_2$** | <img src="img/excluded_dodecasphere.png" width="90" alt="He2"> | **Studded Dodecasphere** | Convex Rhombic Triacontahedron | Pentakis Dodecahedron | 32 | 60 |
-| **$He_3$** | <img src="img/excluded_rhombic_dodecasphere.png" width="90" alt="He3"> | **Studded Rhombic Dodecasphere** | Convex Deltoidal Icositetrahedron | Disdyakis Dodecahedron | 26 | 48 |
-| **$He_4$** | <img src="img/excluded_rhombic_triacontasphere.png" width="90" alt="He4"> | **Studded Rhombic Triacontasphere** | Convex Deltoidal Hexecontahedron | Disdyakis Triacontahedron | 62 | 120 |
+| **$He_1$** | <img src="img/cookson/excluded/he1_studded_hexasphere.png" width="90" alt="He1"> | **Studded Hexasphere** | Convex Rhombic Dodecahedron | Tetrakis Hexahedron | 14 | 24 |
+| **$He_2$** | <img src="img/cookson/excluded/he2_studded_dodecasphere.png" width="90" alt="He2"> | **Studded Dodecasphere** | Convex Rhombic Triacontahedron | Pentakis Dodecahedron | 32 | 60 |
+| **$He_3$** | <img src="img/cookson/excluded/he3_studded_rhombic_dodecasphere.png" width="90" alt="He3"> | **Studded Rhombic Dodecasphere** | Convex Deltoidal Icositetrahedron | Disdyakis Dodecahedron | 26 | 48 |
+| **$He_4$** | <img src="img/cookson/excluded/he4_studded_rhombic_triacontasphere.png" width="90" alt="He4"> | **Studded Rhombic Triacontasphere** | Convex Deltoidal Hexecontahedron | Disdyakis Triacontahedron | 62 | 120 |
 
 ---
 
@@ -74,11 +74,11 @@ To illustrate each phylum, its **heptagonal ($n=7$) regime** is rendered below:
 
 | Phylum | Heptagonal ($n=7$) Exemplar | Generative Rule & Structure | Polygon Count & Breakdown | Spherical Anchor Status | Classical Exclusion Rationale |
 | :--- | :---: | :--- | :--- | :--- | :--- |
-| **The Prismatic Phylum** | <img src="img/phyla/heptagonal_prism.png" width="90" alt="Heptagonal Prism"> | Two congruent parallel regular $n$-gons joined by a lateral ring of $n$ quadrilaterals / squares. | Exactly 2 types:<br>• 2 $n$-gons<br>• $n$ squares | When inscribed on a cylinder within a bounding sphere, all $2n$ vertices lie precisely on the unit sphere. | Classical infinite uniform series (Archimedean / prismatic). |
-| **The Antiprismatic Phylum** | <img src="img/phyla/heptagonal_antiprism.png" width="90" alt="Heptagonal Antiprism"> | Two congruent parallel regular $n$-gons, twisted by $\pi/n$, joined by an alternating band of $2n$ equilateral or isosceles triangles. | Exactly 2 types:<br>• 2 $n$-gons<br>• $2n$ triangles | All $2n$ vertices lie symmetrically on the circumscribed unit sphere. | Classical infinite uniform series ($n=3$ specializes to the regular octahedron). |
-| **The Pyramidal Phylum** | <img src="img/phyla/heptagonal_pyramid.png" width="90" alt="Heptagonal Pyramid"> | One regular $n$-gon base joined to a polar apex by $n$ congruent isosceles triangles. | Exactly 2 types:<br>• 1 $n$-gon<br>• $n$ triangles | When the apex and base vertices are inscribed on a spherical cap, all $n+1$ vertices lie on the sphere. | Elementary infinite family ($n=3$ is the tetrahedron; $n=4, 5$ are Johnson solids $J_1, J_2$). |
-| **The Bipyramidal Phylum** | <img src="img/phyla/heptagonal_bipyramid.png" width="90" alt="Heptagonal Bipyramid"> | Two $n$-gonal pyramids joined base-to-base along an equatorial regular $n$-gon, consisting of $2n$ congruent isosceles triangles. | Exactly 1 type:<br>• $2n$ triangles | Catalan duals of prisms; all $n+2$ vertices lie symmetrically on the unit sphere. | Classical infinite dual series ($n=4$ specializes to the regular octahedron). |
-| **The Trapezohedral Phylum** | <img src="img/phyla/heptagonal_trapezohedron.png" width="90" alt="Heptagonal Trapezohedron"> | Catalan duals of $n$-gonal antiprisms, consisting of $2n$ congruent kites (deltoids) arranged in an offset staggered equatorial belt. | Exactly 1 type:<br>• $2n$ kites (deltoids) | All $2n+2$ vertices lie symmetrically on the circumscribed unit sphere. | Classical infinite dual series ($n=3$ specializes to the trigonal trapezohedron / rhombohedron). |
+| **The Prismatic Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_prism.png" width="90" alt="Heptagonal Prism"> | Two congruent parallel regular $n$-gons joined by a lateral ring of $n$ quadrilaterals / squares. | Exactly 2 types:<br>• 2 $n$-gons<br>• $n$ squares | When inscribed on a cylinder within a bounding sphere, all $2n$ vertices lie precisely on the unit sphere. | Classical infinite uniform series (Archimedean / prismatic). |
+| **The Antiprismatic Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_antiprism.png" width="90" alt="Heptagonal Antiprism"> | Two congruent parallel regular $n$-gons, twisted by $\pi/n$, joined by an alternating band of $2n$ equilateral or isosceles triangles. | Exactly 2 types:<br>• 2 $n$-gons<br>• $2n$ triangles | All $2n$ vertices lie symmetrically on the circumscribed unit sphere. | Classical infinite uniform series ($n=3$ specializes to the regular octahedron). |
+| **The Pyramidal Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_pyramid.png" width="90" alt="Heptagonal Pyramid"> | One regular $n$-gon base joined to a polar apex by $n$ congruent isosceles triangles. | Exactly 2 types:<br>• 1 $n$-gon<br>• $n$ triangles | When the apex and base vertices are inscribed on a spherical cap, all $n+1$ vertices lie on the sphere. | Elementary infinite family ($n=3$ is the tetrahedron; $n=4, 5$ are Johnson solids $J_1, J_2$). |
+| **The Bipyramidal Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_bipyramid.png" width="90" alt="Heptagonal Bipyramid"> | Two $n$-gonal pyramids joined base-to-base along an equatorial regular $n$-gon, consisting of $2n$ congruent isosceles triangles. | Exactly 1 type:<br>• $2n$ triangles | Catalan duals of prisms; all $n+2$ vertices lie symmetrically on the unit sphere. | Classical infinite dual series ($n=4$ specializes to the regular octahedron). |
+| **The Trapezohedral Phylum** | <img src="img/cookson/excluded/phyla/heptagonal_trapezohedron.png" width="90" alt="Heptagonal Trapezohedron"> | Catalan duals of $n$-gonal antiprisms, consisting of $2n$ congruent kites (deltoids) arranged in an offset staggered equatorial belt. | Exactly 1 type:<br>• $2n$ kites (deltoids) | All $2n+2$ vertices lie symmetrically on the circumscribed unit sphere. | Classical infinite dual series ($n=3$ specializes to the trigonal trapezohedron / rhombohedron). |
 
 ---
 
@@ -93,14 +93,14 @@ These are the 8 currently known Cookson solids, passing all regime rules and pos
 
 | Index | Preview | Official Name | Classification | Suffix Form | Parent Catalan Solid | Classical Graph | Vertices ($V$) | Faces ($F$) | Face Breakdown |
 | :---: | :---: | :--- | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-| **$H_1$** | <img src="img/h1.png" width="90" alt="H1"> | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | `-sphere` | Pentagonal Icositetrahedron | *Unique* | 38 | 48 | 24 Trapezoids, 24 Triangles |
-| **$H_2$** | <img src="img/h2.png" width="90" alt="H2"> | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | `-sphere` | Pentagonal Hexecontahedron | *Unique* | 92 | 120 | 60 Trapezoids, 60 Triangles |
-| **$H_3$** | <img src="img/h3.png" width="90" alt="H3"> | **Studded Octahedron** | Concave Shadow | `-hedron` | Rhombic Dodecahedron | *Triakis Octahedron* | 14 | 24 | 24 Triangles |
-| **$H_4$** | <img src="img/h4.png" width="90" alt="H4"> | **Studded Icosahedron** | Concave Shadow | `-hedron` | Rhombic Triacontahedron | *Triakis Icosahedron* | 32 | 60 | 60 Triangles |
-| **$H_5$** | <img src="img/h5.png" width="90" alt="H5"> | **Studded Cuboctahedron** | Concave Shadow | `-hedron` | Deltoidal Icositetrahedron | *Disdyakis Cuboctahedron* | 26 | 48 | 48 Triangles (Chiral pairs) |
-| **$H_6$** | <img src="img/h6.png" width="90" alt="H6"> | **Studded Rhombic Triacontasphere** | Concave Shadow | `-sphere` | Deltoidal Hexecontahedron | *Disdyakis Rhombic Triacontahedron* | 62 | 120 | 120 Triangles (Chiral pairs) |
-| **$H_7$** | <img src="img/h7.png" width="90" alt="H7"> | **Gyrobitrigonal Octasphere** | Concave Irregular | `-sphere` | Pentagonal Icositetrahedron | *Unique* | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
-| **$H_8$** | <img src="img/h8.png" width="90" alt="H8"> | **Gyrobitrigonal Icosasphere** | Concave Irregular | `-sphere` | Pentagonal Hexecontahedron | *Unique* | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
+| **$H_1$** | <img src="img/cookson/h1.png" width="90" alt="H1"> | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | `-sphere` | Pentagonal Icositetrahedron | *Unique* | 38 | 48 | 24 Trapezoids, 24 Triangles |
+| **$H_2$** | <img src="img/cookson/h2.png" width="90" alt="H2"> | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | `-sphere` | Pentagonal Hexecontahedron | *Unique* | 92 | 120 | 60 Trapezoids, 60 Triangles |
+| **$H_3$** | <img src="img/cookson/h3.png" width="90" alt="H3"> | **Studded Octahedron** | Concave Shadow | `-hedron` | Rhombic Dodecahedron | *Triakis Octahedron* | 14 | 24 | 24 Triangles |
+| **$H_4$** | <img src="img/cookson/h4.png" width="90" alt="H4"> | **Studded Icosahedron** | Concave Shadow | `-hedron` | Rhombic Triacontahedron | *Triakis Icosahedron* | 32 | 60 | 60 Triangles |
+| **$H_5$** | <img src="img/cookson/h5.png" width="90" alt="H5"> | **Studded Cuboctahedron** | Concave Shadow | `-hedron` | Deltoidal Icositetrahedron | *Disdyakis Cuboctahedron* | 26 | 48 | 48 Triangles (Chiral pairs) |
+| **$H_6$** | <img src="img/cookson/h6.png" width="90" alt="H6"> | **Studded Rhombic Triacontasphere** | Concave Shadow | `-sphere` | Deltoidal Hexecontahedron | *Disdyakis Rhombic Triacontahedron* | 62 | 120 | 120 Triangles (Chiral pairs) |
+| **$H_7$** | <img src="img/cookson/h7.png" width="90" alt="H7"> | **Gyrobitrigonal Octasphere** | Concave Irregular | `-sphere` | Pentagonal Icositetrahedron | *Unique* | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
+| **$H_8$** | <img src="img/cookson/h8.png" width="90" alt="H8"> | **Gyrobitrigonal Icosasphere** | Concave Irregular | `-sphere` | Pentagonal Hexecontahedron | *Unique* | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
 
 ---
 

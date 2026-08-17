@@ -421,8 +421,11 @@ end
 """Johnson solid J₆₀: Parabiaugmented dodecahedron (V=22, F=20)"""
 function parabiaugmented_dodecahedron(; s::Real=1.0)
     ad = augmented_dodecahedron()
-    # Opposite pentagonal face has normal in -z
-    f_idx = findfirst(f -> length(f) == 5 && centroid([ad.v[i] for i in f])[3] < -0.5, ad.f)
+    pent_faces = findall(f -> length(f) == 5, ad.f)
+    n1 = face_normal([ad.v[i] for i in ad.f[pent_faces[1]]])
+    # Opposite pentagonal face has normal dot product closest to -1.0
+    dots = [dot(face_normal([ad.v[i] for i in ad.f[idx]]), n1) for idx in pent_faces]
+    f_idx = pent_faces[argmin(dots)]
     return augment(ad, f_idx; cap=pentagonal_pyramid())
 end
 

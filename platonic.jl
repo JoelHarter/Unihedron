@@ -101,41 +101,10 @@ end
 Constructs a regular dodecahedron (20 vertices, 12 pentagonal faces).
 """
 function dodecahedron()
-    ϕ = (1.0 + sqrt(5.0)) / 2.0
-    inv_ϕ = 1.0 / ϕ
-    
-    v = [
-        # Cube vertices
-        Pt3{Float64}(-1.0, -1.0, -1.0), Pt3{Float64}( 1.0, -1.0, -1.0),
-        Pt3{Float64}( 1.0,  1.0, -1.0), Pt3{Float64}(-1.0,  1.0, -1.0),
-        Pt3{Float64}(-1.0, -1.0,  1.0), Pt3{Float64}( 1.0, -1.0,  1.0),
-        Pt3{Float64}( 1.0,  1.0,  1.0), Pt3{Float64}(-1.0,  1.0,  1.0),
-        # (0, ±1/ϕ, ±ϕ)
-        Pt3{Float64}(0.0, -inv_ϕ, -ϕ), Pt3{Float64}(0.0,  inv_ϕ, -ϕ),
-        Pt3{Float64}(0.0, -inv_ϕ,  ϕ), Pt3{Float64}(0.0,  inv_ϕ,  ϕ),
-        # (±1/ϕ, ±ϕ, 0)
-        Pt3{Float64}(-inv_ϕ, -ϕ, 0.0), Pt3{Float64}( inv_ϕ, -ϕ, 0.0),
-        Pt3{Float64}(-inv_ϕ,  ϕ, 0.0), Pt3{Float64}( inv_ϕ,  ϕ, 0.0),
-        # (±ϕ, 0, ±1/ϕ)
-        Pt3{Float64}(-ϕ, 0.0, -inv_ϕ), Pt3{Float64}(-ϕ, 0.0,  inv_ϕ),
-        Pt3{Float64}( ϕ, 0.0, -inv_ϕ), Pt3{Float64}( ϕ, 0.0,  inv_ϕ)
-    ]
-    
-    f = [
-        [3, 16, 4, 10, 9],   # Top-ish face 1
-        [16, 7, 20, 19, 3],  # Top-ish face 2
-        [7, 12, 8, 15, 16],  # Front-ish top
-        [12, 11, 5, 18, 8],  # Front
-        [11, 6, 20, 7, 12],  # Right front
-        [6, 14, 13, 5, 11],  # Bottom front
-        [14, 2, 19, 20, 6],  # Bottom right
-        [2, 9, 10, 1, 13],   # Back bottom
-        [1, 17, 18, 5, 13],  # Left bottom
-        [18, 8, 15, 4, 17],  # Left top
-        [4, 10, 9, 1, 17],   # Back left
-        [19, 2, 14, 13, 9]   # Bottom back
-    ]
-    return Polyhedron(v, f)
+    ico = icosahedron()
+    d = dual(ico; polar=true)
+    # Scale to radius 1.0 or natural edge
+    return d
 end
 
 const PLATONIC_SOLID_MAP = Dict{Symbol, Function}(

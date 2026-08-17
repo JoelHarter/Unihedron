@@ -86,24 +86,35 @@ Constructs a great icosahedron ({3, 5/2}, 12 five-pointed star apexes, 60 triang
 Dual of the Great Stellated Dodecahedron.
 """
 function great_icosahedron()
-    dod = dodecahedron()
-    v_all = Pt3{Float64}[v for v in dod.v]
-    f_all = Vector{Int}[]
-    for (f_idx, face) in enumerate(dod.f)
-        pts = [dod.v[i] for i in face]
-        c = sum(pts) / 5
-        n = normalize(c)
-        apex_r = norm(c) * (sqrt(5) - 1)
-        push!(v_all, Pt3{Float64}(n * apex_r))
-        apex_idx = length(v_all)
-        n_pts = length(face)
-        for i in 1:n_pts
-            u = face[i]
-            v = face[i == n_pts ? 1 : i + 1]
-            push!(f_all, [u, v, apex_idx])
+    ϕ = (1 + sqrt(5)) / 2
+    ico = icosahedron()
+    dod = dual(ico)
+    v_gi = Pt3{Float64}[]
+    for v in ico.v
+        push!(v_gi, Pt3{Float64}(normalize(v) * ϕ))
+    end
+    for v in dod.v
+        push!(v_gi, Pt3{Float64}(normalize(v) * (3 - sqrt(5))))
+    end
+
+    f_gi = Vector{Int}[]
+    for v_idx in 1:12
+        incident_ico_faces = [f_idx for (f_idx, f) in enumerate(ico.f) if v_idx in f]
+        pts = [v_gi[12 + f_idx] for f_idx in incident_ico_faces]
+        axis = normalize(v_gi[v_idx])
+        ref = pts[1] - (pts[1] ⋅ axis) * axis
+        ref /= norm(ref)
+        perp = axis × ref
+        angles = [atan(p ⋅ perp, p ⋅ ref) for p in pts]
+        ordered_faces = incident_ico_faces[sortperm(angles)]
+        
+        for k in 1:5
+            in1 = 12 + ordered_faces[k]
+            in2 = 12 + ordered_faces[k == 5 ? 1 : k + 1]
+            push!(f_gi, [v_idx, in1, in2])
         end
     end
-    return Polyhedron(v_all, f_all)
+    return Polyhedron(v_gi, f_gi)
 end
 
 const KEPLER_POINSOT_SOLID_MAP = Dict{Symbol, Function}(
