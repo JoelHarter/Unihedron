@@ -120,8 +120,8 @@ export gyrobifastigium, snub_disphenoid, snub_square_antiprism, sphenocorona
 export sphenomegacorona, hebesphenomegacorona, disphenocingulum, bilunabirotunda
 export triangular_hebesphenorotunda
 
-# Geodesic Spheres & Buckyballs / Fullerenes / Honeyballs
-export buckyball, fullerene, goldberg_polyhedron
-export geodesic_sphere, geodesic_icosahedron, honeyball, honeycomb_ball
+# Geodesic Spheres (Triangular) & Goldberg Solids (Dual Pentagonal/Hexagonal)
+export geodesic_sphere, geodesic_icosahedron, geodesic_polyhedron
+export goldberg_solid, goldberg_polyhedron, fullerene, buckyball
 
 end # module Unihedron

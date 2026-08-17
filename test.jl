@@ -809,8 +809,8 @@ using .Unihedron
         @test length(reu) >= 24
     end
 
-    @testset "Geodesic Spheres and Buckyballs / Fullerenes" begin
-        # 1. Geodesic spheres: V = 10ν² + 2, F = 20ν²
+    @testset "Geodesic Spheres and Goldberg Solids" begin
+        # 1. Geodesic spheres: V = 10ν² + 2, F = 20ν² (All faces are triangles)
         # Frequency 1 (Regular icosahedron)
         g1 = geodesic_sphere(1)
         @test length(g1.v) == 12 && length(g1) == 20
@@ -826,31 +826,31 @@ using .Unihedron
         @test length(g3.v) == 92 && length(g3) == 180
         @test all(length.(g3.f) .== 3)
 
-        # Frequency 4 (4V Geodesic sphere / Honeyball)
-        g4 = honeyball(4)
+        # Frequency 4 (4V Geodesic sphere)
+        g4 = geodesic_sphere(4)
         @test length(g4.v) == 162 && length(g4) == 320
         @test all(length.(g4.f) .== 3)
-        @test honeycomb_ball(2) isa Polyhedron
+        @test geodesic_polyhedron(2) isa Polyhedron
 
-        # 2. Buckyballs / Fullerenes: V = 20ν², F = 10ν² + 2 (12 pentagons, 10(ν² - 1) hexagons)
-        # Degree 1 Buckyball: Regular Dodecahedron (12 pentagons)
-        b1 = buckyball(1)
+        # 2. Goldberg Solids (Duals of Geodesic Spheres): V = 20ν², F = 10ν² + 2 (12 pentagons, 10(ν² - 1) hexagons)
+        # Degree 1 Goldberg Solid: Regular Dodecahedron (12 pentagons, 0 hexagons)
+        b1 = goldberg_solid(1)
         @test length(b1.v) == 20 && length(b1) == 12
         @test all(length.(b1.f) .== 5)
 
-        # Degree 2 Buckyball: C80 Fullerene (12 pentagons, 30 hexagons)
-        b2 = buckyball(2)
+        # Degree 2 Goldberg Solid: GP(2, 0) (12 pentagons, 30 hexagons)
+        b2 = goldberg_solid(2)
         @test length(b2.v) == 80 && length(b2) == 42
         @test count(length.(b2.f) .== 5) == 12
         @test count(length.(b2.f) .== 6) == 30
 
-        # Degree 3 Buckyball: C180 Fullerene (12 pentagons, 80 hexagons)
-        b3 = fullerene(3)
+        # Degree 3 Goldberg Solid: GP(3, 0) (12 pentagons, 80 hexagons)
+        b3 = goldberg_solid(3)
         @test length(b3.v) == 180 && length(b3) == 92
         @test count(length.(b3.f) .== 5) == 12
         @test count(length.(b3.f) .== 6) == 80
 
-        # Degree 4 Buckyball: C320 Fullerene (12 pentagons, 150 hexagons)
+        # Degree 4 Goldberg Solid: GP(4, 0) (12 pentagons, 150 hexagons)
         b4 = goldberg_polyhedron(4)
         @test length(b4.v) == 320 && length(b4) == 162
         @test count(length.(b4.f) .== 5) == 12

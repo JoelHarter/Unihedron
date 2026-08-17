@@ -1,4 +1,4 @@
-# Geodesic Spheres and Buckyball / Fullerene / Goldberg Polyhedra Generators
+# Geodesic Spheres (Triangular) and Goldberg Solids (Pentagonal/Hexagonal) Generators
 
 using StaticArrays
 using LinearAlgebra
@@ -6,16 +6,17 @@ using LinearAlgebra
 """
     geodesic_sphere(frequency::Integer=1; radius::Real=1.0) -> Polyhedron{Float64}
     geodesic_icosahedron(frequency::Integer=1; radius::Real=1.0)
+    geodesic_polyhedron(frequency::Integer=1; radius::Real=1.0)
 
-Generates a Geodesic Sphere of the given breakdown frequency / degree `frequency` (ν).
-Subdivides each of the 20 triangular faces of a regular icosahedron into `ν²` smaller triangles,
-and normalizes all vertices onto a sphere of radius `radius`.
+Generates a **Geodesic Sphere** of the given breakdown frequency `frequency` (ν).
+Subdivides each of the 20 triangular faces of a regular icosahedron into `ν²` smaller equilateral triangles,
+and normalizes all vertices onto a sphere of radius `radius`. All faces of a geodesic sphere are triangles.
 
-- Frequency 1: Regular Icosahedron (V=12, F=20)
-- Frequency 2: 2V Geodesic Sphere (V=42, F=80)
-- Frequency 3: 3V Geodesic Sphere (V=92, F=180)
-- Frequency 4: 4V Geodesic Sphere (V=162, F=320)
-- Frequency ν: (V = 10ν² + 2, F = 20ν²)
+- Frequency 1: Regular Icosahedron (V=12, F=20 triangles)
+- Frequency 2: 2V Geodesic Sphere (V=42, F=80 triangles)
+- Frequency 3: 3V Geodesic Sphere (V=92, F=180 triangles)
+- Frequency 4: 4V Geodesic Sphere (V=162, F=320 triangles)
+- Frequency ν: (V = 10ν² + 2, F = 20ν² triangles)
 """
 function geodesic_sphere(frequency::Integer=1; radius::Real=1.0)
     nu = frequency
@@ -70,35 +71,33 @@ function geodesic_sphere(frequency::Integer=1; radius::Real=1.0)
 end
 
 const geodesic_icosahedron = geodesic_sphere
-const honeyball = geodesic_sphere
-const honeycomb_ball = geodesic_sphere
+const geodesic_polyhedron = geodesic_sphere
 
 """
-    buckyball(degree::Integer=1; radius::Real=1.0) -> Polyhedron{Float64}
-    buckyball(m::Integer, n::Integer; radius::Real=1.0)
-    fullerene(degree::Integer=1; radius::Real=1.0)
+    goldberg_solid(degree::Integer=1; radius::Real=1.0) -> Polyhedron{Float64}
     goldberg_polyhedron(degree::Integer=1; radius::Real=1.0)
 
-Generates a Buckyball (Goldberg Polyhedron / Fullerene) of the given degree `degree` (or frequency ν).
+Generates a **Goldberg Solid** of the given degree `degree` (frequency ν).
 Constructed as the exact polar dual of a Geodesic Sphere of frequency `degree`.
 
 Structure:
-- Every Buckyball has **exactly 12 regular pentagons** (located at the 12 original icosahedron vertices)
-  and `10(degree² - 1)` **hexagons**.
+- Every Goldberg Solid has **exactly 12 pentagons** (located at the 12 vertices of the dual icosahedron)
+  and `10(degree² - 1)` **hexagons** (the remaining faces).
 - Degree 1: Regular Dodecahedron (V=20, F=12 pentagons, 0 hexagons)
-- Degree 2: C₈₀ Fullerene (V=80, F=42: 12 pentagons, 30 hexagons)
-- Degree 3: C₁₈₀ Fullerene (V=180, F=92: 12 pentagons, 80 hexagons)
-- Degree 4: C₃₂₀ Fullerene (V=320, F=162: 12 pentagons, 150 hexagons)
-- Degree ν: (V = 20ν², F = 10ν² + 2)
+- Degree 2: GP(2, 0) Goldberg Solid (V=80, F=42: 12 pentagons, 30 hexagons)
+- Degree 3: GP(3, 0) Goldberg Solid (V=180, F=92: 12 pentagons, 80 hexagons)
+- Degree 4: GP(4, 0) Goldberg Solid (V=320, F=162: 12 pentagons, 150 hexagons)
+- Degree ν: (V = 20ν², F = 10ν² + 2: 12 pentagons, 10(ν² - 1) hexagons)
 """
-function buckyball(degree::Integer=1; radius::Real=1.0)
+function goldberg_solid(degree::Integer=1; radius::Real=1.0)
     geo = geodesic_sphere(degree; radius=radius)
-    bky = dual(geo)
+    gbg = dual(geo)
     # Project dual vertices onto the target sphere
     r = Float64(radius)
-    v_scaled = Pt3{Float64}[r * (v / norm(v)) for v in bky.v]
-    return Polyhedron(v_scaled, bky.f)
+    v_scaled = Pt3{Float64}[r * (v / norm(v)) for v in gbg.v]
+    return Polyhedron(v_scaled, gbg.f)
 end
 
-const fullerene = buckyball
-const goldberg_polyhedron = buckyball
+const goldberg_polyhedron = goldberg_solid
+const fullerene = goldberg_solid
+const buckyball = goldberg_solid

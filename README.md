@@ -17,7 +17,7 @@ All solids are constructed using **pure constructive geometry and exact algebrai
   - **Catalan Solids (13)**: Exact Archimedean duals (Rhombic dodecahedron, Deltoidal hexecontahedron, Disdyakis triacontahedron, etc.).
   - **Cookson Solids (6)**: Spherical Catalan projections with planar crease restoration discovered by **Arthur J Cookson in 2026** ($C_1$ to $C_6$).
   - **Johnson Solids (92 Complete)**: All 92 convex regular-faced polyhedra ($J_1$ to $J_{92}$) constructed via constructive augmentation/diminution/gyration and exact radical/polynomial roots for elementary solids ($J_{84} \dots J_{92}$).
-  - **Geodesic Spheres & Buckyballs / Honeyballs**: Generalized degree-$\nu$ Fullerenes ($C_{20\nu^2}$) and triangulated geodesic duals (Honeyballs).
+  - **Geodesic Spheres & Goldberg Solids**: Generalized triangulated geodesic spheres and their dual Goldberg solids ($GP(m, n)$ with 12 pentagons and remaining hexagons).
   - **Prisms, Antiprisms, Pyramids, Bipyramids & Trapezohedra**: Parametric $n$-gonal families.
 - **2D Polygons, Polygrams & Star Outlines**:
   - Regular $n$-gons, Schläfli $\{p/q\}$ star polygrams (e.g. pentagram, hexagram Star of David), $2n$-gon star boundaries, and parametric shapes (rectangles, rhombi, trapezoids, parallelograms, kites, Reuleaux polygons).
@@ -49,7 +49,7 @@ using Unihedron
 
 # 1. Access solids by constructor or family symbol:
 c = cube()
-bucky = truncated_icosahedron()
+ti = truncated_icosahedron()
 j92 = johnson(92)   # J92: Triangular hebesphenorotunda
 c5 = cookson(:C5)   # C5: Gyrotrapezotrigonal Octasphere
 
@@ -66,16 +66,16 @@ face_counts  = face_type_counts(j92)
 # Elongate a square pyramid into an augmented cube:
 elongated_pyr = elongate(square_pyramid())
 
-# 5. Geodesic Spheres and Buckyballs:
-b3 = buckyball(3)    # Degree 3 Fullerene (12 pentagons, 80 hexagons)
-h3 = honeyball(3)    # Degree 3 Geodesic Sphere dual
+# 5. Geodesic Spheres and Goldberg Solids:
+g3 = geodesic_sphere(3)   # Degree 3 Geodesic Sphere (180 triangles)
+gb3 = goldberg_solid(3)   # Degree 3 Goldberg Solid (12 pentagons, 80 hexagons)
 
 # 6. File I/O (defaults to .off):
-save_polyhedron(bucky, "buckyball.off")
-p_loaded = load_polyhedron("buckyball.off")
+save_polyhedron(ti, "truncated_icosahedron.off")
+p_loaded = load_polyhedron("truncated_icosahedron.off")
 
 # 7. Print high-resolution image:
-print_polyhedron(bucky, "buckyball.png"; color_by_face_size=true)
+print_polyhedron(ti, "truncated_icosahedron.png"; color_by_face_size=true)
 ```
 
 ---
@@ -101,20 +101,20 @@ For complete documentation, axioms, taxonomy, and geometry breakdowns, see **[do
 
 ---
 
-## Buckyballs & Honeyballs
+## Geodesic Spheres & Goldberg Solids
 
-Unihedron implements generalized degree-$\nu$ Buckyballs (Goldberg Fullerenes) and their dual Honeyballs (Geodesic Spheres):
+Unihedron implements generalized degree-$\nu$ Geodesic Spheres (all triangular faces) and their dual Goldberg Solids (12 pentagons and remaining hexagons):
 
-| Degree ($\nu$) | Solid / Fullerene | Vertices ($V=20\nu^2$) | Faces ($F=10\nu^2+2$) | Dual Geodesic Sphere |
-| :---: | :--- | :---: | :---: | :---: |
-| **$\nu = 1$** | **Regular Dodecahedron** | 20 | 12 (12 pentagons) | $V=12, F=20$ (Icosahedron) |
-| **$\nu = 2$** | **$C_{80}$ Fullerene** | 80 | 42 (12 pentagons, 30 hexagons) | $V=42, F=80$ (2V Honeyball) |
-| **$\nu = 3$** | **$C_{180}$ Fullerene** | 180 | 92 (12 pentagons, 80 hexagons) | $V=92, F=180$ (3V Honeyball) |
-| **$\nu = 4$** | **$C_{320}$ Fullerene** | 320 | 162 (12 pentagons, 150 hexagons) | $V=162, F=320$ (4V Honeyball) |
+| Degree ($\nu$) | Geodesic Sphere (Triangles) | Dual Goldberg Solid | Goldberg Vertices ($V=20\nu^2$) | Goldberg Faces ($F=10\nu^2+2$) |
+| :---: | :--- | :--- | :---: | :---: |
+| **$\nu = 1$** | **$1\nu$ Geodesic Sphere** ($V=12, F=20$) | **Regular Dodecahedron** | 20 | 12 (12 pentagons, 0 hexagons) |
+| **$\nu = 2$** | **$2\nu$ Geodesic Sphere** ($V=42, F=80$) | **$GP(2,0)$ Goldberg Solid** | 80 | 42 (12 pentagons, 30 hexagons) |
+| **$\nu = 3$** | **$3\nu$ Geodesic Sphere** ($V=92, F=180$) | **$GP(3,0)$ Goldberg Solid** | 180 | 92 (12 pentagons, 80 hexagons) |
+| **$\nu = 4$** | **$4\nu$ Geodesic Sphere** ($V=162, F=320$) | **$GP(4,0)$ Goldberg Solid** | 320 | 162 (12 pentagons, 150 hexagons) |
 
 ```julia
-b = buckyball(2)  # C80 Fullerene
-h = honeyball(2)  # Dual 2V Geodesic Sphere
+g2 = geodesic_sphere(2)   # 2V Geodesic Sphere (80 triangles)
+gb2 = goldberg_solid(2)   # Dual GP(2,0) Goldberg Solid (12 pentagons, 30 hexagons)
 ```
 
 ---
@@ -151,7 +151,7 @@ Detailed mathematical formalizations, historical discoveries, rules, and illustr
 * 💎 **[Catalan Solids (`doc/catalan.md`)](doc/catalan.md)**: Eugène Charles Catalan (1865). The 13 face-transitive Archimedean polar duals.
 * ⭐ **[Kepler-Poinsot Solids (`doc/kepler_poinsot.md`)](doc/kepler_poinsot.md)**: Johannes Kepler (1619) & Louis Poinsot (1810). The 4 regular star polyhedra.
 * 🧩 **[Johnson Solids (`doc/johnson.md`)](doc/johnson.md)**: Norman Johnson (1966) & Victor Zalgaller (1969). All 92 strictly convex non-uniform regular-faced polyhedra.
-* 🌐 **[Geodesic Spheres & Fullerenes (`doc/geodesic.md`)](doc/geodesic.md)**: Buckminster Fuller & Michael Goldberg (1937). Higher-order spherical triangulations, $C_{60}$ Buckyballs, and Honeyballs.
+* 🌐 **[Geodesic Spheres & Goldberg Solids (`doc/geodesic.md`)](doc/geodesic.md)**: Buckminster Fuller & Michael Goldberg (1937). Triangulated spherical networks and dual Goldberg solids.
 
 ---
 
