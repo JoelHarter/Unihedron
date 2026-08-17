@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="doc/img/banner.jpeg" alt="Unihedron Banner" width="100%">
+  <img src="doc/img/banner.jpg" alt="Unihedron Banner" width="100%">
 </p>
 
 # Unihedron
