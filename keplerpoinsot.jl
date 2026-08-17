@@ -45,8 +45,31 @@ Dual of the Great Icosahedron.
 """
 function great_stellated_dodecahedron()
     dod = dodecahedron()
-    star_faces = [f[[1, 3, 5, 2, 4]] for f in dod.f]
-    return Polyhedron(dod.v, star_faces)
+    v = dod.v
+    coplanar_12_internal = Vector{Int}[]
+    for i1 in 1:20, i2 in (i1+1):20, i3 in (i2+1):20, i4 in (i3+1):20, i5 in (i4+1):20
+        idx = [i1, i2, i3, i4, i5]
+        pts = [v[k] for k in idx]
+        c = sum(pts) / 5
+        n = (pts[2] - pts[1]) × (pts[3] - pts[1])
+        if norm(n) > 1e-4
+            n = normalize(n)
+            is_coplanar = all(abs(dot(p - pts[1], n)) < 1e-4 for p in pts)
+            if is_coplanar
+                dists = [norm(p - c) for p in pts]
+                if all(isapprox(d, dists[1]; atol=1e-3) for d in dists) && norm(c) < 0.3
+                    axis = normalize(c)
+                    ref = pts[1] - (pts[1] ⋅ axis) * axis
+                    ref /= norm(ref)
+                    perp = axis × ref
+                    angles = [atan(p ⋅ perp, p ⋅ ref) for p in pts]
+                    ord = idx[sortperm(angles)]
+                    push!(coplanar_12_internal, ord[[1, 3, 5, 2, 4]])
+                end
+            end
+        end
+    end
+    return Polyhedron(v, coplanar_12_internal)
 end
 
 """
