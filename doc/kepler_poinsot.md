@@ -29,10 +29,10 @@ To qualify as a Kepler-Poinsot polyhedron, the structure must satisfy all of the
 
 | Index | Preview | Name | Schläfli Symbol | Vertices ($V$) | Edges ($E$) | Faces ($F$) | Face Polygon | Dual Polyhedron |
 | :---: | :---: | :--- | :---: | :---: | :---: | :--- | :---: | :--- |
-| **$KP_1$** | <img src="img/kepler_poinsot/small_stellated_dodecahedron.png" width="90" alt="Small Stellated Dodecahedron"> | **Small Stellated Dodecahedron** | $\{5/2, 5\}$ | 12 | 30 | 12 | 12 Pentagrams $\{5/2\}$ | Great Dodecahedron |
-| **$KP_2$** | <img src="img/kepler_poinsot/great_dodecahedron.png" width="90" alt="Great Dodecahedron"> | **Great Dodecahedron** | $\{5, 5/2\}$ | 12 | 30 | 12 | 12 Regular Pentagons | Small Stellated Dodecahedron |
-| **$KP_3$** | <img src="img/kepler_poinsot/great_stellated_dodecahedron.png" width="90" alt="Great Stellated Dodecahedron"> | **Great Stellated Dodecahedron** | $\{5/2, 3\}$ | 20 | 30 | 12 | 12 Pentagrams $\{5/2\}$ | Great Icosahedron |
-| **$KP_4$** | <img src="img/kepler_poinsot/great_icosahedron.png" width="90" alt="Great Icosahedron"> | **Great Icosahedron** | $\{3, 5/2\}$ | 12 | 30 | 20 | 20 Equilateral Triangles | Great Stellated Dodecahedron |
+| **$KP_1$** | <img src="../img/kepler_poinsot/small_stellated_dodecahedron.png" width="90" alt="Small Stellated Dodecahedron"> | **Small Stellated Dodecahedron** | $\{5/2, 5\}$ | 12 | 30 | 12 | 12 Pentagrams $\{5/2\}$ | Great Dodecahedron |
+| **$KP_2$** | <img src="../img/kepler_poinsot/great_dodecahedron.png" width="90" alt="Great Dodecahedron"> | **Great Dodecahedron** | $\{5, 5/2\}$ | 12 | 30 | 12 | 12 Regular Pentagons | Small Stellated Dodecahedron |
+| **$KP_3$** | <img src="../img/kepler_poinsot/great_stellated_dodecahedron.png" width="90" alt="Great Stellated Dodecahedron"> | **Great Stellated Dodecahedron** | $\{5/2, 3\}$ | 20 | 30 | 12 | 12 Pentagrams $\{5/2\}$ | Great Icosahedron |
+| **$KP_4$** | <img src="../img/kepler_poinsot/great_icosahedron.png" width="90" alt="Great Icosahedron"> | **Great Icosahedron** | $\{3, 5/2\}$ | 12 | 30 | 20 | 20 Equilateral Triangles | Great Stellated Dodecahedron |
 
 ---
 

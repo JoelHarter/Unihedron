@@ -60,10 +60,10 @@ Coxeter and Fuller classified all geodesic spherical subdivisions into three fun
 
 | Class | Parameters $(m, n)$ | $T$ | Preview (Geodesic) | Geodesic Sphere ($100\%$ Triangles) | Preview (Goldberg) | Dual Goldberg Solid ($12$ Pentagons + Hexagons) |
 | :---: | :---: | :---: | :---: | :--- | :---: | :--- |
-| **Class I** | **$(1, 0)$** | $1$ | <img src="img/geodesic/geodesic_1_0.png" width="90" alt="1,0 Geodesic"> | **$\{3, 5+\}_{1, 0}$** ($V=12, F=20$) | <img src="img/geodesic/goldberg_1_0.png" width="90" alt="1,0 Goldberg"> | **$GP(1, 0)$ Regular Dodecahedron** ($V=20, F=12$) |
-| **Class I** | **$(2, 0)$** | $4$ | <img src="img/geodesic/geodesic_2_0.png" width="90" alt="2,0 Geodesic"> | **$\{3, 5+\}_{2, 0}$** ($V=42, F=80$) | <img src="img/geodesic/goldberg_2_0.png" width="90" alt="2,0 Goldberg"> | **$GP(2, 0)$ Goldberg Solid** ($V=80, F=42$) |
-| **Class II** | **$(1, 1)$** | $3$ | <img src="img/geodesic/geodesic_1_1.png" width="90" alt="1,1 Geodesic"> | **$\{3, 5+\}_{1, 1}$** ($V=32, F=60$) | <img src="img/geodesic/goldberg_1_1.png" width="90" alt="1,1 Goldberg"> | **$GP(1, 1)$ Truncated Icosahedron ($C_{60}$)** ($V=60, F=32$) |
-| **Class II** | **$(2, 2)$** | $12$ | <img src="img/geodesic/geodesic_2_2.png" width="90" alt="2,2 Geodesic"> | **$\{3, 5+\}_{2, 2}$** ($V=122, F=240$) | <img src="img/geodesic/goldberg_2_2.png" width="90" alt="2,2 Goldberg"> | **$GP(2, 2)$ Goldberg Solid** ($V=240, F=122$) |
+| **Class I** | **$(1, 0)$** | $1$ | <img src="../img/geodesic/geodesic_1_0.png" width="90" alt="1,0 Geodesic"> | **$\{3, 5+\}_{1, 0}$** ($V=12, F=20$) | <img src="../img/geodesic/goldberg_1_0.png" width="90" alt="1,0 Goldberg"> | **$GP(1, 0)$ Regular Dodecahedron** ($V=20, F=12$) |
+| **Class I** | **$(2, 0)$** | $4$ | <img src="../img/geodesic/geodesic_2_0.png" width="90" alt="2,0 Geodesic"> | **$\{3, 5+\}_{2, 0}$** ($V=42, F=80$) | <img src="../img/geodesic/goldberg_2_0.png" width="90" alt="2,0 Goldberg"> | **$GP(2, 0)$ Goldberg Solid** ($V=80, F=42$) |
+| **Class II** | **$(1, 1)$** | $3$ | <img src="../img/geodesic/geodesic_1_1.png" width="90" alt="1,1 Geodesic"> | **$\{3, 5+\}_{1, 1}$** ($V=32, F=60$) | <img src="../img/geodesic/goldberg_1_1.png" width="90" alt="1,1 Goldberg"> | **$GP(1, 1)$ Truncated Icosahedron ($C_{60}$)** ($V=60, F=32$) |
+| **Class II** | **$(2, 2)$** | $12$ | <img src="../img/geodesic/geodesic_2_2.png" width="90" alt="2,2 Geodesic"> | **$\{3, 5+\}_{2, 2}$** ($V=122, F=240$) | <img src="../img/geodesic/goldberg_2_2.png" width="90" alt="2,2 Goldberg"> | **$GP(2, 2)$ Goldberg Solid** ($V=240, F=122$) |
 
 ---
 

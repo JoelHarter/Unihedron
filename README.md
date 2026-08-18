@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="doc/img/banner.jpg" alt="Unihedron Banner" width="100%">
+  <img src="img/banner.jpg" alt="Unihedron Banner" width="100%">
 </p>
 
 # Unihedron
@@ -55,7 +55,7 @@ using Unihedron
 c = cube()
 ti = truncated_icosahedron()
 j92 = johnson(92)   # J92: Triangular hebesphenorotunda
-c5 = cookson(:C5)   # C5: Gyrotrapezotrigonal Octasphere
+h1 = cookson(:H1)   # H1: Gyrotrapezotrigonal Octasphere
 
 # 2. Interactive 3D Visualization:
 viz(:dodecahedron)
@@ -71,8 +71,8 @@ face_counts  = face_type_counts(j92)
 elongated_pyr = elongate(square_pyramid())
 
 # 5. Geodesic Spheres and Goldberg Solids:
-g3 = geodesic_sphere(3)   # Degree 3 Geodesic Sphere (180 triangles)
-gb3 = goldberg_solid(3)   # Degree 3 Goldberg Solid (12 pentagons, 80 hexagons)
+g20  = geodesic_sphere(2, 0)   # 2v Geodesic Sphere (80 triangles)
+gb11 = goldberg_solid(1, 1)    # C60 Truncated Icosahedron (12 pentagons, 20 hexagons)
 
 # 6. File I/O (defaults to .off):
 save_polyhedron(ti, "truncated_icosahedron.off")
@@ -84,24 +84,22 @@ print_polyhedron(ti, "truncated_icosahedron.png"; color_by_face_size=true)
 
 ---
 
-## The Cookson Solids (Formalized by Arthur J Cookson & Joel T Harter, 2026)
+## The Cookson Solids
 
-The **Cookson solids** ($H_1, H_2, \dots, H_8$) are topological regimes of spherical polyhedra satisfying the Core Axioms (The Sieve) with at most two distinct polygon types. Regimes sharing both the topological graph and convexity of classical polyhedra are disqualified to the unnumbered Exclusion Roster (Rule A & B), while concave valley-fold derivatives are inducted (Rule C).
+Formalized by **Arthur J Cookson & Joel T Harter (2026)**, the Cookson solids are topological regimes of spherical polyhedra satisfying strict connectivity, spherical vertex projection, and at most two distinct congruent polygon types.
 
-*(Note: This list of 8 known regimes has not been proven to be complete; other valid topological regimes may exist).*
+For the full theoretical treatise, axioms, taxonomy, and exclusion phyla, see **[doc/cookson.md](doc/cookson.md)**.
 
-For complete documentation, axioms, taxonomy, and geometry breakdowns, see **[doc/cookson.md](doc/cookson.md)**.
-
-| Index | Official Name | Classification | Polygon Root | Parent Catalan Solid | $V$ | $F$ | Face Breakdown |
+| Index | Official Name | Classification | Suffix Form | Parent Catalan Solid | $V$ | $F$ | Face Breakdown |
 | :---: | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-| **$H_1$** | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | Gyrotrapezotrigonal | Pentagonal Icositetrahedron | 38 | 48 | 24 Trapezoids, 24 Triangles |
-| **$H_2$** | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | Gyrotrapezotrigonal | Pentagonal Hexecontahedron | 92 | 120 | 60 Trapezoids, 60 Triangles |
-| **$H_3$** | **Studded Octahedron** | Concave Shadow | Studded | Rhombic Dodecahedron | 14 | 24 | 24 Triangles |
-| **$H_4$** | **Studded Icosahedron** | Concave Shadow | Studded | Rhombic Triacontahedron | 32 | 60 | 60 Triangles |
-| **$H_5$** | **Studded Cuboctahedron** | Concave Shadow | Studded | Deltoidal Icositetrahedron | 26 | 48 | 48 Triangles (Chiral pairs) |
-| **$H_6$** | **Studded Rhombic Triacontasphere** | Concave Shadow | Studded | Deltoidal Hexecontahedron | 62 | 120 | 120 Triangles (Chiral pairs) |
-| **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular | Gyrobitrigonal | Pentagonal Icositetrahedron | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
-| **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular | Gyrobitrigonal | Pentagonal Hexecontahedron | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
+| **$H_1$** | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | `-sphere` | Pentagonal Icositetrahedron | 38 | 48 | 24 Trapezoids, 24 Triangles |
+| **$H_2$** | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | `-sphere` | Pentagonal Hexecontahedron | 92 | 120 | 60 Trapezoids, 60 Triangles |
+| **$H_3$** | **Studded Octahedron** | Concave Shadow | `-hedron` | Rhombic Dodecahedron | 14 | 24 | 24 Triangles |
+| **$H_4$** | **Studded Icosahedron** | Concave Shadow | `-hedron` | Rhombic Triacontahedron | 32 | 60 | 60 Triangles |
+| **$H_5$** | **Studded Cuboctahedron** | Concave Shadow | `-hedron` | Deltoidal Icositetrahedron | 26 | 48 | 48 Triangles (Chiral pairs) |
+| **$H_6$** | **Studded Rhombic Triacontasphere** | Concave Shadow | `-sphere` | Deltoidal Hexecontahedron | 62 | 120 | 120 Triangles (Chiral pairs) |
+| **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular | `-sphere` | Pentagonal Icositetrahedron | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
+| **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular | `-sphere` | Pentagonal Hexecontahedron | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
 
 ---
 

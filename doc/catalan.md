@@ -28,19 +28,19 @@ To qualify as a Catalan solid, a polyhedron must satisfy all of the following ru
 
 | Index | Preview | Name | Dual Archimedean Solid | Vertices ($V$) | Edges ($E$) | Faces ($F$) | Face Shape |
 | :---: | :---: | :--- | :--- | :---: | :---: | :---: | :--- |
-| **$C_1$** | <img src="img/catalan/triakis_tetrahedron.png" width="90" alt="Triakis Tetrahedron"> | **Triakis Tetrahedron** | Truncated Tetrahedron | 8 | 18 | 12 | Isosceles Triangles |
-| **$C_2$** | <img src="img/catalan/rhombic_dodecahedron.png" width="90" alt="Rhombic Dodecahedron"> | **Rhombic Dodecahedron** | Cuboctahedron | 14 | 24 | 12 | Rhombi |
-| **$C_3$** | <img src="img/catalan/triakis_octahedron.png" width="90" alt="Triakis Octahedron"> | **Triakis Octahedron** | Truncated Cube | 14 | 36 | 24 | Isosceles Triangles |
-| **$C_4$** | <img src="img/catalan/tetrakis_hexahedron.png" width="90" alt="Tetrakis Hexahedron"> | **Tetrakis Hexahedron** | Truncated Octahedron | 14 | 36 | 24 | Isosceles Triangles |
-| **$C_5$** | <img src="img/catalan/deltoidal_icositetrahedron.png" width="90" alt="Deltoidal Icositetrahedron"> | **Deltoidal Icositetrahedron** | Rhombicuboctahedron | 26 | 48 | 24 | Kites (Deltoids) |
-| **$C_6$** | <img src="img/catalan/disdyakis_dodecahedron.png" width="90" alt="Disdyakis Dodecahedron"> | **Disdyakis Dodecahedron** | Truncated Cuboctahedron | 26 | 72 | 48 | Scalene Triangles |
-| **$C_7$** | <img src="img/catalan/pentagonal_icositetrahedron.png" width="90" alt="Pentagonal Icositetrahedron"> | **Pentagonal Icositetrahedron** (Chiral) | Snub Cube | 38 | 60 | 24 | Skew Pentagons |
-| **$C_8$** | <img src="img/catalan/rhombic_triacontahedron.png" width="90" alt="Rhombic Triacontahedron"> | **Rhombic Triacontahedron** | Icosidodecahedron | 32 | 60 | 30 | Golden Rhombi |
-| **$C_9$** | <img src="img/catalan/triakis_icosahedron.png" width="90" alt="Triakis Icosahedron"> | **Triakis Icosahedron** | Truncated Dodecahedron | 32 | 90 | 60 | Isosceles Triangles |
-| **$C_{10}$** | <img src="img/catalan/pentakis_dodecahedron.png" width="90" alt="Pentakis Dodecahedron"> | **Pentakis Dodecahedron** | Truncated Icosahedron | 32 | 90 | 60 | Isosceles Triangles |
-| **$C_{11}$** | <img src="img/catalan/deltoidal_hexecontahedron.png" width="90" alt="Deltoidal Hexecontahedron"> | **Deltoidal Hexecontahedron** | Rhombicosidodecahedron | 62 | 120 | 60 | Kites (Deltoids) |
-| **$C_{12}$** | <img src="img/catalan/disdyakis_triacontahedron.png" width="90" alt="Disdyakis Triacontahedron"> | **Disdyakis Triacontahedron** | Truncated Icosidodecahedron | 62 | 180 | 120 | Scalene Triangles |
-| **$C_{13}$** | <img src="img/catalan/pentagonal_hexecontahedron.png" width="90" alt="Pentagonal Hexecontahedron"> | **Pentagonal Hexecontahedron** (Chiral) | Snub Dodecahedron | 92 | 150 | 60 | Skew Pentagons |
+| **$C_1$** | <img src="../img/catalan/triakis_tetrahedron.png" width="90" alt="Triakis Tetrahedron"> | **Triakis Tetrahedron** | Truncated Tetrahedron | 8 | 18 | 12 | Isosceles Triangles |
+| **$C_2$** | <img src="../img/catalan/rhombic_dodecahedron.png" width="90" alt="Rhombic Dodecahedron"> | **Rhombic Dodecahedron** | Cuboctahedron | 14 | 24 | 12 | Rhombi |
+| **$C_3$** | <img src="../img/catalan/triakis_octahedron.png" width="90" alt="Triakis Octahedron"> | **Triakis Octahedron** | Truncated Cube | 14 | 36 | 24 | Isosceles Triangles |
+| **$C_4$** | <img src="../img/catalan/tetrakis_hexahedron.png" width="90" alt="Tetrakis Hexahedron"> | **Tetrakis Hexahedron** | Truncated Octahedron | 14 | 36 | 24 | Isosceles Triangles |
+| **$C_5$** | <img src="../img/catalan/deltoidal_icositetrahedron.png" width="90" alt="Deltoidal Icositetrahedron"> | **Deltoidal Icositetrahedron** | Rhombicuboctahedron | 26 | 48 | 24 | Kites (Deltoids) |
+| **$C_6$** | <img src="../img/catalan/disdyakis_dodecahedron.png" width="90" alt="Disdyakis Dodecahedron"> | **Disdyakis Dodecahedron** | Truncated Cuboctahedron | 26 | 72 | 48 | Scalene Triangles |
+| **$C_7$** | <img src="../img/catalan/pentagonal_icositetrahedron.png" width="90" alt="Pentagonal Icositetrahedron"> | **Pentagonal Icositetrahedron** (Chiral) | Snub Cube | 38 | 60 | 24 | Skew Pentagons |
+| **$C_8$** | <img src="../img/catalan/rhombic_triacontahedron.png" width="90" alt="Rhombic Triacontahedron"> | **Rhombic Triacontahedron** | Icosidodecahedron | 32 | 60 | 30 | Golden Rhombi |
+| **$C_9$** | <img src="../img/catalan/triakis_icosahedron.png" width="90" alt="Triakis Icosahedron"> | **Triakis Icosahedron** | Truncated Dodecahedron | 32 | 90 | 60 | Isosceles Triangles |
+| **$C_{10}$** | <img src="../img/catalan/pentakis_dodecahedron.png" width="90" alt="Pentakis Dodecahedron"> | **Pentakis Dodecahedron** | Truncated Icosahedron | 32 | 90 | 60 | Isosceles Triangles |
+| **$C_{11}$** | <img src="../img/catalan/deltoidal_hexecontahedron.png" width="90" alt="Deltoidal Hexecontahedron"> | **Deltoidal Hexecontahedron** | Rhombicosidodecahedron | 62 | 120 | 60 | Kites (Deltoids) |
+| **$C_{12}$** | <img src="../img/catalan/disdyakis_triacontahedron.png" width="90" alt="Disdyakis Triacontahedron"> | **Disdyakis Triacontahedron** | Truncated Icosidodecahedron | 62 | 180 | 120 | Scalene Triangles |
+| **$C_{13}$** | <img src="../img/catalan/pentagonal_hexecontahedron.png" width="90" alt="Pentagonal Hexecontahedron"> | **Pentagonal Hexecontahedron** (Chiral) | Snub Dodecahedron | 92 | 150 | 60 | Skew Pentagons |
 
 ---
 

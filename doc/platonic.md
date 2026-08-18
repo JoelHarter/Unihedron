@@ -39,11 +39,11 @@ From the angle defect at a vertex (where the sum of face angles meeting at any v
 
 | Index | Preview | Name | Schläfli Symbol | Vertices ($V$) | Edges ($E$) | Faces ($F$) | Face Polygon | Dual Solid | Symmetry Group |
 | :---: | :---: | :--- | :---: | :---: | :---: | :---: | :--- | :--- | :--- |
-| **$P_1$** | <img src="img/platonic/tetrahedron.png" width="90" alt="Tetrahedron"> | **Regular Tetrahedron** | $\{3, 3\}$ | 4 | 6 | 4 | 4 Equilateral Triangles | Self-dual | $T_d$ (Tetrahedral) |
-| **$P_2$** | <img src="img/platonic/cube.png" width="90" alt="Cube"> | **Regular Hexahedron (Cube)** | $\{4, 3\}$ | 8 | 12 | 6 | 6 Squares | Octahedron | $O_h$ (Octahedral) |
-| **$P_3$** | <img src="img/platonic/octahedron.png" width="90" alt="Octahedron"> | **Regular Octahedron** | $\{3, 4\}$ | 6 | 12 | 8 | 8 Equilateral Triangles | Cube | $O_h$ (Octahedral) |
-| **$P_4$** | <img src="img/platonic/dodecahedron.png" width="90" alt="Dodecahedron"> | **Regular Dodecahedron** | $\{5, 3\}$ | 20 | 30 | 12 | 12 Regular Pentagons | Icosahedron | $I_h$ (Icosahedral) |
-| **$P_5$** | <img src="img/platonic/icosahedron.png" width="90" alt="Icosahedron"> | **Regular Icosahedron** | $\{3, 5\}$ | 12 | 30 | 20 | 20 Equilateral Triangles | Dodecahedron | $I_h$ (Icosahedral) |
+| **$P_1$** | <img src="../img/platonic/tetrahedron.png" width="90" alt="Tetrahedron"> | **Regular Tetrahedron** | $\{3, 3\}$ | 4 | 6 | 4 | 4 Equilateral Triangles | Self-dual | $T_d$ (Tetrahedral) |
+| **$P_2$** | <img src="../img/platonic/cube.png" width="90" alt="Cube"> | **Regular Hexahedron (Cube)** | $\{4, 3\}$ | 8 | 12 | 6 | 6 Squares | Octahedron | $O_h$ (Octahedral) |
+| **$P_3$** | <img src="../img/platonic/octahedron.png" width="90" alt="Octahedron"> | **Regular Octahedron** | $\{3, 4\}$ | 6 | 12 | 8 | 8 Equilateral Triangles | Cube | $O_h$ (Octahedral) |
+| **$P_4$** | <img src="../img/platonic/dodecahedron.png" width="90" alt="Dodecahedron"> | **Regular Dodecahedron** | $\{5, 3\}$ | 20 | 30 | 12 | 12 Regular Pentagons | Icosahedron | $I_h$ (Icosahedral) |
+| **$P_5$** | <img src="../img/platonic/icosahedron.png" width="90" alt="Icosahedron"> | **Regular Icosahedron** | $\{3, 5\}$ | 12 | 30 | 20 | 20 Equilateral Triangles | Dodecahedron | $I_h$ (Icosahedral) |
 
 ---
 
