@@ -6,30 +6,30 @@
 
 **Universal Polyhedral & Polytopic Geometry Engine for Julia**
 
-Unihedron is a comprehensive computational geometry library for Julia providing exact mathematical construction, constructive operations, classification, interactive 3D visualization, and multi-format I/O for 2D polygons, 3D polyhedra, geodesic domes, and fullerenes.
+Unihedron is a high-performance computational geometry library for Julia providing exact mathematical construction, constructive operations, classification, interactive 3D visualization, and multi-format I/O for 2D polygons, 3D polyhedra, geodesic spheres, and fullerenes.
 
-All solids are constructed using **pure constructive geometry and exact algebraic polynomial roots** (no arbitrary floating-point approximations or magic numbers).
+All solids are generated using **pure constructive geometry and exact algebraic polynomial roots** (no arbitrary floating-point approximations or magic numbers).
 
 ---
 
-## Features
+## Key Features
 
-- **Complete Polyhedral Families**:
+- **Comprehensive Polyhedral Catalog (130+ Polyhedra)**:
   - **Platonic Solids (5)**: Tetrahedron, Cube, Octahedron, Dodecahedron, Icosahedron.
   - **Archimedean Solids (13)**: Truncated tetrahedron, Cuboctahedron, Rhombicosidodecahedron, Truncated icosahedron, Snub dodecahedron, etc.
   - **Kepler-Poinsot Polyhedra (4)**: Great dodecahedron, Small stellated dodecahedron, Great stellated dodecahedron, Great icosahedron.
   - **Catalan Solids (13)**: Exact Archimedean duals (Rhombic dodecahedron, Deltoidal hexecontahedron, Disdyakis triacontahedron, etc.).
-  - **Cookson Solids (8)**: Topological regimes of spherical polyhedra satisfying the Sieve formalized by **Arthur J Cookson & Joel T Harter in 2026** ($H_1$ to $H_8$).
-  - **Johnson Solids (92 Complete)**: All 92 convex regular-faced polyhedra ($J_1$ to $J_{92}$) constructed via constructive augmentation/diminution/gyration and exact radical/polynomial roots for elementary solids ($J_{84} \dots J_{92}$).
-  - **Geodesic Spheres & Goldberg Solids**: Generalized 2-variable infinite groups $\{3, 5+\}_{m, n}$ (Class I, II, III) and dual Goldberg solids $GP(m, n)$.
-  - **Prisms, Antiprisms, Pyramids, Bipyramids & Trapezohedra**: Parametric $n$-gonal families.
+  - **Cookson Solids (8)**: Topological regimes of spherical polyhedra satisfying the Sieve formalized by **Arthur J Cookson & Joel T Harter** ($H_1 \dots H_8$).
+  - **Johnson Solids (92 Complete)**: All 92 convex regular-faced polyhedra ($J_1 \dots J_{92}$) constructed via constructive augmentation/diminution/gyration and exact polynomial roots for elementary solids ($J_{84} \dots J_{92}$).
+  - **Geodesic Spheres & Goldberg Solids**: 2-variable infinite groups $\{3, 5+\}_{m, n}$ (Class I, II, III) and dual Goldberg solids $GP(m, n)$.
+  - **Prisms, Antiprisms, Pyramids, Bipyramids & Trapezohedra**: Parametric $n$-gonal infinite families.
 - **2D Polygons, Polygrams & Star Outlines**:
   - Regular $n$-gons, Schläfli $\{p/q\}$ star polygrams (e.g. pentagram, hexagram Star of David), $2n$-gon star boundaries, and parametric shapes (rectangles, rhombi, trapezoids, parallelograms, kites, Reuleaux polygons).
 - **Constructive Polyhedral Operations**:
   - `augment`, `diminish`, `gyrate`, `elongate`, `gyroelongate`, `cupola`, `rotunda`.
   - Exact polar `dual` operation.
-  - `sew_coplanar_faces`: Merges bordering coplanar facets into planar $n$-gons.
-  - `convex_hull`: 2D and 3D convex hull generation with automatic planar face merging.
+  - `sew_coplanar_faces`: Merges bordering coplanar facets into unified planar $n$-gons.
+  - `convex_hull`: 2D and 3D convex hull generation with automatic coplanar face merging.
 - **Face Congruence Classification**:
   - `classify_faces(P)`: Detects unique congruent face types and returns polygon class IDs for each face.
   - `unique_face_polygons(P)`: Extracts canonical 2D/3D representative polygons.
@@ -41,8 +41,8 @@ All solids are constructed using **pure constructive geometry and exact algebrai
   - Default format: **`.off`** (Object File Format).
   - Supported: **`.off`**, **`.obj`**, **`.json`**, **`.h5` / `.hdf5`**, **`.stl`** (3D printing), **`.csv`**.
   - `export_database_hdf5("solids.h5")`: Serializes all 130+ polyhedra into a single structured HDF5 archive.
-- **High-Resolution Printing & Gallery Generation**:
-  - `print_polyhedron`, `print_polygon`, `print_gallery`: High-resolution raster (PNG, JPG) and vector (SVG, PDF) image exports.
+- **High-Resolution Printing & Image Exports**:
+  - `print_polyhedron`, `print_polygon`, `print_gallery`: High-resolution raster (PNG, JPG) and vector (SVG, PDF) image exports with transparent backgrounds and congruence coloring.
 
 ---
 
@@ -52,17 +52,17 @@ All solids are constructed using **pure constructive geometry and exact algebrai
 using Unihedron
 
 # 1. Access solids by constructor or family symbol:
-c = cube()
-ti = truncated_icosahedron()
+c   = cube()
+ti  = truncated_icosahedron()
 j92 = johnson(92)   # J92: Triangular hebesphenorotunda
-h1 = cookson(:H1)   # H1: Gyrotrapezotrigonal Octasphere
+h1  = cookson(:H1)   # H1: Gyrotrapezotrigonal Octasphere
 
 # 2. Interactive 3D Visualization:
 viz(:dodecahedron)
 viz(j92; color_by_face_size=true)
 
 # 3. Classify congruent face shapes:
-# Detects 4 unique face types (triangles, squares, pentagons, hexagon):
+# Detects unique face types (e.g. triangles, squares, pentagons, hexagons):
 face_classes = classify_faces(j92)
 face_counts  = face_type_counts(j92)
 
@@ -71,35 +71,21 @@ face_counts  = face_type_counts(j92)
 elongated_pyr = elongate(square_pyramid())
 
 # 5. Geodesic Spheres and Goldberg Solids:
-g20  = geodesic_sphere(2, 0)   # 2v Geodesic Sphere (80 triangles)
-gb11 = goldberg_solid(1, 1)    # C60 Truncated Icosahedron (12 pentagons, 20 hexagons)
+g20  = geodesic_sphere(2, 0)   # Class I (2, 0) Geodesic Sphere (80 triangles)
+gb11 = goldberg_solid(1, 1)    # Class II (1, 1) C60 Truncated Icosahedron (12 pentagons, 20 hexagons)
 
-# 6. File I/O (defaults to .off):
+# 6. 2D Polygons and Polygrams:
+tri   = equilateral_triangle(side=2.0)
+pgram = pentagram()            # Schläfli {5/2}
+star5 = star_polygon(5)        # 10-gon star outline boundary
+
+# 7. File I/O:
 save_polyhedron(ti, "truncated_icosahedron.off")
 p_loaded = load_polyhedron("truncated_icosahedron.off")
 
-# 7. Print high-resolution image:
+# 8. High-Resolution Image Export:
 print_polyhedron(ti, "truncated_icosahedron.png"; color_by_face_size=true)
 ```
-
----
-
-## The Cookson Solids
-
-Formalized by **Arthur J Cookson & Joel T Harter (2026)**, the Cookson solids are topological regimes of spherical polyhedra satisfying strict connectivity, spherical vertex projection, and at most two distinct congruent polygon types.
-
-For the full theoretical treatise, axioms, taxonomy, and exclusion phyla, see **[doc/cookson.md](doc/cookson.md)**.
-
-| Index | Official Name | Classification | Suffix Form | Parent Catalan Solid | $V$ | $F$ | Face Breakdown |
-| :---: | :--- | :--- | :--- | :--- | :---: | :---: | :--- |
-| **$H_1$** | **Gyrotrapezotrigonal Octasphere** | Convex Irregular | `-sphere` | Pentagonal Icositetrahedron | 38 | 48 | 24 Trapezoids, 24 Triangles |
-| **$H_2$** | **Gyrotrapezotrigonal Icosasphere** | Convex Irregular | `-sphere` | Pentagonal Hexecontahedron | 92 | 120 | 60 Trapezoids, 60 Triangles |
-| **$H_3$** | **Studded Octahedron** | Concave Shadow | `-hedron` | Rhombic Dodecahedron | 14 | 24 | 24 Triangles |
-| **$H_4$** | **Studded Icosahedron** | Concave Shadow | `-hedron` | Rhombic Triacontahedron | 32 | 60 | 60 Triangles |
-| **$H_5$** | **Studded Cuboctahedron** | Concave Shadow | `-hedron` | Deltoidal Icositetrahedron | 26 | 48 | 48 Triangles (Chiral pairs) |
-| **$H_6$** | **Studded Rhombic Triacontasphere** | Concave Shadow | `-sphere` | Deltoidal Hexecontahedron | 62 | 120 | 120 Triangles (Chiral pairs) |
-| **$H_7$** | **Gyrobitrigonal Octasphere** | Concave Irregular | `-sphere` | Pentagonal Icositetrahedron | 38 | 72 | 24 Isosceles, 48 Scalene Triangles |
-| **$H_8$** | **Gyrobitrigonal Icosasphere** | Concave Irregular | `-sphere` | Pentagonal Hexecontahedron | 92 | 180 | 60 Isosceles, 120 Scalene Triangles |
 
 ---
 
@@ -127,46 +113,24 @@ gb11 = goldberg_solid(1, 1)    # C60 Truncated Icosahedron (12 pentagons, 20 hex
 
 ---
 
-## 2D Polygons & Polygrams
-
-```julia
-# Regular polygons:
-tri = equilateral_triangle(side=2.0)
-sq  = square_polygon(side=1.5)
-hex = regular_hexagon(radius=1.0)
-
-# Star polygrams {p/q} and star outlines:
-pgram = pentagram()         # Schläfli {5/2}
-hgram = hexagram()          # Schläfli {6/2} (Star of David compound)
-star5 = star_polygon(5)     # Non-self-intersecting 10-gon star boundary
-
-# Parametric 2D shapes:
-rect = rectangle(4.0, 2.0)
-rh   = rhombus(3.0, 5.0)
-trap = trapezoid(2.0, 4.0, 3.0)
-reu  = reuleaux_polygon(3; radius=1.0) # Reuleaux triangle
-```
-
----
-
 ## Documentation & Polyhedral Treatises
 
-Detailed mathematical formalizations, historical discoveries, rules, and illustrated tables are available in the **[`doc/`](doc/)** directory:
+Detailed mathematical formalizations, historical discoveries, classification rules, and illustrated tables are available in the **[`doc/`](doc/)** directory:
 
-* 🌌 **[Cookson Solids (`doc/cookson.md`)](doc/cookson.md)**: Formalized by Arthur J Cookson and Joel T Harter (2026). The complete topological regime philosophy, the sieve axioms, and excluded kingdoms.
+* 🌌 **[Cookson Solids (`doc/cookson.md`)](doc/cookson.md)**: Formalized by Arthur J Cookson and Joel T Harter (2026). The complete topological regime philosophy, the sieve axioms, official sequence ($H_1 \dots H_8$), and excluded infinite phyla.
 * 🏛️ **[Platonic Solids (`doc/platonic.md`)](doc/platonic.md)**: Plato (~360 BC). The five regular convex polyhedra and Euclid's Book XIII proof.
 * 📐 **[Archimedean Solids (`doc/archimedean.md`)](doc/archimedean.md)**: Archimedes of Syracuse (~287–212 BC) & Kepler (1619). The 13 semi-regular convex polyhedra.
 * 💎 **[Catalan Solids (`doc/catalan.md`)](doc/catalan.md)**: Eugène Charles Catalan (1865). The 13 face-transitive Archimedean polar duals.
-* ⭐ **[Kepler-Poinsot Solids (`doc/kepler_poinsot.md`)](doc/kepler_poinsot.md)**: Johannes Kepler (1619) & Louis Poinsot (1810). The 4 regular star polyhedra.
+* ⭐ **[Kepler-Poinsot Polyhedra (`doc/kepler_poinsot.md`)](doc/kepler_poinsot.md)**: Johannes Kepler (1619) & Louis Poinsot (1810). The 4 regular star polyhedra.
 * 🧩 **[Johnson Solids (`doc/johnson.md`)](doc/johnson.md)**: Norman Johnson (1966) & Victor Zalgaller (1969). All 92 strictly convex non-uniform regular-faced polyhedra.
-* 🌐 **[Geodesic Spheres & Goldberg Solids (`doc/geodesic.md`)](doc/geodesic.md)**: Buckminster Fuller & Michael Goldberg (1937). Triangulated spherical networks and dual Goldberg solids.
+* 🌐 **[Geodesic Spheres & Goldberg Solids (`doc/geodesic.md`)](doc/geodesic.md)**: Buckminster Fuller, H. S. M. Coxeter & Michael Goldberg (1937). Triangulated spherical networks (Class I, II, III) and dual Goldberg solids.
 
 ---
 
 ## File I/O & Master Database
 
 ```julia
-# 1. Save and load single polyhedra (defaults to .off):
+# 1. Save and load individual polyhedra:
 save_polyhedron(tetrahedron(), "tetra.off")
 save_polyhedron(cube(), "cube.obj")
 save_polyhedron(dodecahedron(), "dodec.json")
@@ -177,7 +141,7 @@ export_database_hdf5("unihedron_database.h5")
 
 # Load any solid from the master archive:
 solid_j84 = load_hdf5("unihedron_database.h5"; group="johnson/J84")
-solid_c6  = load_hdf5("unihedron_database.h5"; group="cookson/C6")
+solid_h1  = load_hdf5("unihedron_database.h5"; group="cookson/H1")
 ```
 
 ---
